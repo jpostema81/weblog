@@ -7,7 +7,12 @@
         <title>Jeroen's Weblog</title>
     </head>
     <body>
-        HomePage
+        @foreach ($posts as $post)
+            <div>
+                <p><b>{{ $post->title }}</b></p>
+                <p>{{ $post->content }}</p>
+            </div>
+        @endforeach
 
         <script src="/js/app.js"></script>
     </body>
