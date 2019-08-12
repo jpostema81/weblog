@@ -1,19 +1,32 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.master')
 
-        <title>Jeroen's Weblog</title>
-    </head>
-    <body>
-        @foreach ($posts as $post)
-            <div>
-                <p><b>{{ $post->title }}</b></p>
-                <p>{{ $post->content }}</p>
-            </div>
-        @endforeach
+@section('title', 'Jeroen\'s weblog')
+<!-- Bulma template source @ https://bulmatemplates.github.io/bulma-templates/templates/blog.html -->
 
-        <script src="/js/app.js"></script>
-    </body>
-</html>
+@section('content')
+    <section class="articles">
+        <div class="column is-8 is-offset-2">
+
+            @foreach ($posts as $post)
+                <div class="card article">
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-content has-text-centered">
+                                <p class="title article-title">{{ $post->title }}</p>
+                                <div class="tags has-addons level-item">
+                                    <span class="tag is-rounded is-info">@ {{ $post->user->name }}</span>
+                                    <span class="tag is-rounded">{{ Carbon\Carbon::parse($post->created_at)->format('d-m-Y H:i') }}</span>
+                                    <!-- $post->created_at -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content article-body">
+                            {{ $post->content }}
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+
+        </div>
+    </div>
+@endsection

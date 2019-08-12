@@ -14,7 +14,7 @@ class BlogPostsController extends Controller
      */
     public function index()
     {
-        $posts = BlogPost::all();
+        $posts = BlogPost::orderBy('created_ad', 'desc')->get();
 
         return view('index', ['posts' => $posts]);
     }

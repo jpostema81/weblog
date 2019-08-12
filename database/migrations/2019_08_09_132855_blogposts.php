@@ -17,8 +17,8 @@ class Blogposts extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->text('content');
-            $table->integer('author_id');
-            $table->foreign('author_id')->references('id')->on('users');
+            $table->integer('author_id')->unsigned();
+            $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

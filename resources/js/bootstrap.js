@@ -1,4 +1,6 @@
-window._ = require('lodash');
+// window._ = require('lodash');
+
+import 'bulma/css/bulma.css'
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support

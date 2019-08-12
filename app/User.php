@@ -10,6 +10,9 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    // enable automatic timestamp update (created_at and update_at)
+    public $timestamps = true;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -36,4 +39,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function blogPosts()
+    {
+        return $this->hasMany('App\BlogPost');
+    }
 }
