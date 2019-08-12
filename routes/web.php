@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'BlogPostsController@index');
+Route::get('/', 'BlogPostsController@index')->name('home');
 
 // register a resourceful route to the controller:
 Route::resource('blogposts', 'BlogPostsController');

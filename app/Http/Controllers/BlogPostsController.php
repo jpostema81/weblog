@@ -46,9 +46,9 @@ class BlogPostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function show(Request $request, Blogpost $blogpost)
+    {       
+        return view('show', ['blogpost' => $blogpost]);
     }
 
     /**

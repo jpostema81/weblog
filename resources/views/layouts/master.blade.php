@@ -8,6 +8,10 @@
     </head>
     <body>
         <div class="container">
+            @include('menu')
+
+            @yield('breadcrumbs')
+
             @yield('content')
         </div>
 
