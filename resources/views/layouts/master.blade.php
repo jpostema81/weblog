@@ -4,15 +4,17 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>@yield('title')</title>
+        <title>{{ config('app.name', 'Laravel') }}</title>
     </head>
     <body>
         <div class="container">
+
             @include('menu')
 
             @yield('breadcrumbs')
 
             @yield('content')
+            
         </div>
 
         <script src="/js/app.js"></script>

@@ -1,6 +1,5 @@
 @extends('layouts.master')
 
-@section('title', 'Jeroen\'s weblog')
 <!-- Bulma template source @ https://bulmatemplates.github.io/bulma-templates/templates/blog.html -->
 
 @section('breadcrumbs')
