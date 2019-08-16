@@ -115,9 +115,9 @@ class BlogPostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(BlogPost $blogpost)
     {
-        //
+        $blogpost->delete();
     }
 
     /**

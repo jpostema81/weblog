@@ -29,10 +29,10 @@
 
             @foreach ($posts as $post)
             <tr>
-                <td><a href="#">{{ $post->title }}</td>
+                <td><a href="{{ route('blogposts.show', ['blogpost' => $post->id]) }}">{{ $post->title }}</td>
                 <td>{{ Carbon\Carbon::parse($post->created_at)->format('d-m-Y H:i') }}</td>
                 <td><a href="{{ route('admin.blogposts.edit', $post) }}">edit</a></td>
-                <td><a href="#">delete</a></td>
+                <td><a onclick="deteleBlogPost({{ $post->id }})">delete</a></td>
             </tr></a>
             @endforeach
 

@@ -32851,10 +32851,27 @@ Vue.component('example-component', __webpack_require__(/*! ./components/ExampleC
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+// const app = new Vue({
+//     el: '#app',
+// });
 
-var app = new Vue({
-  el: '#app'
-});
+window.deteleBlogPost = function (blogPostId) {
+  if (confirm('Are you sure?')) {
+    $.ajax({
+      url: '/admin/blogposts/' + blogPostId,
+      type: 'DELETE',
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      success: function success(result) {
+        location.reload();
+      },
+      error: function error(result) {
+        alert('There was an error');
+      }
+    });
+  }
+};
 
 /***/ }),
 

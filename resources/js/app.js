@@ -27,6 +27,24 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const app = new Vue({
-    el: '#app',
-});
+// const app = new Vue({
+//     el: '#app',
+// });
+
+window.deteleBlogPost = function(blogPostId) {
+    if(confirm('Are you sure?')) {
+        $.ajax({
+            url: '/admin/blogposts/' + blogPostId,
+            type: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(result) {
+                location.reload();
+            },
+            error: function(result) {
+                alert('There was an error');
+            }
+        })
+    }
+}
