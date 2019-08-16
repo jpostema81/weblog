@@ -14,17 +14,6 @@
 @endsection
 
 @section('content')
-    <!-- tijdelijk -->
-    <div class="card-body">
-        @if (session('status'))
-            <div class="alert alert-success" role="alert">
-                {{ session('status') }}
-            </div>
-        @endif
-
-        You are logged in!
-    </div>
-    <!-- // tijdelijk -->
 
     <section class="articles">
         <div class="column is-8 is-offset-2">
@@ -53,4 +42,5 @@
 
         </div>
     </div>
+    
 @endsection

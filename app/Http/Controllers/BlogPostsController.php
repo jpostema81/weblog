@@ -14,9 +14,9 @@ class BlogPostsController extends Controller
      */
     public function index()
     {
-        $posts = BlogPost::orderBy('created_ad', 'desc')->get();
+        $blogPosts = BlogPost::orderBy('created_ad', 'desc')->get();
 
-        return view('index', ['posts' => $posts]);
+        return view('blog_posts.index', ['posts' => $blogPosts]);
     }
 
     /**
@@ -26,7 +26,7 @@ class BlogPostsController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -48,7 +48,7 @@ class BlogPostsController extends Controller
      */
     public function show(Request $request, Blogpost $blogpost)
     {       
-        return view('show', ['blogpost' => $blogpost]);
+        return view('blog_posts.show', ['blogpost' => $blogpost]);
     }
 
     /**

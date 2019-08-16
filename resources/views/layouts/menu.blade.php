@@ -1,7 +1,7 @@
 <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-        <a class="navbar-item" href="https://bulma.io">
-            <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+        <a class="navbar-item" href="{{ route('home') }}">
+            <img src="{{asset('images/weblog_logo.png')}}" width="112" height="28">
         </a>
 
         <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -17,7 +17,7 @@
                 Home
             </a>
 
-            <a class="navbar-item">
+            <!-- <a class="navbar-item">
                 Documentation
             </a>
 
@@ -28,20 +28,17 @@
 
                 <div class="navbar-dropdown">
                     <a class="navbar-item">
-                        About
+                        Item1
                     </a>
                     <a class="navbar-item">
-                        Jobs
-                    </a>
-                    <a class="navbar-item">
-                        Contact
+                        Item2
                     </a>
                     <hr class="navbar-divider">
                     <a class="navbar-item">
-                        Report an issue
+                        Item 3
                     </a>
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <!-- Authentication Links -->
@@ -50,10 +47,10 @@
             <div class="navbar-item">
                 <div class="buttons">
                     @if (Route::has('register'))
-                    <a href="{{ route('login') }}" class="button is-primary">
+                    <a href="{{ route('register') }}" class="button is-primary">
                         <strong>{{ __('Register') }}</strong>
                     </a>
-                    <a href="{{ route('register') }}" class="button is-light">
+                    <a href="{{ route('login') }}" class="button is-light">
                         {{ __('Login') }}
                     </a>
                     @endif
@@ -62,23 +59,27 @@
         </div>
         @else
         <div class="navbar-end">
-            <div class="navbar-item">
-                <div class="buttons">
-                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                        {{ Auth::user()->name }} <span class="caret"></span>
-                    </a>
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link">
+                    {{ Auth::user()->name }} <span class="caret"></span>
+                </a>
 
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <div class="navbar-dropdown">
+                    <a href="{{ route('admin.blogposts.index') }}" class="navbar-item">
+                        Admin
+                    </a>
+                    <hr class="navbar-divider">
+                    <a class="navbar-item">
                         <a class="dropdown-item" href="{{ route('logout') }}"
                             onclick="event.preventDefault();
-                                            document.getElementById('logout-form').submit();">
+                            document.getElementById('logout-form').submit();">
                             {{ __('Logout') }}
-                    </a>
+                        </a>
 
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-                </div>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </a>
                 </div>
             </div>
         </div>

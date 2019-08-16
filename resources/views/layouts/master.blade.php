@@ -9,7 +9,7 @@
     <body>
         <div class="container">
 
-            @include('menu')
+            @include('layouts.menu')
 
             @yield('breadcrumbs')
 

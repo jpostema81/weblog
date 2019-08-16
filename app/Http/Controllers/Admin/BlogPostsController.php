@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\BlogPost;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 
 class BlogPostsController extends Controller
 {
@@ -21,7 +24,10 @@ class BlogPostsController extends Controller
      */
     public function index()
     {
-        //
+        $userId = Auth::user()->id;
+        $blogPosts = BlogPost::orderBy('created_ad', 'desc')->where('author_id', $userId)->get();
+
+        return view('admin.blog_posts.index', ['posts' => $blogPosts]);
     }
 
     /**
@@ -31,7 +37,8 @@ class BlogPostsController extends Controller
      */
     public function create()
     {
-        //
+        $blogpost = new BlogPost();
+        return view('admin.blog_posts.form', compact('blogpost'));
     }
 
     /**
@@ -41,8 +48,20 @@ class BlogPostsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {   
+        // validate user input
+        $validatedData = $request->validate($this->rules());
+
+        // create new blogpost and store it
+        $userId = Auth::user()->id;
+
+        $blogPost = new BlogPost();
+        $blogPost->title = Input::get('title');
+        $blogPost->content = Input::get('content');
+        $blogPost->author_id = $userId;
+        $blogPost->save();
+
+        return redirect()->route('admin.blogposts.index');
     }
 
     /**
@@ -53,7 +72,7 @@ class BlogPostsController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**
@@ -62,9 +81,9 @@ class BlogPostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(BlogPost $blogpost)
     {
-        //
+        return view('admin.blog_posts.form', compact('blogpost'));
     }
 
     /**
@@ -74,9 +93,20 @@ class BlogPostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Blogpost $blogpost)
     {
-        //
+        // validate user input
+        $validatedData = $request->validate($this->rules());
+
+        // update blogpost with new data
+        $userId = Auth::user()->id;
+
+        $blogpost->title = Input::get('title');
+        $blogpost->content = Input::get('content');
+        $blogpost->author_id = $userId;
+        $blogpost->save();
+
+        return redirect()->route('admin.blogposts.index');
     }
 
     /**
@@ -88,5 +118,15 @@ class BlogPostsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Validate form user input
+     */
+    public function rules() {
+        return [
+            'title' => 'required|unique:blog_posts|max:255',
+            'content' => 'required',
+        ];
     }
 }
