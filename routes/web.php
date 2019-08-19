@@ -11,12 +11,12 @@
 |
 */
 
-Route::get('/', 'BlogPostsController@index')->name('home');
+Route::get('/', 'MessagesController@index')->name('home');
 
 // register a resourceful route to the controller:
-Route::resource('blogposts', 'BlogPostsController');
+Route::resource('messages', 'MessagesController');
 
-Route::resource('admin/blogposts', 'Admin\BlogPostsController', [
+Route::resource('admin/messages', 'Admin\MessagesController', [
     'as' => 'admin'
 ]);
 

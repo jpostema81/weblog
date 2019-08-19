@@ -65,7 +65,7 @@
                 </a>
 
                 <div class="navbar-dropdown">
-                    <a href="{{ route('admin.blogposts.index') }}" class="navbar-item">
+                    <a href="{{ route('admin.messages.index') }}" class="navbar-item">
                         Admin
                     </a>
                     <hr class="navbar-divider">

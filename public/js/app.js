@@ -32855,10 +32855,10 @@ Vue.component('example-component', __webpack_require__(/*! ./components/ExampleC
 //     el: '#app',
 // });
 
-window.deteleBlogPost = function (blogPostId) {
+window.deteleMessage = function (messageId) {
   if (confirm('Are you sure?')) {
     $.ajax({
-      url: '/admin/blogposts/' + blogPostId,
+      url: '/admin/messages/' + messageId,
       type: 'DELETE',
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

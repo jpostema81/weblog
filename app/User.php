@@ -40,13 +40,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function blogPosts()
+    public function messages()
     {
-        return $this->hasMany('App\BlogPost');
-    }
-
-    public function comments()
-    {
-        return $this->hasMany('App\Comment');
+        return $this->hasMany('App\Message', 'author_id');
     }
 }

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\BlogPost;
+use App\Message;
 
-class BlogPostsController extends Controller
+class MessagesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +14,10 @@ class BlogPostsController extends Controller
      */
     public function index()
     {
-        $blogPosts = BlogPost::orderBy('created_ad', 'desc')->get();
+        // get all blogposts (messages having no parent_id)
+        $messages = Message::whereNull('parent_id')->orderBy('created_ad', 'desc')->get();
 
-        return view('blog_posts.index', ['posts' => $blogPosts]);
+        return view('messages.index', ['messages' => $messages]);
     }
 
     /**
@@ -46,9 +47,9 @@ class BlogPostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, Blogpost $blogpost)
+    public function show(Request $request, Message $message)
     {       
-        return view('blog_posts.show', ['blogpost' => $blogpost]);
+        return view('messages.show', ['message' => $message]);
     }
 
     /**

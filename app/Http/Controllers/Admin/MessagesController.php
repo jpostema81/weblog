@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\BlogPost;
+use App\Message;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 
-class BlogPostsController extends Controller
+class MessagesController extends Controller
 {
     /**
      * Register Auth middleware for this controller
@@ -25,9 +25,9 @@ class BlogPostsController extends Controller
     public function index()
     {
         $userId = Auth::user()->id;
-        $blogPosts = BlogPost::orderBy('created_ad', 'desc')->where('author_id', $userId)->get();
+        $messages = Message::orderBy('created_ad', 'desc')->where('author_id', $userId)->get();
 
-        return view('admin.blog_posts.index', ['posts' => $blogPosts]);
+        return view('admin.messages.index', ['messages' => $messages]);
     }
 
     /**
@@ -37,8 +37,8 @@ class BlogPostsController extends Controller
      */
     public function create()
     {
-        $blogpost = new BlogPost();
-        return view('admin.blog_posts.form', compact('blogpost'));
+        $message = new Message();
+        return view('admin.messages.form', compact('message'));
     }
 
     /**
@@ -52,16 +52,16 @@ class BlogPostsController extends Controller
         // validate user input
         $validatedData = $request->validate($this->rules());
 
-        // create new blogpost and store it
+        // create new message and store it
         $userId = Auth::user()->id;
 
-        $blogPost = new BlogPost();
-        $blogPost->title = Input::get('title');
-        $blogPost->content = Input::get('content');
-        $blogPost->author_id = $userId;
-        $blogPost->save();
+        $message = new Message();
+        $message->title = Input::get('title');
+        $message->content = Input::get('content');
+        $message->author_id = $userId;
+        $message->save();
 
-        return redirect()->route('admin.blogposts.index');
+        return redirect()->route('admin.messages.index');
     }
 
     /**
@@ -81,9 +81,9 @@ class BlogPostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(BlogPost $blogpost)
+    public function edit(Message $message)
     {
-        return view('admin.blog_posts.form', compact('blogpost'));
+        return view('admin.messages.form', compact('message'));
     }
 
     /**
@@ -93,20 +93,20 @@ class BlogPostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Blogpost $blogpost)
+    public function update(Request $request, Message $message)
     {
         // validate user input
         $validatedData = $request->validate($this->rules());
 
-        // update blogpost with new data
+        // update message with new data
         $userId = Auth::user()->id;
 
-        $blogpost->title = Input::get('title');
-        $blogpost->content = Input::get('content');
-        $blogpost->author_id = $userId;
-        $blogpost->save();
+        $message->title = Input::get('title');
+        $message->content = Input::get('content');
+        $message->author_id = $userId;
+        $message->save();
 
-        return redirect()->route('admin.blogposts.index');
+        return redirect()->route('admin.messages.index');
     }
 
     /**
@@ -115,9 +115,9 @@ class BlogPostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BlogPost $blogpost)
+    public function destroy(Message $message)
     {
-        $blogpost->delete();
+        $message->delete();
     }
 
     /**
@@ -125,7 +125,7 @@ class BlogPostsController extends Controller
      */
     public function rules() {
         return [
-            'title' => 'required|unique:blog_posts|max:255',
+            'title' => 'required|unique:messages|max:255',
             'content' => 'required',
         ];
     }

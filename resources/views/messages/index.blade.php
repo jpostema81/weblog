@@ -6,8 +6,8 @@
 
     <nav class="breadcrumb" aria-label="breadcrumbs">
         <ul>
-            <li><a href="{{ route('blogposts.index') }}">Home</a></li>
-            <li class="is-active"><a href="#" aria-current="page">Blogposts Overview</a></li>
+            <li><a href="{{ route('messages.index') }}">Home</a></li>
+            <li class="is-active"><a href="#" aria-current="page">Messages Overview</a></li>
         </ul>
     </nav>
 
@@ -18,23 +18,23 @@
     <section class="articles">
         <div class="column is-8 is-offset-2">
 
-            @foreach ($posts as $post)
+            @foreach ($messages as $message)
                 <div class="card article">
                     <div class="card-content">
                         <div class="media">
                             <div class="media-content has-text-centered">
                                 <p class="title article-title">
-                                    <a href="{{ route('blogposts.show', ['blogpost' => $post->id]) }}">{{ $post->title }}</a>
+                                    <a href="{{ route('messages.show', ['message' => $message->id]) }}">{{ $message->title }}</a>
                                 </p>
                                 <div class="tags has-addons level-item">
-                                    <span class="tag is-rounded is-info">@ {{ $post->user->name }}</span>
-                                    <span class="tag is-rounded">{{ Carbon\Carbon::parse($post->created_at)->format('d-m-Y H:i') }}</span>
-                                    <!-- $post->created_at -->
+                                    <span class="tag is-rounded is-info">@ {{ $message->user->name }}</span>
+                                    <span class="tag is-rounded">{{ Carbon\Carbon::parse($message->created_at)->format('d-m-Y H:i') }}</span>
+                                    <!-- $message->created_at -->
                                 </div>
                             </div>
                         </div>
                         <div class="content article-body">
-                            {{ $post->content }}
+                            {{ $message->content }}
                         </div>
                     </div>
                 </div>

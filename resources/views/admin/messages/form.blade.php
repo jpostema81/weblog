@@ -4,8 +4,8 @@
 
     <nav class="breadcrumb" aria-label="breadcrumbs">
         <ul>
-            <li><a href="{{ route('blogposts.index') }}">Home</a></li>
-            <li class="is-active"><a href="#" aria-current="page">Blogpost Add / Edit</a></li>
+            <li><a href="{{ route('messages.index') }}">Home</a></li>
+            <li class="is-active"><a href="#" aria-current="page">Message Add / Edit</a></li>
         </ul>
     </nav>
 
@@ -13,10 +13,10 @@
 
 @section('content')
 
-    @if(!$blogpost->id)
-        {{ Form::model($blogpost, ['route' => 'admin.blogposts.store']) }}
+    @if(!$message->id)
+        {{ Form::model($message, ['route' => 'admin.messages.store']) }}
     @else
-        {{ Form::model($blogpost, ['route' => ['admin.blogposts.update', $blogpost->id], 'method' => 'PUT']) }}
+        {{ Form::model($message, ['route' => ['admin.messages.update', $message->id], 'method' => 'PUT']) }}
     @endif
 
     <div class="field">
