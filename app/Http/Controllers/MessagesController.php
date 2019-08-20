@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Message;
+use Illuminate\Support\Facades\Auth;
 
 class MessagesController extends Controller
 {
@@ -36,9 +37,18 @@ class MessagesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function storeComment(Request $request)
+    public function storeComment(Request $request, Message $message)
     {
-        dd($request->get('comment'));
+        $user = Auth::user();
+
+        $comment = new Message();
+        $comment->title = "";
+        $comment->content = $request->get('comment');
+        $comment->user()->associate($user);
+        $comment->message()->associate($message);
+        $comment->save();
+
+        return view('messages.show', ['message' => $message]);       
     }
 
     /**

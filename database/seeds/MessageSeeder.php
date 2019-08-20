@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
+use App\Category;
 
 class MessageSeeder extends Seeder
 {
@@ -50,5 +51,10 @@ class MessageSeeder extends Seeder
             'parent_id' => null,
             'created_at' => Carbon::now()->subDays(14)->format('Y-m-d H:i:s')
         ]);
+
+        // Category::where('name', '=', 'sport')->first()->id
+        // Category::where('name', '=', 'sport')->first()->id
+        // Category::where('name', '=', 'programmeren')->first()->id
+        // Category::where('name', '=', 'muziek')->first()->id
     }
 }

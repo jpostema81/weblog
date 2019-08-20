@@ -52,6 +52,7 @@
 
         <br>
 
+        @auth
         {{ Form::model($message, ['route' => ['comments.store', $message->id], 'method' => 'POST']) }}
         <article class="media">
             <figure class="media-left">
@@ -73,5 +74,6 @@
             </div>
         </article>
         {{ Form::close() }}
+        @endauth
 
 @endsection
