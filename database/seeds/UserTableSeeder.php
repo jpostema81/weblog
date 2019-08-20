@@ -29,5 +29,12 @@ class UserTableSeeder extends Seeder
             'password' => bcrypt('prins'),
             'created_at' => Carbon::now()->subDays(1)->format('Y-m-d H:i:s')
         ]);
+
+        DB::table('users')->insert([
+            'name' => 'Marieke Post',
+            'email' => 'marieke@script.nl',
+            'password' => bcrypt('post'),
+            'created_at' => Carbon::now()->subDays(2)->format('Y-m-d H:i:s')
+        ]);
     }
 }

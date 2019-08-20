@@ -27,14 +27,16 @@
                     <th></th>
                 </thead>
 
-            @foreach ($messages as $message)
-            <tr>
-                <td><a href="{{ route('messages.show', ['message' => $message->id]) }}">{{ $message->title }}</td>
-                <td>{{ Carbon\Carbon::parse($message->created_at)->format('d-m-Y H:i') }}</td>
-                <td><a href="{{ route('admin.messages.edit', $message) }}">edit</a></td>
-                <td><a onclick="deteleMessage({{ $message->id }})">delete</a></td>
-            </tr></a>
-            @endforeach
+                <tbody>
+                    @foreach ($messages as $message)
+                    <tr>
+                        <td><a href="{{ route('messages.show', ['message' => $message->id]) }}">{{ $message->title }}</td>
+                        <td>{{ Carbon\Carbon::parse($message->created_at)->format('d-m-Y H:i') }}</td>
+                        <td><a href="{{ route('admin.messages.edit', $message) }}">edit</a></td>
+                        <td><a onclick="deteleMessage({{ $message->id }})">delete</a></td>
+                    </tr></a>
+                    @endforeach
+                </tbody>
 
             </table>
         </div>

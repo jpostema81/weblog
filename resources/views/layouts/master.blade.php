@@ -6,6 +6,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
+        <script src="/js/app.js"></script>
     </head>
     <body>
         <div class="container">
@@ -17,7 +18,5 @@
             @yield('content')
             
         </div>
-
-        <script src="/js/app.js"></script>
     </body>
 </html>

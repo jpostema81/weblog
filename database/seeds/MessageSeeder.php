@@ -24,7 +24,7 @@ class MessageSeeder extends Seeder
             'content' => 'Gisteren deed ik mijn eerste looptraining na enkele weken rust. Het ging lekker.',
             'author_id' => $user->id,
             'parent_id' => null,
-            'created_at' => Carbon::now()->subDays(2)->format('Y-m-d H:i:s')
+            'created_at' => Carbon::now()->subDays(6)->format('Y-m-d H:i:s')
         ]);
 
         DB::table('messages')->insert([
@@ -32,7 +32,7 @@ class MessageSeeder extends Seeder
             'content' => 'Gisteren fietste ik per ligger een rondje door noord Groningen',
             'author_id' => $user->id,
             'parent_id' => null,
-            'created_at' => Carbon::now()->subDays(5)->format('Y-m-d H:i:s')
+            'created_at' => Carbon::now()->subDays(7)->format('Y-m-d H:i:s')
         ]);
 
         DB::table('messages')->insert([
@@ -40,7 +40,7 @@ class MessageSeeder extends Seeder
             'content' => 'Ik ga nu zelf de weblog opdracht in Laravel en Vue.js uitwerken.',
             'author_id' => $user->id,
             'parent_id' => null,
-            'created_at' => Carbon::now()->subDays(6)->format('Y-m-d H:i:s')
+            'created_at' => Carbon::now()->subDays(9)->format('Y-m-d H:i:s')
         ]);
 
         DB::table('messages')->insert([

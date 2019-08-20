@@ -27,8 +27,8 @@
         <div class="content article-body">
             {{ $message->content }}
         </div>
-
-        @foreach ($message->comments as $comment)
+    </tbody>
+        @foreach ($message->descendants as $comment)
             <article class="media">
                 <figure class="media-left">
                     <p class="image is-64x64">
@@ -38,13 +38,40 @@
                 <div class="media-content">
                     <div class="content">
                         <p>
+                            <strong>{{ $comment->user->name }}</strong>
+                            <br>
                             {{ $comment->content }}
-                            <!-- <small><a>Like</a> · <a>Reply</a> · 3 hrs</small> -->
+                            <br>
+                            <small><a>Reply</a> · {{ Carbon\Carbon::parse($comment->created_at)->diffForHumans() }}</small>
                         </p>
                     </div>
                 </div>
             </article>
 
         @endforeach
+
+        <br>
+
+        {{ Form::model($message, ['route' => ['comments.store', $message->id], 'method' => 'POST']) }}
+        <article class="media">
+            <figure class="media-left">
+                <p class="image is-64x64">
+                <img src="https://bulma.io/images/placeholders/128x128.png">
+                </p>
+            </figure>
+            <div class="media-content">
+                <div class="field">
+                <p class="control">
+                    {{ Form::textarea('comment', null, array('class' => 'textarea', 'rows' => '4', 'placeholder' => 'Add a comment...')) }}
+                </p>
+                </div>
+                <div class="field">
+                <p class="control">
+                    {{ Form::submit("Post comment", array('class' => 'button')) }}
+                </p>
+                </div>
+            </div>
+        </article>
+        {{ Form::close() }}
 
 @endsection

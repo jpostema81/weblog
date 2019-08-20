@@ -21,3 +21,5 @@ Route::resource('admin/messages', 'Admin\MessagesController', [
 ]);
 
 Auth::routes();
+
+Route::post('comments', 'MessagesController@storeComment')->name('comments.store');

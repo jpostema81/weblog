@@ -36,9 +36,9 @@ class MessagesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function storeComment(Request $request)
     {
-        //
+        dd($request->get('comment'));
     }
 
     /**
