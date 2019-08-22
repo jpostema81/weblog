@@ -27,9 +27,15 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-// const app = new Vue({
-//     el: '#app',
-// });
+ // wait until DOM is loaded before loading vue root element
+window.onload = function () {
+    const app = new Vue({
+        el: '#app',
+        data: {
+            showNav: false
+        }
+    });
+}
 
 window.deteleMessage = function(messageId) {
     if(confirm('Are you sure?')) {

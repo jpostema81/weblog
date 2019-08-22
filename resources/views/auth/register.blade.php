@@ -1,4 +1,16 @@
-@extends('layouts.app')
+@extends('layouts.master')
+
+
+@section('breadcrumbs')
+
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="{{ route('messages.index') }}">{{ __('Home') }}</a></li>
+            <li class="is-active"><a href="#" aria-current="page">{{ __('Register') }}</a></li>
+        </ul>
+    </nav>
+
+@endsection
 
 @section('content')
 <div class="container">

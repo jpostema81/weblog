@@ -7,6 +7,7 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
         <script src="/js/app.js"></script>
+        <link type="text/css" rel="stylesheet" href="{{ mix('css/app.css') }}">
     </head>
     <body>
         <div class="container">
@@ -18,5 +19,13 @@
             @yield('content')
             
         </div>
+
+        <footer class="footer">
+            <div class="content has-text-centered">
+                <p>
+                <strong>Jeroen's weblog</strong> by <a href="http://www.jeroenpostema.nl">Jeroen Postema</a>.
+                </p>
+            </div>
+        </footer>
     </body>
 </html>
