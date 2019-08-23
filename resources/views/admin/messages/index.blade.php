@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('admin.layouts.master')
 
 <!-- Bulma template source @ https://bulmatemplates.github.io/bulma-templates/templates/blog.html -->
 

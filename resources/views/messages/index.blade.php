@@ -28,6 +28,15 @@
                                 </p>
                                 <div class="tags has-addons level-item">
                                     <span class="tag is-rounded is-info">@ {{ $message->user->name }}</span>
+
+                                    @if (count($message->categories) > 0)
+                                        <span class="tag is-black">
+                                            @foreach ($message->categories as $category)
+                                                {{ $loop->last ? $category->name : $category->name . ', ' }}
+                                            @endforeach
+                                        </span>
+                                    @endif
+
                                     <span class="tag is-rounded">{{ Carbon\Carbon::parse($message->created_at)->format('d-m-Y H:i') }}</span>
                                     <!-- $message->created_at -->
                                 </div>
