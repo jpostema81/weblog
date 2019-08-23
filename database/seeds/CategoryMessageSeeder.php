@@ -18,7 +18,7 @@ class CategoryMessageSeeder extends Seeder
 
         // get first message
         $message = Message::whereNull('parent_id')->first();
-        $categories = Category::all();
+        $categories = Category::all()->take(2);
 
         foreach($categories as $category) {
             // insert new posts

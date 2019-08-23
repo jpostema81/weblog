@@ -61,6 +61,8 @@ class MessagesController extends Controller
         $message->author_id = $userId;
         $message->save();
 
+        $message->categories()->attach($request->get('categories'));
+
         return redirect()->route('admin.messages.index');
     }
 
@@ -104,6 +106,7 @@ class MessagesController extends Controller
         $message->title = Input::get('title');
         $message->content = Input::get('content');
         $message->author_id = $userId;
+        $message->categories()->sync($request->get('categories'));
         $message->save();
 
         return redirect()->route('admin.messages.index');
@@ -125,8 +128,10 @@ class MessagesController extends Controller
      */
     public function rules() {
         return [
-            'title' => 'required|unique:messages|max:255',
+            'title' => 'required|max:255',
             'content' => 'required',
         ];
+
+        //'title' => 'required|unique:messages|max:255',
     }
 }

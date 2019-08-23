@@ -40,6 +40,18 @@
         @enderror
     </div>
 
+    <div class="field">
+        {{ Form::label('category', 'Category', array('class' => 'label')) }}
+
+        <div class="control select is-multiple">
+            <select multiple="multiple" name="categories[]">
+                @foreach(App\Category::all() as $category)
+                    <option value="{{ $category->id }}" @if($message->categories->contains($category))selected="selected"@endif>{{ $category->name }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+
     <div class="control">
         {{ Form::submit("Save", array('class' => 'button is-primary')) }}
     </div>

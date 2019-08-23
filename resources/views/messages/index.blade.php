@@ -23,7 +23,7 @@
                     <div class="card-content">
                         <div class="media">
                             <div class="media-content has-text-centered">
-                                <p class="title article-title">
+                                <p class="title is-4">
                                     <a href="{{ route('messages.show', ['message' => $message->id]) }}">{{ $message->title }}</a>
                                 </p>
                                 <div class="tags has-addons level-item">

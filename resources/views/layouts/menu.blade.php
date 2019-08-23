@@ -13,9 +13,7 @@
 
     <div id="navbarBasicExample" class="navbar-menu" v-bind:class="{ 'is-active' : showNav }">
         <div class="navbar-start">
-            <a class="navbar-item">
-                Home
-            </a>
+            <a class="navbar-item" href="{{ route('messages.index') }}">{{ __('Home') }}</a>
 
             <!-- <a class="navbar-item">
                 Documentation
