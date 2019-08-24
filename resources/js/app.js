@@ -8,6 +8,8 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+import store from './store/store';     // by default, load index.js in the imported directory
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -27,13 +29,19 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+import CategoryFilterComponent from './components/CategoryFilterComponent'
+
  // wait until DOM is loaded before loading vue root element
 window.onload = function () {
     const app = new Vue({
         el: '#app',
+        store: store,
         data: {
             showNav: false
-        }
+        },
+        components: {
+            CategoryFilterComponent,
+        },
     });
 }
 

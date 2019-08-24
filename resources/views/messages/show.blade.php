@@ -15,45 +15,21 @@
 
 @section('content')
 
-    <div class="column is-8 is-offset-2">
-        <p class="title article-title">
-            {{ $message->title }}
-        </p>
-        <div class="tags has-addons">
-            <span class="tag is-rounded is-info">@ {{ $message->user->name }}</span>
-            <span class="tag is-rounded">{{ Carbon\Carbon::parse($message->created_at)->format('d-m-Y H:i') }}</span>
-        </div>
+    <p class="title article-title">
+        {{ $message->title }}
+    </p>
 
-        <div class="content article-body">
-            {{ $message->content }}
-        </div>
-    </tbody>
-        @foreach ($message->descendants as $comment)
-            <article class="media">
-                <figure class="media-left">
-                    <p class="image is-64x64">
-                    <img src="https://bulma.io/images/placeholders/128x128.png">
-                    </p>
-                </figure>
-                <div class="media-content">
-                    <div class="content">
-                        <p>
-                            <strong>{{ $comment->user->name }}</strong>
-                            <br>
-                            {{ $comment->content }}
-                            <br>
-                            <small><a>Reply</a> · {{ Carbon\Carbon::parse($comment->created_at)->diffForHumans() }}</small>
-                        </p>
-                    </div>
-                </div>
-            </article>
+    <div class="tags has-addons">
+        <span class="tag is-rounded is-info">@ {{ $message->user->name }}</span>
+        <span class="tag is-rounded">{{ Carbon\Carbon::parse($message->created_at)->format('d-m-Y H:i') }}</span>
+    </div>
 
-        @endforeach
+    <div class="content article-body">
+        {{ $message->content }}
+    </div>
 
-        <br>
-
-        @auth
-        {{ Form::model($message, ['route' => ['comments.store', $message->id], 'method' => 'POST']) }}
+    @foreach ($message->descendants as $comment)
+    
         <article class="media">
             <figure class="media-left">
                 <p class="image is-64x64">
@@ -61,19 +37,44 @@
                 </p>
             </figure>
             <div class="media-content">
-                <div class="field">
-                <p class="control">
-                    {{ Form::textarea('comment', null, array('class' => 'textarea', 'rows' => '4', 'placeholder' => 'Add a comment...')) }}
-                </p>
-                </div>
-                <div class="field">
-                <p class="control">
-                    {{ Form::submit("Post comment", array('class' => 'button')) }}
-                </p>
+                <div class="content">
+                    <p>
+                        <strong>{{ $comment->user->name }}</strong>
+                        <br>
+                        {{ $comment->content }}
+                        <br>
+                        <small><a>Reply</a> · {{ Carbon\Carbon::parse($comment->created_at)->diffForHumans() }}</small>
+                    </p>
                 </div>
             </div>
         </article>
-        {{ Form::close() }}
-        @endauth
+
+    @endforeach
+
+    <br>
+
+    @auth
+    {{ Form::model($message, ['route' => ['comments.store', $message->id], 'method' => 'POST']) }}
+    <article class="media">
+        <figure class="media-left">
+            <p class="image is-64x64">
+            <img src="https://bulma.io/images/placeholders/128x128.png">
+            </p>
+        </figure>
+        <div class="media-content">
+            <div class="field">
+            <p class="control">
+                {{ Form::textarea('comment', null, array('class' => 'textarea', 'rows' => '4', 'placeholder' => 'Add a comment...')) }}
+            </p>
+            </div>
+            <div class="field">
+            <p class="control">
+                {{ Form::submit("Post comment", array('class' => 'button')) }}
+            </p>
+            </div>
+        </div>
+    </article>
+    {{ Form::close() }}
+    @endauth
 
 @endsection

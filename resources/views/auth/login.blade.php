@@ -15,7 +15,7 @@
 
     <div class="container">
       <div class="columns is-centered">
-        <div class="column is-5-tablet is-4-desktop is-3-widescreen">
+        <div class="column is-one-third">
             <form method="POST" action="{{ route('login') }}">
             @csrf
 

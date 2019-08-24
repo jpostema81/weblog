@@ -10,7 +10,7 @@
         <link type="text/css" rel="stylesheet" href="{{ mix('css/app.css') }}">
     </head>
     <body>
-        <div class="container">
+        <div class="container" id="app">
 
             @include('layouts.menu')
 

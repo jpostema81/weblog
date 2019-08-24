@@ -20,6 +20,12 @@ Route::resource('admin/messages', 'Admin\MessagesController', [
     'as' => 'admin'
 ]);
 
+Route::resource('categories', 'CategoriesController');
+
+Route::resource('admin/categories', 'Admin\CategoriesController', [
+    'as' => 'admin'
+]);
+
 Auth::routes();
 
 Route::post('comments/{message}', 'MessagesController@storeComment')->name('comments.store');

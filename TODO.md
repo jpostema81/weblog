@@ -7,3 +7,4 @@
 5. login en register views van Laravel form-builder voorzien
 6. responsive navbar styling fixen
 7. pagination toevoegen aan admin blogbericht overzicht, startpagina blogbericht overzicht
+8. verdiepen in Server-Side Rendering (SSR) Vue.js vs. SPA (Single-Page Application) Vue.js
