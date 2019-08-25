@@ -1838,6 +1838,13 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -1847,25 +1854,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      categories: []
-    };
-  },
   mounted: function mounted() {
     // pre-fetch categories from store
-    if (this.categories.length == 0) {
-      this.fetchCategories();
-    }
+    this.$store.dispatch('fetchCategories');
   },
   methods: {
-    fetchCategories: function fetchCategories() {
-      return this.$store.dispatch('fetchCategories');
+    filterMessages: function filterMessages(event) {
+      console.log(event.target.value);
     }
-  }
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['categories']))
 });
 
 /***/ }),
@@ -20726,30 +20726,30 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      { staticClass: "field" },
-      _vm._l(_vm.categories, function(category, index) {
-        return _c("span", [
-          _c("input", {
-            staticClass: "is-checkradio",
-            attrs: {
-              id: "exampleCheckboxDefault",
-              type: "checkbox",
-              name: "categoryFilter[]",
-              checked: "checked"
-            }
-          }),
-          _vm._v(" "),
-          _c("label", { attrs: { for: "exampleCheckboxDefault" } }, [
-            _vm._v(_vm._s(category))
-          ])
+  return _c(
+    "div",
+    { staticClass: "field" },
+    _vm._l(_vm.categories, function(category, key) {
+      return _c("span", { key: category.id }, [
+        _c("input", {
+          staticClass: "is-checkradio",
+          attrs: {
+            id: "category_" + key,
+            type: "checkbox",
+            name: "categoryFilter[]",
+            checked: "checked"
+          },
+          domProps: { value: category.id },
+          on: { change: _vm.filterMessages }
+        }),
+        _vm._v(" "),
+        _c("label", { attrs: { for: "category_" + key } }, [
+          _vm._v(_vm._s(category.name))
         ])
-      }),
-      0
-    )
-  ])
+      ])
+    }),
+    0
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -34240,8 +34240,13 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
   actions: {
     fetchCategories: function fetchCategories(context) {
       axios.get('/categories').then(function (categories) {
-        context.commit('setCategories', categories);
+        context.commit('setCategories', categories.data);
       });
+    }
+  },
+  getters: {
+    categories: function categories(state) {
+      return state.categories;
     }
   }
 }));

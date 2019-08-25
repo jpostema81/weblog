@@ -13,30 +13,9 @@
 
     <div id="navbarBasicExample" class="navbar-menu" v-bind:class="{ 'is-active' : showNav }">
         <div class="navbar-start">
-            <a class="navbar-item" href="{{ route('messages.index') }}">{{ __('Home') }}</a>
+            <a class="navbar-item" href="{{ route('messages.index') }}">{{ __('Weblog') }}</a>
 
-            <!-- <a class="navbar-item">
-                Documentation
-            </a>
-
-            <div class="navbar-item has-dropdown is-hoverable">
-                <a class="navbar-link">
-                    More
-                </a>
-
-                <div class="navbar-dropdown">
-                    <a class="navbar-item">
-                        Item1
-                    </a>
-                    <a class="navbar-item">
-                        Item2
-                    </a>
-                    <hr class="navbar-divider">
-                    <a class="navbar-item">
-                        Item 3
-                    </a>
-                </div>
-            </div> -->
+            <a href="{{ route('admin.messages.index') }}" class="navbar-item">{{ __('Categories') }}</a>
         </div>
 
         <!-- Authentication Links -->
@@ -63,10 +42,6 @@
                 </a>
 
                 <div class="navbar-dropdown">
-                    <a href="{{ route('admin.messages.index') }}" class="navbar-item">
-                        Admin
-                    </a>
-                    <hr class="navbar-divider">
                     <a class="navbar-item">
                         <a class="dropdown-item" href="{{ route('logout') }}"
                             onclick="event.preventDefault();

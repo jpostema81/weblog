@@ -17,8 +17,13 @@ export default new Vuex.Store({
             axios
                 .get('/categories')
                 .then(categories => {
-                    context.commit('setCategories', categories)
+                    context.commit('setCategories', categories.data)
                 });
         }            
+    },
+    getters: {
+        categories: state => {
+            return state.categories;
+        }
     }
 })

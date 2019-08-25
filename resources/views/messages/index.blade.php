@@ -7,15 +7,13 @@
 @section('content')
 
     <section>
-        <category-filter-component>test</category-filter-component>
 
-        <div class="level">
-            @foreach (App\Category::all() as $category)
-                <div class="field">
-                    <input class="is-checkradio" id="exampleCheckboxDefault" type="checkbox" name="categoryFilter[]" checked="checked">
-                    <label for="exampleCheckboxDefault">{{ $category->name }}</label>
-                </div>
-            @endforeach
+        <br>
+        
+        <div class="box"> 
+            <div class="level">
+                <category-filter-component></category-filter-component>
+            </div>
         </div>
 
         @foreach ($messages as $message)

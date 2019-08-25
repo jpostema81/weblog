@@ -1,31 +1,30 @@
 <template>
-    <div>
-        <div class="field">
-            <span v-for="(category, index) in categories">
-                <input class="is-checkradio" id="exampleCheckboxDefault" type="checkbox" name="categoryFilter[]" checked="checked">
-                <label for="exampleCheckboxDefault">{{ category }}</label>
-            </span>
-        </div>
+    <div class="field">
+        <span v-for="(category, key) in categories" v-bind:key="category.id">
+            <input class="is-checkradio" :id="'category_'+key" type="checkbox" name="categoryFilter[]" checked="checked" :value="category.id" @change="filterMessages">
+            <label :for="'category_'+key">{{ category.name }}</label>
+        </span>
     </div>
 </template>
 
 <script>
+    import { mapGetters } from 'vuex';
+
     export default {
-        data: function() {
-            return {
-                categories: []
-            }
-        },
         mounted() {
             // pre-fetch categories from store
-            if (this.categories.length == 0) {
-                this.fetchCategories();
-            }
+            this.$store.dispatch('fetchCategories');
         },
         methods: {
-            fetchCategories() {
-                return this.$store.dispatch('fetchCategories');
+            filterMessages(event) {
+                console.log(event.target.value);
             }
+        },
+        computed: {
+            // mix the getters into computed with object spread operator
+            ...mapGetters([
+                'categories'
+            ])
         }
     }
 </script>
