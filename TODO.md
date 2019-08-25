@@ -9,3 +9,4 @@
 7. pagination toevoegen aan admin blogbericht overzicht, startpagina blogbericht overzicht
 8. verdiepen in Server-Side Rendering (SSR) Vue.js vs. SPA (Single-Page Application) Vue.js
 9. videos bestuderen op https://vueschool.io/courses/vuex-for-everyone
+10. verdiepen in Laravel Model scopes: https://medium.com/@janaksan_/using-scope-with-laravel-7c80dd6a2c3d

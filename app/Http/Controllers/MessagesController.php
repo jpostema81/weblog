@@ -23,9 +23,18 @@ class MessagesController extends Controller
     public function index()
     {
         // get all blogposts (messages having no parent_id)
-        $messages = Message::whereNull('parent_id')->orderBy('created_ad', 'desc')->get();
+        // $messages = Message::whereNull('parent_id')->with('user')->orderBy('created_ad', 'desc')->get();
 
-        return view('messages.index', ['messages' => $messages]);
+        // return view('messages.index', ['messages' => $messages]);
+
+        return view('messages.index');
+    }
+
+    public function getMessages()
+    {
+        $messages = Message::whereNull('parent_id')->with('user')->orderBy('created_ad', 'desc')->get();
+
+        return response()->json($messages);
     }
 
     /**
