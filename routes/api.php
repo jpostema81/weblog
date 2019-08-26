@@ -18,3 +18,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/messages', 'MessagesController@getMessages')->name('api.messages');
+
+Route::get('/categories', 'CategoriesController@getCategories')->name('api.categories');
+

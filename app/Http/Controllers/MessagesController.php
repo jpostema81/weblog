@@ -30,6 +30,11 @@ class MessagesController extends Controller
         return view('messages.index');
     }
 
+    /**
+     * Return all messages.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function getMessages()
     {
         $messages = Message::whereNull('parent_id')->with('user')->orderBy('created_ad', 'desc')->get();

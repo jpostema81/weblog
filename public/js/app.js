@@ -1854,18 +1854,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      checkedCategories: []
+    };
+  },
   mounted: function mounted() {
     // pre-fetch categories from store
-    this.$store.dispatch('fetchCategories');
+    this.$store.dispatch('fetchCategories').then(function (response) {
+      console.log("Got some data, now lets show something in this component");
+    }, function (error) {
+      console.error("Got nothing from server. Prompt user to check internet connection and try again");
+    });
   },
   methods: {
     filterMessages: function filterMessages(event) {
       console.log(event.target.value);
+      this.$store.dispatch('fetchMessages');
     }
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['categories']))
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['categories' // map `this.categories` to `this.$store.getters.categories`
+  ]))
 });
 
 /***/ }),
@@ -20769,6 +20781,14 @@ var render = function() {
     _vm._l(_vm.categories, function(category, key) {
       return _c("span", { key: category.id }, [
         _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.checkedCategories,
+              expression: "checkedCategories"
+            }
+          ],
           staticClass: "is-checkradio",
           attrs: {
             id: "category_" + key,
@@ -20776,8 +20796,36 @@ var render = function() {
             name: "categoryFilter[]",
             checked: "checked"
           },
-          domProps: { value: category.id },
-          on: { change: _vm.filterMessages }
+          domProps: {
+            value: category.id,
+            checked: Array.isArray(_vm.checkedCategories)
+              ? _vm._i(_vm.checkedCategories, category.id) > -1
+              : _vm.checkedCategories
+          },
+          on: {
+            change: [
+              function($event) {
+                var $$a = _vm.checkedCategories,
+                  $$el = $event.target,
+                  $$c = $$el.checked ? true : false
+                if (Array.isArray($$a)) {
+                  var $$v = category.id,
+                    $$i = _vm._i($$a, $$v)
+                  if ($$el.checked) {
+                    $$i < 0 && (_vm.checkedCategories = $$a.concat([$$v]))
+                  } else {
+                    $$i > -1 &&
+                      (_vm.checkedCategories = $$a
+                        .slice(0, $$i)
+                        .concat($$a.slice($$i + 1)))
+                  }
+                } else {
+                  _vm.checkedCategories = $$c
+                }
+              },
+              _vm.filterMessages
+            ]
+          }
         }),
         _vm._v(" "),
         _c("label", { attrs: { for: "category_" + key } }, [
@@ -34280,7 +34328,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
     messages: [],
-    categories: []
+    categories: [],
+    selectedCategories: []
   },
   mutations: {
     setMessages: function setMessages(state, messages) {
@@ -34288,17 +34337,26 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     setCategories: function setCategories(state, categories) {
       state.categories = categories;
+    },
+    setSelectedCategories: function setSelectedCategories(state, selectedCategories) {
+      state.selectedCategories = selectedCategories;
     }
   },
   actions: {
     fetchCategories: function fetchCategories(context) {
-      axios.get('/categories').then(function (categories) {
+      axios.get('/api/categories').then(function (categories) {
         context.commit('setCategories', categories.data);
+        context.commit('setSelectedCategories', categories.data);
       });
     },
     fetchMessages: function fetchMessages(context) {
-      axios.get('/api/messages').then(function (messages) {
-        context.commit('setMessages', messages.data);
+      return new Promise(function (resolve, reject) {
+        axios.get('/api/messages').then(function (messages) {
+          context.commit('setMessages', messages.data);
+          resolve();
+        }, function (error) {
+          reject();
+        });
       });
     }
   },
@@ -34332,8 +34390,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/jeroenpostema/code/laravel/weblog/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/jeroenpostema/code/laravel/weblog/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/j.postema/code/laravel/weblog/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/j.postema/code/laravel/weblog/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

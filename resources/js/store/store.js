@@ -6,7 +6,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         messages: [],
-        categories: []
+        categories: [],
+        selectedCategories: []
     },
     mutations: {
         setMessages(state, messages) {
@@ -14,23 +15,32 @@ export default new Vuex.Store({
         },
         setCategories(state, categories) {
             state.categories = categories;
+        },
+        setSelectedCategories(state, selectedCategories) {
+            state.selectedCategories = selectedCategories;
         }
     },
     actions: {
         fetchCategories(context) {
             axios
-                .get('/categories')
+                .get('/api/categories')
                 .then(categories => {
                     context.commit('setCategories', categories.data)
+                    context.commit('setSelectedCategories', categories.data)
                 });
         },
         fetchMessages(context) {
-            axios
-                .get('/api/messages')
-                .then(messages => {
-                    context.commit('setMessages', messages.data)
-                });
-        }         
+            return new Promise((resolve, reject) => {
+                axios
+                    .get('/api/messages')
+                    .then(messages => {
+                        context.commit('setMessages', messages.data)
+                        resolve();
+                    }, error => {
+                        reject();
+                    })
+            })    
+        }
     },
     getters: {
         messages: state => {
