@@ -1863,16 +1863,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   mounted: function mounted() {
+    var _this = this;
+
     // pre-fetch categories from store
     this.$store.dispatch('fetchCategories').then(function (response) {
-      console.log("Got some data, now lets show something in this component");
+      // after all categories are fetched, check all category checkboxes (default to: show all messages for all categories)
+      _this.checkedCategories = _this.categories.map(function (value) {
+        return value.id;
+      });
     }, function (error) {
-      console.error("Got nothing from server. Prompt user to check internet connection and try again");
+      console.error("Vue(X) error: Got nothing from server");
     });
   },
   methods: {
     filterMessages: function filterMessages(event) {
-      console.log(event.target.value);
+      console.log(event.target.value); // update filter in store
+
+      this.$store.commit('setSelectedCategories', this.checkedCategories); // update messages
+
       this.$store.dispatch('fetchMessages');
     }
   },
@@ -34344,14 +34352,29 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
   },
   actions: {
     fetchCategories: function fetchCategories(context) {
-      axios.get('/api/categories').then(function (categories) {
-        context.commit('setCategories', categories.data);
-        context.commit('setSelectedCategories', categories.data);
+      return new Promise(function (resolve, reject) {
+        axios.get('/api/categories').then(function (categories) {
+          context.commit('setCategories', categories.data);
+          context.commit('setSelectedCategories', categories.data);
+          resolve();
+        }, function (error) {
+          reject();
+        });
       });
     },
     fetchMessages: function fetchMessages(context) {
+      var _this = this;
+
       return new Promise(function (resolve, reject) {
-        axios.get('/api/messages').then(function (messages) {
+        var url = '';
+
+        if (_this.state.selectedCategories.length > 0) {
+          url = '/api/messages?categories=' + _this.state.selectedCategories.join(',');
+        } else {
+          url = '/api/messages';
+        }
+
+        axios.get(url).then(function (messages) {
           context.commit('setMessages', messages.data);
           resolve();
         }, function (error) {
@@ -34390,8 +34413,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/j.postema/code/laravel/weblog/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/j.postema/code/laravel/weblog/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/jeroenpostema/code/laravel/weblog/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/jeroenpostema/code/laravel/weblog/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

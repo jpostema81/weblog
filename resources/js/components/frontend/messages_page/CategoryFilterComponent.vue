@@ -20,14 +20,18 @@
         mounted() {
             // pre-fetch categories from store
             this.$store.dispatch('fetchCategories').then(response => {
-                console.log("Got some data, now lets show something in this component")
+                // after all categories are fetched, check all category checkboxes (default to: show all messages for all categories)
+                this.checkedCategories = this.categories.map(value => value.id);
             }, error => {
-                console.error("Got nothing from server. Prompt user to check internet connection and try again")
+                console.error("Vue(X) error: Got nothing from server")
             });
         },
         methods: {
             filterMessages(event) {
                 console.log(event.target.value);
+                // update filter in store
+                this.$store.commit('setSelectedCategories', this.checkedCategories);
+                // update messages
                 this.$store.dispatch('fetchMessages');
             },
             // ...mapActions({

@@ -22,24 +22,37 @@ export default new Vuex.Store({
     },
     actions: {
         fetchCategories(context) {
-            axios
-                .get('/api/categories')
-                .then(categories => {
-                    context.commit('setCategories', categories.data)
-                    context.commit('setSelectedCategories', categories.data)
-                });
+            return new Promise((resolve, reject) => {
+                axios
+                    .get('/api/categories')
+                    .then(categories => {
+                        context.commit('setCategories', categories.data);
+                        context.commit('setSelectedCategories', categories.data);
+                        resolve();
+                    }, error => {
+                        reject();
+                    });
+            });
         },
         fetchMessages(context) {
             return new Promise((resolve, reject) => {
+                let url = '';
+
+                if(this.state.selectedCategories.length > 0) {
+                    url = '/api/messages?categories='+this.state.selectedCategories.join(',');
+                } else {
+                    url = '/api/messages';
+                }
+
                 axios
-                    .get('/api/messages')
+                    .get(url)
                     .then(messages => {
                         context.commit('setMessages', messages.data)
                         resolve();
                     }, error => {
                         reject();
                     })
-            })    
+            });   
         }
     },
     getters: {

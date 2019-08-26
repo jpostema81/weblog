@@ -22,6 +22,11 @@ class Message extends Model
         return $this->belongsTo('App\Message', 'parent_id');
     }
 
+    // public function message()
+    // {
+    //     return $this->belongsTo(Self::class, 'parent_id')->with('message');
+    // }
+
     // children messages (if parent)
     public function comments() {
         return $this->hasMany('App\Message', 'parent_id');

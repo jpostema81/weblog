@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Message;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class MessagesController extends Controller
 {
@@ -35,10 +36,23 @@ class MessagesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getMessages()
+    public function getMessages(Request $request)
     {
-        $messages = Message::whereNull('parent_id')->with('user')->orderBy('created_ad', 'desc')->get();
+        
 
+        if($request->has('categories')) {
+            // $messages = Message::whereNull('parent_id')->with('user')->orderBy('created_ad', 'desc')->get();
+            $category_ids = explode(",", $request->get('categories'));
+            Log::debug($category_ids);
+            
+            $messages = Message::whereHas('categories', function($query) use ($category_ids) {
+                $query->whereIn('id', $category_ids);
+            })->get();
+        } else {
+            $messages = Message::whereNull('parent_id')->with('user')->orderBy('created_ad', 'desc')->get();
+        }
+
+        Log::debug($messages);
         return response()->json($messages);
     }
 
