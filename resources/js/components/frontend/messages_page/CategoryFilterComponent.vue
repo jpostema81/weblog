@@ -6,7 +6,7 @@
             <label :for="'category_'+key">{{ category.name }}</label>
         </span>
 
-        <a class="button" @click="toggleSelectAllCategories">{{ selectAllCategories ? 'Select all' : 'Clear' }}</a>
+        <a class="button" @click="toggleSelectAllCategories">{{ selectAllCategories ? 'Clear' : 'Select all' }}</a>
     </div>
 </template>
 
@@ -17,33 +17,31 @@
         data () {
             return {
                 checkedCategories: [],
-                selectAllCategories: true
+                selectAllCategories: false
             }
         },
         mounted() {
             // pre-fetch categories from store
-            this.$store.dispatch('fetchCategories').then(response => {
-                // after all categories are fetched, check all category checkboxes (default to: show all messages for all categories)
-                this.checkedCategories = this.categories.map(value => value.id);
-            }, error => {
-                console.error("Vue(X) error: Got nothing from server")
-            });
+            this.$store.dispatch('fetchCategories');
         },
         methods: {
-            filterMessages(event) {
+            filterMessages() {
                 // update filter in store
                 this.$store.commit('setSelectedCategories', this.checkedCategories);
                 // update messages
                 this.$store.dispatch('fetchMessages');
             },
-            toggleSelectAllCategories(event) {
+            toggleSelectAllCategories() {
                 // console.log(event.target.value);
                 this.selectAllCategories = !this.selectAllCategories;
 
-                // https://makitweb.com/check-uncheck-all-checkboxes-with-vue-js/
                 if(this.selectAllCategories) {
-                    
-                } 
+                    this.checkedCategories = this.categories.map(value => value.id);
+                } else {
+                    this.checkedCategories = [];  
+                }
+
+                this.filterMessages();
             }
             // ...mapActions({
             //     filterMessages: 'fetchMessages' // map `this.add()` to `this.$store.dispatch('increment')`

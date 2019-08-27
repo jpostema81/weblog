@@ -1862,34 +1862,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       checkedCategories: [],
-      selectAllCategories: true
+      selectAllCategories: false
     };
   },
   mounted: function mounted() {
-    var _this = this;
-
     // pre-fetch categories from store
-    this.$store.dispatch('fetchCategories').then(function (response) {
-      // after all categories are fetched, check all category checkboxes (default to: show all messages for all categories)
-      _this.checkedCategories = _this.categories.map(function (value) {
-        return value.id;
-      });
-    }, function (error) {
-      console.error("Vue(X) error: Got nothing from server");
-    });
+    this.$store.dispatch('fetchCategories');
   },
   methods: {
-    filterMessages: function filterMessages(event) {
+    filterMessages: function filterMessages() {
       // update filter in store
       this.$store.commit('setSelectedCategories', this.checkedCategories); // update messages
 
       this.$store.dispatch('fetchMessages');
     },
-    toggleSelectAllCategories: function toggleSelectAllCategories(event) {
+    toggleSelectAllCategories: function toggleSelectAllCategories() {
       // console.log(event.target.value);
-      this.selectAllCategories = !this.selectAllCategories; // https://makitweb.com/check-uncheck-all-checkboxes-with-vue-js/
+      this.selectAllCategories = !this.selectAllCategories;
 
-      if (this.selectAllCategories) {}
+      if (this.selectAllCategories) {
+        this.checkedCategories = this.categories.map(function (value) {
+          return value.id;
+        });
+      } else {
+        this.checkedCategories = [];
+      }
+
+      this.filterMessages();
     } // ...mapActions({
     //     filterMessages: 'fetchMessages' // map `this.add()` to `this.$store.dispatch('increment')`
     // })
@@ -20857,7 +20856,7 @@ var render = function() {
       _c(
         "a",
         { staticClass: "button", on: { click: _vm.toggleSelectAllCategories } },
-        [_vm._v(_vm._s(_vm.selectAllCategories ? "Select all" : "Clear"))]
+        [_vm._v(_vm._s(_vm.selectAllCategories ? "Clear" : "Select all"))]
       )
     ],
     2
