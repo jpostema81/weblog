@@ -38,21 +38,16 @@ class MessagesController extends Controller
      */
     public function getMessages(Request $request)
     {
-        
-
         if($request->has('categories')) {
-            // $messages = Message::whereNull('parent_id')->with('user')->orderBy('created_ad', 'desc')->get();
             $category_ids = explode(",", $request->get('categories'));
-            Log::debug($category_ids);
             
-            $messages = Message::whereHas('categories', function($query) use ($category_ids) {
-                $query->whereIn('id', $category_ids);
-            })->get();
+            $messages = Message::whereNull('parent_id')->whereHas('categories', function($query) use ($category_ids) {
+                $query->whereIn('categories.id', $category_ids);
+            })->with('user')->orderBy('created_at', 'desc')->get();
         } else {
             $messages = Message::whereNull('parent_id')->with('user')->orderBy('created_ad', 'desc')->get();
         }
 
-        Log::debug($messages);
         return response()->json($messages);
     }
 

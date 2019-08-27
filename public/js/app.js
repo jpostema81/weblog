@@ -1855,11 +1855,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      checkedCategories: []
+      checkedCategories: [],
+      selectAllCategories: true
     };
   },
   mounted: function mounted() {
@@ -1877,12 +1880,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   methods: {
     filterMessages: function filterMessages(event) {
-      console.log(event.target.value); // update filter in store
-
+      // update filter in store
       this.$store.commit('setSelectedCategories', this.checkedCategories); // update messages
 
       this.$store.dispatch('fetchMessages');
-    }
+    },
+    toggleSelectAllCategories: function toggleSelectAllCategories(event) {
+      // console.log(event.target.value);
+      this.selectAllCategories = !this.selectAllCategories; // https://makitweb.com/check-uncheck-all-checkboxes-with-vue-js/
+
+      if (this.selectAllCategories) {}
+    } // ...mapActions({
+    //     filterMessages: 'fetchMessages' // map `this.add()` to `this.$store.dispatch('increment')`
+    // })
+
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['categories' // map `this.categories` to `this.$store.getters.categories`
   ]))
@@ -20786,62 +20797,70 @@ var render = function() {
   return _c(
     "div",
     { staticClass: "field" },
-    _vm._l(_vm.categories, function(category, key) {
-      return _c("span", { key: category.id }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.checkedCategories,
-              expression: "checkedCategories"
-            }
-          ],
-          staticClass: "is-checkradio",
-          attrs: {
-            id: "category_" + key,
-            type: "checkbox",
-            name: "categoryFilter[]",
-            checked: "checked"
-          },
-          domProps: {
-            value: category.id,
-            checked: Array.isArray(_vm.checkedCategories)
-              ? _vm._i(_vm.checkedCategories, category.id) > -1
-              : _vm.checkedCategories
-          },
-          on: {
-            change: [
-              function($event) {
-                var $$a = _vm.checkedCategories,
-                  $$el = $event.target,
-                  $$c = $$el.checked ? true : false
-                if (Array.isArray($$a)) {
-                  var $$v = category.id,
-                    $$i = _vm._i($$a, $$v)
-                  if ($$el.checked) {
-                    $$i < 0 && (_vm.checkedCategories = $$a.concat([$$v]))
+    [
+      _vm._l(_vm.categories, function(category, key) {
+        return _c("span", { key: category.id }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.checkedCategories,
+                expression: "checkedCategories"
+              }
+            ],
+            staticClass: "is-checkradio",
+            attrs: {
+              id: "category_" + key,
+              type: "checkbox",
+              name: "categoryFilter[]",
+              checked: "checked"
+            },
+            domProps: {
+              value: category.id,
+              checked: Array.isArray(_vm.checkedCategories)
+                ? _vm._i(_vm.checkedCategories, category.id) > -1
+                : _vm.checkedCategories
+            },
+            on: {
+              change: [
+                function($event) {
+                  var $$a = _vm.checkedCategories,
+                    $$el = $event.target,
+                    $$c = $$el.checked ? true : false
+                  if (Array.isArray($$a)) {
+                    var $$v = category.id,
+                      $$i = _vm._i($$a, $$v)
+                    if ($$el.checked) {
+                      $$i < 0 && (_vm.checkedCategories = $$a.concat([$$v]))
+                    } else {
+                      $$i > -1 &&
+                        (_vm.checkedCategories = $$a
+                          .slice(0, $$i)
+                          .concat($$a.slice($$i + 1)))
+                    }
                   } else {
-                    $$i > -1 &&
-                      (_vm.checkedCategories = $$a
-                        .slice(0, $$i)
-                        .concat($$a.slice($$i + 1)))
+                    _vm.checkedCategories = $$c
                   }
-                } else {
-                  _vm.checkedCategories = $$c
-                }
-              },
-              _vm.filterMessages
-            ]
-          }
-        }),
-        _vm._v(" "),
-        _c("label", { attrs: { for: "category_" + key } }, [
-          _vm._v(_vm._s(category.name))
+                },
+                _vm.filterMessages
+              ]
+            }
+          }),
+          _vm._v(" "),
+          _c("label", { attrs: { for: "category_" + key } }, [
+            _vm._v(_vm._s(category.name))
+          ])
         ])
-      ])
-    }),
-    0
+      }),
+      _vm._v(" "),
+      _c(
+        "a",
+        { staticClass: "button", on: { click: _vm.toggleSelectAllCategories } },
+        [_vm._v(_vm._s(_vm.selectAllCategories ? "Select all" : "Clear"))]
+      )
+    ],
+    2
   )
 }
 var staticRenderFns = []
@@ -34413,8 +34432,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/jeroenpostema/code/laravel/weblog/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/jeroenpostema/code/laravel/weblog/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/j.postema/code/laravel/weblog/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/j.postema/code/laravel/weblog/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

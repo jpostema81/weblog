@@ -28,10 +28,5 @@ class CategorySeeder extends Seeder
         $message_id = DB::table('categories')->insertGetId([
             'name' => 'muziek'
         ]);
-
-        // insert new category
-        $message_id = DB::table('categories')->insertGetId([
-            'name' => 'overig'
-        ]);
     }
 }
