@@ -5,6 +5,8 @@
                 @change="filterMessages" v-model="checkedCategories">
             <label :for="'category_'+key">{{ category.name }}</label>
         </span>
+
+        <a class="button" @click="toggleSelectAllCategories">{{ selectAllCategories ? 'Select all' : 'Clear' }}</a>
     </div>
 </template>
 
@@ -14,7 +16,8 @@
     export default {
         data () {
             return {
-                checkedCategories: [] 
+                checkedCategories: [],
+                selectAllCategories: true
             }
         },
         mounted() {
@@ -28,12 +31,20 @@
         },
         methods: {
             filterMessages(event) {
-                console.log(event.target.value);
                 // update filter in store
                 this.$store.commit('setSelectedCategories', this.checkedCategories);
                 // update messages
                 this.$store.dispatch('fetchMessages');
             },
+            toggleSelectAllCategories(event) {
+                // console.log(event.target.value);
+                this.selectAllCategories = !this.selectAllCategories;
+
+                // https://makitweb.com/check-uncheck-all-checkboxes-with-vue-js/
+                if(this.selectAllCategories) {
+                    
+                } 
+            }
             // ...mapActions({
             //     filterMessages: 'fetchMessages' // map `this.add()` to `this.$store.dispatch('increment')`
             // })
