@@ -14,8 +14,6 @@
     <div id="navbarBasicExample" class="navbar-menu" v-bind:class="{ 'is-active' : showNav }">
         <div class="navbar-start">
             <a class="navbar-item" href="{{ route('messages.index') }}">{{ __('Weblog') }}</a>
-
-            <a href="{{ route('admin.messages.index') }}" class="navbar-item">{{ __('Categories') }}</a>
         </div>
 
         <!-- Authentication Links -->
@@ -42,6 +40,11 @@
                 </a>
 
                 <div class="navbar-dropdown">
+
+                    <a href="{{ route('admin.messages.index') }}" class="navbar-item">{{ __('Messages') }}</a>
+        
+                    <a href="{{ route('categories.index') }}" class="navbar-item">{{ __('Categories') }}</a>
+                    
                     <a class="navbar-item">
                         <a class="dropdown-item" href="{{ route('logout') }}"
                             onclick="event.preventDefault();
@@ -53,6 +56,9 @@
                             @csrf
                         </form>
                     </a>
+
+
+
                 </div>
             </div>
         </div>

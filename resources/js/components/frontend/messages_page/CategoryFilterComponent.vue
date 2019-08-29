@@ -24,7 +24,6 @@
             // pre-fetch categories from store
             this.$store.dispatch('fetchCategories').then(response => {
                 // after all categories are fetched, check all category checkboxes (default to: show all messages for all categories)
-                //this.checkedCategories = this.categories.map(value => value.id);
             }, error => {
                 console.error("Vue(X) error: Got nothing from server")
             });

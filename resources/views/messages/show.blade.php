@@ -29,6 +29,7 @@
     </div>
 
     @foreach ($message->descendants as $comment)
+    {{ $comment->depth }}
     
         <article class="media">
             <figure class="media-left">
