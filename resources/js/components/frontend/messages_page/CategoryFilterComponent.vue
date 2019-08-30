@@ -22,7 +22,11 @@
         },
         mounted() {
             // pre-fetch categories from store
-            this.$store.dispatch('fetchCategories');
+            this.$store.dispatch('fetchCategories').then(response => {
+                // after all categories are fetched, check all category checkboxes (default to: show all messages for all categories)
+            }, error => {
+                console.error("Vue(X) error: Got nothing from server")
+            });
         },
         methods: {
             filterMessages() {
@@ -32,7 +36,6 @@
                 this.$store.dispatch('fetchMessages');
             },
             toggleSelectAllCategories() {
-                // console.log(event.target.value);
                 this.selectAllCategories = !this.selectAllCategories;
 
                 if(this.selectAllCategories) {

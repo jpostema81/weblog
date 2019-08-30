@@ -1,25 +1,20 @@
 <template>
     <div>
-        <div class="card article" v-for="(message, key) in messages" v-bind:key="message.id">
+        <div class="card article" v-for="(message, messageKey) in messages" v-bind:key="message.id">
             <div class="card-content">
                 <div class="media">
                     <div class="media-content has-text-centered">
                         <p class="title is-4">
-                            <!-- <a href="{{ route('messages.show', ['message' => $message->id]) }}">{{ $message->title }}</a> -->
-                            {{ message.title }}
+                            <a v-bind:href="'/messages/' + message.id">{{ message.title }}</a>
                         </p>
                         <div class="tags has-addons level-item">
                             <span class="tag is-rounded is-info">@ {{ message.user.name }}</span>
 
-                            <!-- @if (count($message->categories) > 0)
-                                <span class="tag is-black">
-                                    @foreach ($message->categories as $category)
-                                        {{ $loop->last ? $category->name : $category->name . ', ' }}
-                                    @endforeach
+                                <span v-for="(category, categoryKey) in message.categories" v-bind:key="category.id" class="tag is-black">
+                                    {{ category.name }}<span v-if="categoryKey != message.categories.length - 1">,</span>
                                 </span>
-                            @endif -->
 
-                            <!-- <span class="tag is-rounded">{{ Carbon\Carbon::parse($message->created_at)->format('d-m-Y H:i') }}</span> -->
+                            <span class="tag is-rounded">{{ moment(message.created_at) }}</span>
                         </div>
                     </div>
                 </div>
@@ -47,6 +42,9 @@
         methods: {
             filterMessages(event) {
                 console.log(event.target.value);
+            },
+            moment: function (date) {
+                return moment(date, 'YYYY-MM-DD HH:mm:ss').fromNow();
             }
         },
         computed: {
