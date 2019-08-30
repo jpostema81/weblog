@@ -13,7 +13,7 @@ class MessagesController extends Controller
     /**
      * Register Auth middleware for this controller
      */
-    public function __contruct() {
+    public function __construct() {
         $this->middleware('auth');
     }
 
@@ -120,7 +120,21 @@ class MessagesController extends Controller
      */
     public function destroy(Message $message)
     {
-        $message->delete();
+        $result = $message->delete();
+
+        if($result) {
+            $data=[
+                'status' => '1',
+                'msg' => 'success'
+              ];
+        } else {
+            $data=[
+                'status' => '0',
+                'msg' => 'fail'
+              ];
+        }
+        
+        return response()->json($data);
     }
 
     /**

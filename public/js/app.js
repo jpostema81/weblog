@@ -1867,14 +1867,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   mounted: function mounted() {
     // pre-fetch categories from store
-<<<<<<< HEAD
-    this.$store.dispatch('fetchCategories');
-=======
     this.$store.dispatch('fetchCategories').then(function (response) {// after all categories are fetched, check all category checkboxes (default to: show all messages for all categories)
     }, function (error) {
       console.error("Vue(X) error: Got nothing from server");
     });
->>>>>>> 9580de91d4c3ee4a443f2e94cd3a0ea7066f70f5
   },
   methods: {
     filterMessages: function filterMessages() {
@@ -1884,10 +1880,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.$store.dispatch('fetchMessages');
     },
     toggleSelectAllCategories: function toggleSelectAllCategories() {
-<<<<<<< HEAD
-      // console.log(event.target.value);
-=======
->>>>>>> 9580de91d4c3ee4a443f2e94cd3a0ea7066f70f5
       this.selectAllCategories = !this.selectAllCategories;
 
       if (this.selectAllCategories) {
@@ -51812,6 +51804,24 @@ window.deteleMessage = function (messageId) {
   }
 };
 
+window.deteleCategory = function (categoryId) {
+  if (confirm('Are you sure?')) {
+    $.ajax({
+      url: '/categories/' + categoryId,
+      type: 'DELETE',
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      success: function success(result) {
+        location.reload();
+      },
+      error: function error(result) {
+        alert('There was an error');
+      }
+    });
+  }
+};
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
@@ -52111,8 +52121,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/jeroenpostema/code/laravel/weblog/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/jeroenpostema/code/laravel/weblog/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/j.postema/code/laravel/weblog/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/j.postema/code/laravel/weblog/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

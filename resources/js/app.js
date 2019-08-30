@@ -65,3 +65,21 @@ window.deteleMessage = function(messageId) {
         })
     }
 }
+
+window.deteleCategory = function(categoryId) {
+    if(confirm('Are you sure?')) {
+        $.ajax({
+            url: '/categories/' + categoryId,
+            type: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(result) {
+                location.reload();
+            },
+            error: function(result) {
+                alert('There was an error');
+            }
+        })
+    }
+}
