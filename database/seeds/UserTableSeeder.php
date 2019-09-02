@@ -19,21 +19,21 @@ class UserTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' => 'Jeroen Postema',
             'email' => 'jeroen@script.nl',
-            'password' => bcrypt('postema'),
+            'password' => Hash::make('postema'),
             'created_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
 
         DB::table('users')->insert([
             'name' => 'Harry Prins',
             'email' => 'harry@script.nl',
-            'password' => bcrypt('prins'),
+            'password' => Hash::make('prins'),
             'created_at' => Carbon::now()->subDays(1)->format('Y-m-d H:i:s')
         ]);
 
         DB::table('users')->insert([
             'name' => 'Marieke Post',
             'email' => 'marieke@script.nl',
-            'password' => bcrypt('post'),
+            'password' => Hash::make('post'),
             'created_at' => Carbon::now()->subDays(2)->format('Y-m-d H:i:s')
         ]);
     }
