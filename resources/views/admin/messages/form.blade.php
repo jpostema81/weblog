@@ -14,9 +14,9 @@
 @section('content')
 
     @if(!$message->id)
-        {{ Form::model($message, ['route' => 'admin.messages.store']) }}
+        {{ Form::model($message, ['route' => 'admin.messages.store', 'files' => true]) }}
     @else
-        {{ Form::model($message, ['route' => ['admin.messages.update', $message->id], 'method' => 'PUT']) }}
+        {{ Form::model($message, ['route' => ['admin.messages.update', $message->id], 'method' => 'PUT', 'files' => true]) }}
     @endif
 
     <div class="field">
@@ -37,6 +37,25 @@
         </div>
         @error('content')
             <p class="help is-danger">{{ $errors->first('content') }}</p>
+        @enderror
+    </div>
+
+    @if ($message->image != NULL)
+    <div class="field">
+        <figure>
+            <img src="{{ asset('storage/'.$message->image) }}" alt="image" max>
+        </figure>
+    </div>
+    @endif
+
+    <div class="field">
+        {{ Form::label('image', 'Image', array('class' => 'label')) }}
+
+        <div class="control">
+            {{ Form::file('image', null, $attributes = $errors->has('image') ? array('class' => 'input is-primary is-danger') : array('class' => 'input is-primary')) }}
+        </div>
+        @error('image')
+            <p class="help is-danger">{{ $errors->first('image') }}</p>
         @enderror
     </div>
 

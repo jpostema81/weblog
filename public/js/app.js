@@ -1951,6 +1951,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
@@ -38547,8 +38550,15 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "content article-body" }, [
             _vm._v(
-              "\n                " + _vm._s(message.content) + "\n            "
-            )
+              "\n                " +
+                _vm._s(message.content) +
+                "\n                "
+            ),
+            message.image
+              ? _c("div", [
+                  _c("img", { attrs: { src: "/storage/" + message.image } })
+                ])
+              : _vm._e()
           ])
         ])
       ])
@@ -52121,8 +52131,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/j.postema/code/laravel/weblog/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/j.postema/code/laravel/weblog/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/jeroenpostema/code/laravel/weblog/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/jeroenpostema/code/laravel/weblog/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

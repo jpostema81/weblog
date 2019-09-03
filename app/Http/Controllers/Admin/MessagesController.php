@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Message;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Storage;
 
 class MessagesController extends Controller
 {
@@ -59,6 +60,12 @@ class MessagesController extends Controller
         $message->title = Input::get('title');
         $message->content = Input::get('content');
         $message->author_id = $userId;
+
+        if($request->hasFile('image')) {
+            $filename = $request->file('image')->store('public'); // store function generates unique ID to serve as filename
+            $message->image = basename($filename);
+        }
+
         $message->save();
 
         $message->categories()->attach($request->get('categories'));
@@ -100,6 +107,9 @@ class MessagesController extends Controller
         // validate user input
         $validatedData = $request->validate($this->rules());
 
+        // remove previous image if available
+        $result = Storage::delete('public/'.$message->image);
+
         // update message with new data
         $userId = Auth::user()->id;
 
@@ -107,7 +117,13 @@ class MessagesController extends Controller
         $message->content = Input::get('content');
         $message->author_id = $userId;
         $message->categories()->sync($request->get('categories'));
-        $message->save();
+
+        if($request->hasFile('image')) {
+            $filename = $request->file('image')->store('public'); // store function generates unique ID to serve as filename
+            $message->image = basename($filename);
+        }
+
+        $result = $message->save();
 
         return redirect()->route('admin.messages.index');
     }
@@ -144,6 +160,7 @@ class MessagesController extends Controller
         return [
             'title' => 'required|max:255',
             'content' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
 
         //'title' => 'required|unique:messages|max:255',

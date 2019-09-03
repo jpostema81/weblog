@@ -20,6 +20,9 @@
                 </div>
                 <div class="content article-body">
                     {{ message.content }}
+                    <div v-if="message.image">
+                        <img v-bind:src="'/storage/' + message.image">
+                    </div>
                 </div>
             </div>
         </div>

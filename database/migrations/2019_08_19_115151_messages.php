@@ -21,6 +21,7 @@ class Messages extends Migration
             $table->foreign('parent_id')->references('id')->on('messages')->onDelete('cascade');
             $table->integer('author_id')->unsigned();
             $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
