@@ -11,6 +11,11 @@ class Message extends Model
     // enable automatic timestamp update (created_at and update_at)
     public $timestamps = true;
 
+    // these attributes are mass-assignable
+    protected $fillable = [
+        'title', 'content'
+    ];
+
     public function user()
     {
         return $this->belongsTo('App\User', 'author_id');

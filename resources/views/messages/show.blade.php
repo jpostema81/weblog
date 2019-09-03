@@ -28,6 +28,15 @@
         {{ $message->content }}
     </div>
 
+    {!! Form::open(['method' => 'DELETE', 'route' => ['messages.destroy', $message->id] ]) !!}
+        @can('Edit Post')
+        <a href="{{ route('messages.edit', $message->id) }}" class="btn btn-info" role="button">Edit</a>
+        @endcan
+        @can('Delete Post')
+        {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+        @endcan
+    {!! Form::close() !!}
+
     @foreach ($message->descendants as $comment)
     {{ $comment->depth }}
     
@@ -77,5 +86,7 @@
     </article>
     {{ Form::close() }}
     @endauth
+
+    <a href="{{ url()->previous() }}" class="btn btn-primary">Back</a>
 
 @endsection

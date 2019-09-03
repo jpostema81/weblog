@@ -12,10 +12,11 @@ use Illuminate\Support\Facades\Storage;
 class MessagesController extends Controller
 {
     /**
-     * Register Auth middleware for this controller
+     * Register Auth middleware for this controller so only authenticated users can access these controller functions
+     * Register Clearance middleware which is responsible for the ACL (permissions and roles system)
      */
     public function __construct() {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'clearance']);
     }
 
     /**
