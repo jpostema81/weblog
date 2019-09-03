@@ -40,7 +40,7 @@ class MessagesController extends Controller
     public function create()
     {
         $message = new Message();
-        return view('admin.messages.form', compact('message'));
+        return view('admin.messages.create', compact('message'));
     }
 
     /**
@@ -93,7 +93,7 @@ class MessagesController extends Controller
      */
     public function edit(Message $message)
     {
-        return view('admin.messages.form', compact('message'));
+        return view('admin.messages.create', compact('message'));
     }
 
     /**
