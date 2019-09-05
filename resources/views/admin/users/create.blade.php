@@ -33,7 +33,7 @@
         {{ Form::label('email', 'Email', array('class' => 'label')) }}
 
         <div class="control">
-            {{ Form::textarea('email', null, $attributes = $errors->has('email') ? array('class' => 'input is-primary is-danger') : array('class' => 'input is-primary')) }}
+            {{ Form::text('email', null, $attributes = $errors->has('email') ? array('class' => 'input is-primary is-danger') : array('class' => 'input is-primary')) }}
         </div>
         @error('email')
             <p class="help is-danger">{{ $errors->first('email') }}</p>
@@ -53,17 +53,28 @@
     </div>
 
     <div class="field">
-        {{ Form::label('category', 'Category', array('class' => 'label')) }}
+        {{ Form::label('password', 'Password', array('class' => 'label')) }}
 
-        <div class="control select is-multiple">
-            <select multiple="multiple" name="categories[]">
-                @foreach(App\Category::all() as $category)
-                    <option value="{{ $category->id }}" @if($message->categories->contains($category))selected="selected"@endif>{{ $category->name }}</option>
-                @endforeach
-            </select>
+        <div class="control">
+            {{ Form::text('password', null, $attributes = $errors->has('password') ? array('class' => 'input is-primary is-danger') : array('class' => 'input is-primary')) }}
         </div>
+        @error('password')
+            <p class="help is-danger">{{ $errors->first('password') }}</p>
+        @enderror
     </div>
 
+    <div class="field">
+        {{ Form::label('password_confirmation', 'Confirm password', array('class' => 'label')) }}
+
+        <div class="control">
+            {{ Form::text('password_confirmation', null, $attributes = $errors->has('password_confirmation') ? array('class' => 'input is-primary is-danger') : array('class' => 'input is-primary')) }}
+        </div>
+        @error('password_confirmation')
+            <p class="help is-danger">{{ $errors->first('password_confirmation') }}</p>
+        @enderror
+    </div>
+
+   
     <div class="control">
         {{ Form::submit("Save", array('class' => 'button is-primary')) }}
     </div>

@@ -18,7 +18,7 @@
     @else
         {{ Form::model($message, ['route' => ['admin.messages.update', $message->id], 'method' => 'PUT', 'files' => true]) }}
     @endif
-
+å
     <div class="field">
         {{ Form::label('title', 'Title', array('class' => 'label')) }}
         <div class="control">

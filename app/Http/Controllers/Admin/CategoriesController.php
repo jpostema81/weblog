@@ -8,6 +8,8 @@ use App\Message;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 
+use App\Http\Controllers\Controller;
+
 
 class CategoriesController extends Controller
 {

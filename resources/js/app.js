@@ -48,6 +48,8 @@ window.onload = function () {
     });
 }
 
+// onderstaande code repeterend?
+
 window.deteleMessage = function(messageId) {
     if(confirm('Are you sure?')) {
         $.ajax({
@@ -70,6 +72,42 @@ window.deteleCategory = function(categoryId) {
     if(confirm('Are you sure?')) {
         $.ajax({
             url: '/categories/' + categoryId,
+            type: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(result) {
+                location.reload();
+            },
+            error: function(result) {
+                alert('There was an error');
+            }
+        })
+    }
+}
+
+window.deteleRole = function(roleId) {
+    if(confirm('Are you sure?')) {
+        $.ajax({
+            url: '/roles/' + roleId,
+            type: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(result) {
+                location.reload();
+            },
+            error: function(result) {
+                alert('There was an error');
+            }
+        })
+    }
+}
+
+window.detelePermission = function(permissionId) {
+    if(confirm('Are you sure?')) {
+        $.ajax({
+            url: '/permissions/' + permissionId,
             type: 'DELETE',
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

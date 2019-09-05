@@ -51794,7 +51794,8 @@ window.onload = function () {
       MessagesOverviewComponent: _components_frontend_messages_page_MessagesOverviewComponent__WEBPACK_IMPORTED_MODULE_2__["default"]
     }
   });
-};
+}; // onderstaande code repeterend?
+
 
 window.deteleMessage = function (messageId) {
   if (confirm('Are you sure?')) {
@@ -51818,6 +51819,42 @@ window.deteleCategory = function (categoryId) {
   if (confirm('Are you sure?')) {
     $.ajax({
       url: '/categories/' + categoryId,
+      type: 'DELETE',
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      success: function success(result) {
+        location.reload();
+      },
+      error: function error(result) {
+        alert('There was an error');
+      }
+    });
+  }
+};
+
+window.deteleRole = function (roleId) {
+  if (confirm('Are you sure?')) {
+    $.ajax({
+      url: '/roles/' + roleId,
+      type: 'DELETE',
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      success: function success(result) {
+        location.reload();
+      },
+      error: function error(result) {
+        alert('There was an error');
+      }
+    });
+  }
+};
+
+window.detelePermission = function (permissionId) {
+  if (confirm('Are you sure?')) {
+    $.ajax({
+      url: '/permissions/' + permissionId,
       type: 'DELETE',
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

@@ -9,6 +9,8 @@ use Auth;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
+use App\Http\Controllers\Controller;
+
 use Session;
 
 
