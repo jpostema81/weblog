@@ -13,5 +13,6 @@
 11. verdiepen in Laravel Model scopes: https://medium.com/@janaksan_/using-scope-with-laravel-7c80dd6a2c3d
 12. voor usability inspiratie zie: https://www.asos.com/
 13. voor ACL (Acces Control List) is Spatie gebruikt: https://scotch.io/tutorials/user-authorization-in-laravel-54-with-spatie-laravel-permission
+en: https://docs.spatie.be/laravel-permission/v3/introduction/
 14. Spatie package is gebaseerd op Jeffrey Way's code: https://freek.dev/270-a-package-to-add-roles-and-permissions-to-laravel
 15. Git Best Practices: https://sethrobertson.github.io/GitBestPractices/
