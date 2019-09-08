@@ -13,39 +13,48 @@ class ClearanceMiddleware {
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next) {        
-        if (Auth::user()->hasPermissionTo('Administer roles & permissions')) //If user has this //permission
-    {
+    public function handle($request, Closure $next) 
+    {        
+        // If user has this //permission
+        if (Auth::user()->hasPermissionTo('Administer roles & permissions')) 
+        {
             return $next($request);
         }
 
-        if ($request->is('posts/create'))//If user is creating a post
-         {
+        //If user is creating a post
+        if ($request->is('posts/create'))
+        {
             if (!Auth::user()->hasPermissionTo('Create Post'))
-         {
+            {
                 abort('401');
             } 
-         else {
+            else 
+            {
                 return $next($request);
             }
         }
 
-        if ($request->is('posts/*/edit')) //If user is editing a post
-         {
-            if (!Auth::user()->hasPermissionTo('Edit Post')) {
+        // If user is editing a post
+        if ($request->is('posts/*/edit')) 
+        {
+            if (!Auth::user()->hasPermissionTo('Edit Post')) 
+            {
                 abort('401');
-            } else {
+            } else 
+            {
                 return $next($request);
             }
         }
 
-        if ($request->isMethod('Delete')) //If user is deleting a post
-         {
-            if (!Auth::user()->hasPermissionTo('Delete Post')) {
+        //If user is deleting a post
+        if ($request->isMethod('Delete')) 
+        {
+            if (!Auth::user()->hasPermissionTo('Delete Post')) 
+            {
                 abort('401');
             } 
-         else 
-         {
+            else 
+            {
                 return $next($request);
             }
         }
