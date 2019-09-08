@@ -15,25 +15,27 @@
 
 @section('content')
     <section>
-        <a href="{{ route('admin.users.index') }}" class="btn btn-default pull-right">Users overview</a>
-        <a href="{{ route('admin.roles.index') }}" class="btn btn-default pull-right">Roles overview</a></h1>
+        <a href="{{ route('admin.users.index') }}" class="button is-text is-pulled-right">Users overview</a>
+        <a href="{{ route('admin.roles.index') }}" class="button is-text is-pulled-right">Roles overview</a></h1>
 
-        <a href="{{ route('admin.roles.create') }}" class="button is-primary">Create new role</a>
+        <a href="{{ route('admin.permissions.create') }}" class="button is-primary">Create new permission</a>
 
         <br><br>
         
         <table class="table">
             <thead>
                 <th>Permission</th>
-                <th>Operation</th>
+                <th>Operations</th>
             </thead>
 
             <tbody>
                 @foreach ($permissions as $permission)
                 <tr>
                     <td>{{ $permission->name }}</td>
-                    <td><a href="{{ route('admin.permissions.edit', $permission) }}">edit</a></td>
-                    <td><a onclick="detelePermission({{ $permission->id }})">delete</a></td>
+                    <td>
+                        <a href="{{ route('admin.permissions.edit', $permission) }}" class="button is-primary" style="margin-right: 3px;">Edit</a>
+                        <a onclick="detelePermission({{ $permission->id }})" class="button is-danger" style="margin-right: 3px;">Delete</a>
+                    </td>
                 </tr></a>
                 @endforeach
             </tbody>

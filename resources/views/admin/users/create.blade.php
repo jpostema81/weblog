@@ -4,7 +4,7 @@
 
     <nav class="breadcrumb" aria-label="breadcrumbs">
         <ul>
-            <li><a href="{{ route('messages.index') }}">Home</a></li>
+            <li><a href="{{ route('admin.users.index') }}">Home</a></li>
             <li class="is-active"><a href="#" aria-current="page">User Add / Edit</a></li>
         </ul>
     </nav>
@@ -13,12 +13,12 @@
 
 @section('content')
 
-    @if(!$message->id)
+    @if(!$user->id)
         {{ Form::model($user, ['route' => 'admin.users.store']) }}
     @else
-        {{ Form::model($message, ['route' => ['admin.users.update', $user->id], 'method' => 'PUT']) }}
+        {{ Form::model($user, ['route' => ['admin.users.update', $user->id], 'method' => 'PUT']) }}
     @endif
-å
+
     <div class="field">
         {{ Form::label('name', 'Name', array('class' => 'label')) }}
         <div class="control">
@@ -45,9 +45,9 @@
 
         <div class="control select is-multiple">
             @foreach($roles as $role)
-                {{ Form::checkbox('roles[]',  $role->id ) }}
+                {{ Form::checkbox('roles[]', $role->id ) }}
                 {{ Form::label($role->name, ucfirst($role->name)) }}<br>
-                <!-- @if($message->categories->contains($category))selected="selected"@endif -->
+                {{-- @if($message->categories->contains($category))selected="selected"@endif --}}
             @endforeach
         </div>
     </div>
@@ -56,7 +56,7 @@
         {{ Form::label('password', 'Password', array('class' => 'label')) }}
 
         <div class="control">
-            {{ Form::text('password', null, $attributes = $errors->has('password') ? array('class' => 'input is-primary is-danger') : array('class' => 'input is-primary')) }}
+            {{ Form::password('password', null, $attributes = $errors->has('password') ? array('class' => 'input is-primary is-danger') : array('class' => 'input is-primary')) }}
         </div>
         @error('password')
             <p class="help is-danger">{{ $errors->first('password') }}</p>
@@ -67,7 +67,7 @@
         {{ Form::label('password_confirmation', 'Confirm password', array('class' => 'label')) }}
 
         <div class="control">
-            {{ Form::text('password_confirmation', null, $attributes = $errors->has('password_confirmation') ? array('class' => 'input is-primary is-danger') : array('class' => 'input is-primary')) }}
+            {{ Form::password('password_confirmation', null, $attributes = $errors->has('password_confirmation') ? array('class' => 'input is-primary is-danger') : array('class' => 'input is-primary')) }}
         </div>
         @error('password_confirmation')
             <p class="help is-danger">{{ $errors->first('password_confirmation') }}</p>

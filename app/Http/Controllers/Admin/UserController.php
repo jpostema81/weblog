@@ -30,7 +30,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all(); 
-        return view('users.index')->compact('users');
+        return view('admin.users.index', compact('users'));
     }
 
     /**
@@ -42,7 +42,7 @@ class UserController extends Controller
     {
         //Get all roles and pass it to the view
         $roles = Role::get();
-        return view('users.create')->compact('roles');
+        return view('admin.users.create')->compact('roles');
     }
 
     /**
@@ -77,7 +77,7 @@ class UserController extends Controller
         }  
 
         // Redirect to the users.index view and display message
-        return redirect()->route('users.index')->with('flash_message', 'User successfully added.');
+        return redirect()->route('admin.users.index')->with('flash_message', 'User successfully added.');
     }
 
     /**
@@ -86,9 +86,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        return redirect('users');
+
     }
 
     /**
@@ -97,15 +97,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        // Get user with specified id
-        $user = User::findOrFail($id);
         // Get all roles 
         $roles = Role::get(); 
 
         // pass user and roles data to view
-        return view('users.edit', compact('user', 'roles')); 
+        return view('admin.users.create', compact('user', 'roles')); 
     }
 
     /**
@@ -115,11 +113,8 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        // Get role specified by id
-        $user = User::findOrFail($id); 
-
         // Validate name, email and password fields    
         $this->validate($request, [
             'name' => 'required|max:120',
@@ -145,7 +140,7 @@ class UserController extends Controller
             $user->roles()->detach(); 
         }
 
-        return redirect()->route('users.index')->with('flash_message', 'User successfully edited.');
+        return redirect()->route('admin.users.index')->with('flash_message', 'User successfully edited.');
     }
 
     /**
@@ -154,12 +149,22 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        // Find a user with a given id and delete
-        $user = User::findOrFail($id); 
-        $user->delete();
+        $result = $user->delete();
 
-        return redirect()->route('users.index')->with('flash_message', 'User successfully deleted.');
+        if($result) {
+            $data = [
+                'status' => '1',
+                'message' => 'Success'
+            ];
+        } else {
+            $data = [
+                'status' => '0',
+                'message' => 'Fail'
+            ];
+        }
+
+        return response()->json($data);
     }
 }

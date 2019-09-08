@@ -32,7 +32,7 @@ class RoleController extends Controller
     {
         $roles = Role::all();
 
-        return view('roles.index', compact('roles'));
+        return view('admin.roles.index', compact('roles'));
     }
 
     /**
@@ -42,9 +42,10 @@ class RoleController extends Controller
      */
     public function create()
     {
+        $role = new Role();
         $permissions = Permission::all();
 
-        return view('roles.create', compact('permissions'));
+        return view('admin.roles.create', compact('role', 'permissions'));
     }
 
     /**
@@ -79,8 +80,9 @@ class RoleController extends Controller
             $role = Role::where('name', '=', $name)->first(); 
             $role->givePermissionTo($p);
         }
+        
 
-        return redirect()->route('roles.index')->with('flash_message', 'Role'. $role->name.' added!'); 
+        return redirect()->route('admin.roles.index')->with('flash_message', 'Role'. $role->name.' added!'); 
     }
 
     /**
@@ -146,7 +148,7 @@ class RoleController extends Controller
             $role->givePermissionTo($p);  
         }
 
-        return redirect()->route('roles.index')->with('flash_message', 'Role'. $role->name.' updated!');
+        return redirect()->route('admin.roles.index')->with('flash_message', 'Role'. $role->name.' updated!');
     }
 
     /**
@@ -160,6 +162,6 @@ class RoleController extends Controller
         $role = Role::findOrFail($id);
         $role->delete();
 
-        return redirect()->route('roles.index')->with('flash_message', 'Role deleted!');
+        return redirect()->route('admin.roles.index')->with('flash_message', 'Role deleted!');
     }
 }

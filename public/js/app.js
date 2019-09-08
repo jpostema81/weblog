@@ -51806,7 +51806,11 @@ window.deteleMessage = function (messageId) {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       },
       success: function success(result) {
-        location.reload();
+        if (result.status === '0') {
+          alert(result.message);
+        } else {
+          location.reload();
+        }
       },
       error: function error(result) {
         alert('There was an error');
@@ -51818,13 +51822,17 @@ window.deteleMessage = function (messageId) {
 window.deteleCategory = function (categoryId) {
   if (confirm('Are you sure?')) {
     $.ajax({
-      url: '/categories/' + categoryId,
+      url: '/admin/categories/' + categoryId,
       type: 'DELETE',
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       },
       success: function success(result) {
-        location.reload();
+        if (result.status === '0') {
+          alert(result.message);
+        } else {
+          location.reload();
+        }
       },
       error: function error(result) {
         alert('There was an error');
@@ -51836,13 +51844,17 @@ window.deteleCategory = function (categoryId) {
 window.deteleRole = function (roleId) {
   if (confirm('Are you sure?')) {
     $.ajax({
-      url: '/roles/' + roleId,
+      url: '/admin/roles/' + roleId,
       type: 'DELETE',
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       },
       success: function success(result) {
-        location.reload();
+        if (result.status === '0') {
+          alert(result.message);
+        } else {
+          location.reload();
+        }
       },
       error: function error(result) {
         alert('There was an error');
@@ -51854,13 +51866,39 @@ window.deteleRole = function (roleId) {
 window.detelePermission = function (permissionId) {
   if (confirm('Are you sure?')) {
     $.ajax({
-      url: '/permissions/' + permissionId,
+      url: '/admin/permissions/' + permissionId,
       type: 'DELETE',
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       },
       success: function success(result) {
-        location.reload();
+        if (result.status === '0') {
+          alert(result.message);
+        } else {
+          location.reload();
+        }
+      },
+      error: function error(result) {
+        alert('There was an error');
+      }
+    });
+  }
+};
+
+window.deteleUser = function (userId) {
+  if (confirm('Are you sure?')) {
+    $.ajax({
+      url: '/admin/users/' + userId,
+      type: 'DELETE',
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      success: function success(result) {
+        if (result.status === '0') {
+          alert(result.message);
+        } else {
+          location.reload();
+        }
       },
       error: function error(result) {
         alert('There was an error');
@@ -52168,8 +52206,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/j.postema/code/laravel/weblog/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/j.postema/code/laravel/weblog/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/jeroenpostema/code/laravel/weblog/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/jeroenpostema/code/laravel/weblog/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

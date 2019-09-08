@@ -41,10 +41,12 @@ class PermissionController extends Controller
      */
     public function create()
     {
+        $permission = new Permission();
+
         // Get all roles
         $roles = Role::get();
 
-        return view('admin.permissions.create', compact('roles'));
+        return view('admin.permissions.create', compact('permission', 'roles'));
     }
 
     /**
@@ -106,7 +108,10 @@ class PermissionController extends Controller
     {
         $permission = Permission::findOrFail($id);
 
-        return view('admin.permissions.create', compact('permission'));
+        // Get all roles
+        $roles = Role::get();
+
+        return view('admin.permissions.create', compact('permission', 'roles'));
     }
 
     /**
@@ -127,7 +132,7 @@ class PermissionController extends Controller
         $input = $request->all();
         $permission->fill($input)->save();
 
-        return redirect()->route('permissions.index')->with('flash_message', 'Permission' . $permission->name . ' updated!');
+        return redirect()->route('admin.permissions.index')->with('flash_message', 'Permission' . $permission->name . ' updated!');
     }
 
     /**
@@ -136,17 +141,30 @@ class PermissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Permission $permission)
     {
-        $permission = Permission::findOrFail($id);
-
         // Make it impossible to delete this specific permission    
         if ($permission->name == "Administer roles & permissions") {
-            return redirect()->route('permissions.index')->with('flash_message', 'Cannot delete this Permission!');
+            $data = [
+                'status' => '0',
+                'message' => 'Can\'t delete this special permission'
+            ];
+        } else {
+            $result = $permission->delete();
+
+            if($result) {
+                $data = [
+                    'status' => '1',
+                    'message' => 'Success'
+                ];
+            } else {
+                $data = [
+                    'status' => '0',
+                    'message' => 'Fail'
+                ];
+            }
         }
-
-        $permission->delete();
-
-        return redirect()->route('permissions.index')->with('flash_message', 'Permission deleted!');
+        
+        return response()->json($data);
     }
 }

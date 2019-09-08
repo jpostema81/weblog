@@ -12,15 +12,14 @@
 @endsection
 
 @section('content')
-
-    @if(!$permission->id)
-        {{ Form::model($permission, ['route' => 'admin.permissions.store') }}
+    @if(is_null($permission->id))
+        {{ Form::model($permission, ['route' => 'admin.permissions.store']) }}
     @else
-        {{ Form::model($role, ['route' => ['admin.permissions.update', $permission->id], 'method' => 'PUT']) }}
+        {{ Form::model($permission, ['route' => ['admin.permissions.update', $permission->id], 'method' => 'PUT']) }}
     @endif
-å
+
     <div class="field">
-        {{ Form::label('name', 'Name', array('class' => 'label')) }}
+        {{ Form::label('name', 'Permission name', array('class' => 'label')) }}
         <div class="control">
             {{ Form::text('name', null, $attributes = $errors->has('name') ? array('class' => 'input is-primary is-danger') : array('class' => 'input is-primary')) }}
         </div>
@@ -31,13 +30,12 @@
 
     @if(!$roles->isEmpty()) {{-- If no roles exist yet --}}
         <div class="field">
-            {{ Form::label('roles', 'Assign roles', array('class' => 'label')) }}
+            {{ Form::label('roles', 'Assign roles to permission (optional)', array('class' => 'label')) }}
 
             <div class="control select is-multiple">
                 @foreach($roles as $role)
                     {{ Form::checkbox('roles[]',  $role->id ) }}
                     {{ Form::label($role->name, ucfirst($role->name)) }}<br>
-                    <!-- @if($message->categories->contains($category))selected="selected"@endif -->
                 @endforeach
             </div>
         </div>

@@ -16,6 +16,8 @@
 
             @yield('breadcrumbs')
 
+            @include('layouts.errors')
+
             @yield('content')
             
         </div>

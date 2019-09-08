@@ -48,6 +48,18 @@
                     <a href="{{ route('admin.messages.index') }}" class="navbar-item">{{ __('Messages') }}</a>
         
                     <a href="{{ route('categories.index') }}" class="navbar-item">{{ __('Categories') }}</a>
+
+                    @can('Administer roles & permissions')
+                        <hr class="navbar-divider">
+
+                        <a href="{{ route('admin.users.index') }}" class="navbar-item">{{ __('Users') }}</a>
+
+                        <a href="{{ route('admin.permissions.index') }}" class="navbar-item">{{ __('Permissions') }}</a>
+            
+                        <a href="{{ route('admin.roles.index') }}" class="navbar-item">{{ __('Roles') }}</a>
+
+                        <hr class="navbar-divider">
+                    @endcan
                     
                     <a class="navbar-item">
                         <a class="dropdown-item" href="{{ route('logout') }}"

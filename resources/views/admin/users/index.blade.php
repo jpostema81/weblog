@@ -15,8 +15,10 @@
 
 @section('content')
     <section>
-        <a href="{{ route('roles.index') }}" class="button is-primary">Roles</a>
-        <a href="{{ route('permissions.index') }}" class="button is-primary">Permissions</a></h1>
+        <a href="{{ route('admin.users.create') }}" class="button is-primary">Create new User</a>
+
+        <a href="{{ route('admin.roles.index') }}" class="button is-text is-pulled-right">Roles</a>
+        <a href="{{ route('admin.permissions.index') }}" class="button is-text is-pulled-right">Permissions</a></h1>
 
         <br><br>
         
@@ -25,7 +27,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Date/Time Added</th>
+                    <th>Date / Time Added</th>
                     <th>User Roles</th>
                     <th>Operations</th>
                 </tr>
@@ -39,19 +41,13 @@
                     <td>{{ Carbon\Carbon::parse($user->created_at)->format('d-m-Y H:i') }}</td>
                     <td>{{ $user->roles()->pluck('name')->implode(' ') }}</td> <!-- Retrieve array of roles associated to a user and convert to string -->
                     <td>
-                    <a href="{{ route('users.edit', $user->id) }}" class="button is-primary" style="margin-right: 3px;">Edit</a>
-
-                    {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id] ]) !!}
-                    {!! Form::submit('Delete', ['class' => 'button is-danger']) !!}
-                    {!! Form::close() !!}
-
+                        <a href="{{ route('admin.users.edit', $user->id) }}" class="button is-primary" style="margin-right: 3px;">Edit</a>
+                        <a onclick="deteleUser({{ $user->id }})" class="button is-danger" style="margin-right: 3px;">Delete</a>
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
-
-        <a href="{{ route('users.create') }}" class="button is-primary">Add User</a>
     </section>
 
 @endsection
