@@ -25,5 +25,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call(CategoryMessageSeeder::class);
         $this->command->info('Category messages pivot table seeded!');
+
+        $this->call(RolesAndPermissionsSeeder::class);
+        $this->command->info('Roles and permissions tables seeded!');
     }
 }

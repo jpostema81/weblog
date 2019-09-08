@@ -30,10 +30,10 @@
 
     {!! Form::open(['method' => 'DELETE', 'route' => ['messages.destroy', $message->id] ]) !!}
         @can('Edit Post')
-        <a href="{{ route('messages.edit', $message->id) }}" class="btn btn-info" role="button">Edit</a>
+            <a href="{{ route('messages.edit', $message->id) }}" class="btn btn-info" role="button">Edit</a>
         @endcan
         @can('Delete Post')
-        {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+            {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
         @endcan
     {!! Form::close() !!}
 
