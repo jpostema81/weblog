@@ -107,7 +107,7 @@ class RoleController extends Controller
         $role = Role::findOrFail($id);
         $permissions = Permission::all();
 
-        return view('roles.edit', compact('role', 'permissions'));
+        return view('admin.roles.create', compact('role', 'permissions'));
     }
 
     /**
@@ -160,8 +160,20 @@ class RoleController extends Controller
     public function destroy($id)
     {
         $role = Role::findOrFail($id);
-        $role->delete();
+        $result = $role->delete();
 
-        return redirect()->route('admin.roles.index')->with('flash_message', 'Role deleted!');
+        if($result) {
+            $data = [
+                'status' => '1',
+                'message' => 'Success'
+            ];
+        } else {
+            $data = [
+                'status' => '0',
+                'message' => 'Fail'
+            ];
+        }
+
+        return response()->json($data);
     }
 }

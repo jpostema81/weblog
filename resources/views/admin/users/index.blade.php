@@ -6,7 +6,7 @@
 
     <nav class="breadcrumb" aria-label="breadcrumbs">
         <ul>
-            <li><a href="{{ route('admin.users.index') }}">Home</a></li>
+            <li><a href="{{ route('messages.index') }}">Home</a></li>
             <li class="is-active"><a href="#" aria-current="page">Users Overview</a></li>
         </ul>
     </nav>

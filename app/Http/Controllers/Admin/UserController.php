@@ -40,9 +40,11 @@ class UserController extends Controller
      */
     public function create()
     {
+        $user = new User();
+
         //Get all roles and pass it to the view
         $roles = Role::get();
-        return view('admin.users.create')->compact('roles');
+        return view('admin.users.create', compact('user', 'roles'));
     }
 
     /**
@@ -118,7 +120,7 @@ class UserController extends Controller
         // Validate name, email and password fields    
         $this->validate($request, [
             'name' => 'required|max:120',
-            'email' => 'required|email|unique:users,email,' . $id,
+            'email' => 'required|email|unique:users,email,' . $user->id,
             'password' => 'required|min:6|confirmed'
         ]);
 
