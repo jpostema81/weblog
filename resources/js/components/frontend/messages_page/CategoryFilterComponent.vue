@@ -13,7 +13,7 @@
 <script>
     import { mapGetters } from 'vuex';
 
-    export default {
+    export const CategoryStore = {
         data () {
             return {
                 checkedCategories: [],
