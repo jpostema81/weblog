@@ -52193,7 +52193,7 @@ var MessageStore = {
         var url = '';
 
         if (rootState.CategoryStore.selectedCategories.length > 0) {
-          url = '/api/messages?categories=' + state.selectedCategories.join(',');
+          url = '/api/messages?categories=' + rootState.CategoryStore.selectedCategories.join(',');
         } else {
           url = '/api/messages';
         }
