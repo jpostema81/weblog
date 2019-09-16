@@ -40,7 +40,8 @@ class ClearanceMiddleware {
             if (!Auth::user()->hasPermissionTo('Edit Post')) 
             {
                 abort('401');
-            } else 
+            } 
+            else 
             {
                 return $next($request);
             }

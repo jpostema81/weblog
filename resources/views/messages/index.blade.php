@@ -11,7 +11,7 @@
         
         <div class="box"> 
             <div class="level">
-                <category-filter-component></category-filter-component>
+                <category-filter-component></category-filter-component> 
             </div>
         </div>
 

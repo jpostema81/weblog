@@ -13,7 +13,7 @@
 <script>
     import { mapGetters } from 'vuex';
 
-    export const CategoryStore = {
+    export default {
         data () {
             return {
                 checkedCategories: [],
@@ -22,7 +22,7 @@
         },
         mounted() {
             // pre-fetch categories from store
-            this.$store.dispatch('fetchCategories').then(response => {
+            this.$store.dispatch('CategoryStore/fetchCategories').then(response => {
                 // after all categories are fetched, check all category checkboxes (default to: show all messages for all categories)
             }, error => {
                 console.error("Vue(X) error: Got nothing from server")
@@ -31,9 +31,9 @@
         methods: {
             filterMessages() {
                 // update filter in store
-                this.$store.commit('setSelectedCategories', this.checkedCategories);
+                this.$store.commit('CategoryStore/setSelectedCategories', this.checkedCategories);
                 // update messages
-                this.$store.dispatch('fetchMessages');
+                this.$store.dispatch('CategoryStore/fetchMessages');
             },
             toggleSelectAllCategories() {
                 this.selectAllCategories = !this.selectAllCategories;
@@ -52,9 +52,9 @@
         },
         computed: {
             // mix the getters into computed with object spread operator
-            ...mapGetters([
-                'categories'    // map `this.categories` to `this.$store.getters.categories`
-            ])
+            ...mapGetters({
+                categories: 'CategoryStore/categories'    // map `this.categories` to `this.$store.getters.categories`
+            })
         }
     }
 </script>

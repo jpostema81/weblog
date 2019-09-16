@@ -8,7 +8,7 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
-import { store } from './store/store';     // by default, load index.js in the imported directory
+import store from './store/store';     // by default, load index.js in the imported directory
 
 
 /**

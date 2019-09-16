@@ -25,6 +25,9 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        // test ability (permission)
+        Gate::define('Edit Post Ability', function ($user, $post) {
+            return $user->id === $post->user_id;
+        });
     }
 }

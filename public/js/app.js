@@ -1833,12 +1833,11 @@ module.exports = {
 /*!*********************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/frontend/messages_page/CategoryFilterComponent.vue?vue&type=script&lang=js& ***!
   \*********************************************************************************************************************************************************************************************************/
-/*! exports provided: CategoryStore */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CategoryStore", function() { return CategoryStore; });
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -1859,7 +1858,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 
-var CategoryStore = {
+/* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       checkedCategories: [],
@@ -1868,7 +1867,7 @@ var CategoryStore = {
   },
   mounted: function mounted() {
     // pre-fetch categories from store
-    this.$store.dispatch('fetchCategories').then(function (response) {// after all categories are fetched, check all category checkboxes (default to: show all messages for all categories)
+    this.$store.dispatch('CategoryStore/fetchCategories').then(function (response) {// after all categories are fetched, check all category checkboxes (default to: show all messages for all categories)
     }, function (error) {
       console.error("Vue(X) error: Got nothing from server");
     });
@@ -1876,9 +1875,9 @@ var CategoryStore = {
   methods: {
     filterMessages: function filterMessages() {
       // update filter in store
-      this.$store.commit('setSelectedCategories', this.checkedCategories); // update messages
+      this.$store.commit('CategoryStore/setSelectedCategories', this.checkedCategories); // update messages
 
-      this.$store.dispatch('fetchMessages');
+      this.$store.dispatch('CategoryStore/fetchMessages');
     },
     toggleSelectAllCategories: function toggleSelectAllCategories() {
       this.selectAllCategories = !this.selectAllCategories;
@@ -1897,9 +1896,11 @@ var CategoryStore = {
     // })
 
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['categories' // map `this.categories` to `this.$store.getters.categories`
-  ]))
-};
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
+    categories: 'CategoryStore/categories' // map `this.categories` to `this.$store.getters.categories`
+
+  }))
+});
 
 /***/ }),
 
@@ -1959,7 +1960,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     // pre-fetch categories from store
-    this.$store.dispatch('fetchMessages');
+    this.$store.dispatch('CategoryStore/fetchMessages');
   },
   methods: {
     filterMessages: function filterMessages(event) {
@@ -1979,7 +1980,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return moment(date, 'YYYY-MM-DD HH:mm:ss').fromNow();
     })
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['messages']))
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
+    messages: 'CategoryStore/messages'
+  }))
 });
 
 /***/ }),
@@ -51786,7 +51789,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 window.onload = function () {
   var app = new Vue({
     el: '#app',
-    store: _store_store__WEBPACK_IMPORTED_MODULE_0__["store"],
+    store: _store_store__WEBPACK_IMPORTED_MODULE_0__["default"],
     data: {
       showNav: false
     },
@@ -51978,16 +51981,14 @@ if (token) {
 /*!************************************************************************************!*\
   !*** ./resources/js/components/frontend/messages_page/CategoryFilterComponent.vue ***!
   \************************************************************************************/
-/*! exports provided: default, CategoryStore */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CategoryFilterComponent_vue_vue_type_template_id_fc210770___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CategoryFilterComponent.vue?vue&type=template&id=fc210770& */ "./resources/js/components/frontend/messages_page/CategoryFilterComponent.vue?vue&type=template&id=fc210770&");
 /* harmony import */ var _CategoryFilterComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CategoryFilterComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/frontend/messages_page/CategoryFilterComponent.vue?vue&type=script&lang=js&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CategoryStore", function() { return _CategoryFilterComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["CategoryStore"]; });
-
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -52017,15 +52018,13 @@ component.options.__file = "resources/js/components/frontend/messages_page/Categ
 /*!*************************************************************************************************************!*\
   !*** ./resources/js/components/frontend/messages_page/CategoryFilterComponent.vue?vue&type=script&lang=js& ***!
   \*************************************************************************************************************/
-/*! exports provided: default, CategoryStore */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CategoryFilterComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./CategoryFilterComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/frontend/messages_page/CategoryFilterComponent.vue?vue&type=script&lang=js&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CategoryStore", function() { return _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CategoryFilterComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["CategoryStore"]; });
-
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CategoryFilterComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CategoryFilterComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
@@ -52173,7 +52172,7 @@ var CategoryStore = {
         }
 
         axios.get(url).then(function (messages) {
-          context.commit('setMessages', messages.data);
+          commit('setMessages', messages.data);
           resolve();
         }, function (error) {
           reject();
@@ -52182,16 +52181,10 @@ var CategoryStore = {
     }
   },
   getters: {
-    messages: function messages(_ref3) {
-      var state = _ref3.state,
-          commit = _ref3.commit,
-          rootState = _ref3.rootState;
+    messages: function messages(state, commit, rootState) {
       return state.messages;
     },
-    categories: function categories(_ref4) {
-      var state = _ref4.state,
-          commit = _ref4.commit,
-          rootState = _ref4.rootState;
+    categories: function categories(state, commit, rootState) {
       return state.categories;
     }
   }
@@ -52203,12 +52196,11 @@ var CategoryStore = {
 /*!*************************************!*\
   !*** ./resources/js/store/store.js ***!
   \*************************************/
-/*! exports provided: store */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
@@ -52217,11 +52209,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
-var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
+/* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   modules: {
     CategoryStore: _modules_CategoryStore_js__WEBPACK_IMPORTED_MODULE_2__["CategoryStore"]
   }
-});
+}));
 
 /***/ }),
 
@@ -52243,8 +52235,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/jeroenpostema/code/laravel/weblog/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/jeroenpostema/code/laravel/weblog/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/j.postema/code/laravel/weblog/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/j.postema/code/laravel/weblog/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

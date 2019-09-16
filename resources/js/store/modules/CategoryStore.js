@@ -1,4 +1,3 @@
-
 export const CategoryStore = {
     namespaced: true,
     state: {
@@ -44,7 +43,7 @@ export const CategoryStore = {
                 axios
                     .get(url)
                     .then(messages => {
-                        context.commit('setMessages', messages.data)
+                        commit('setMessages', messages.data)
                         resolve();
                     }, error => {
                         reject();
@@ -53,10 +52,10 @@ export const CategoryStore = {
         }
     },
     getters: {
-        messages: ({state, commit, rootState}) => {
+        messages: (state, commit, rootState) => {
             return state.messages;
         },
-        categories:  ({state, commit, rootState}) => {
+        categories:  (state, commit, rootState) => {
             return state.categories;
         }
     }
