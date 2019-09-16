@@ -1877,7 +1877,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       // update filter in store
       this.$store.commit('CategoryStore/setSelectedCategories', this.checkedCategories); // update messages
 
-      this.$store.dispatch('CategoryStore/fetchMessages');
+      this.$store.dispatch('MessageStore/fetchMessages');
     },
     toggleSelectAllCategories: function toggleSelectAllCategories() {
       this.selectAllCategories = !this.selectAllCategories;
@@ -1960,7 +1960,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     // pre-fetch categories from store
-    this.$store.dispatch('CategoryStore/fetchMessages');
+    this.$store.dispatch('MessageStore/fetchMessages');
   },
   methods: {
     filterMessages: function filterMessages(event) {
@@ -1981,7 +1981,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     })
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
-    messages: 'CategoryStore/messages'
+    messages: 'MessageStore/messages'
   }))
 });
 
@@ -52128,14 +52128,10 @@ __webpack_require__.r(__webpack_exports__);
 var CategoryStore = {
   namespaced: true,
   state: {
-    messages: [],
     categories: [],
     selectedCategories: []
   },
   mutations: {
-    setMessages: function setMessages(state, messages) {
-      state.messages = messages;
-    },
     setCategories: function setCategories(state, categories) {
       state.categories = categories;
     },
@@ -52157,15 +52153,46 @@ var CategoryStore = {
           reject();
         });
       });
-    },
-    fetchMessages: function fetchMessages(_ref2) {
-      var state = _ref2.state,
-          commit = _ref2.commit,
-          rootState = _ref2.rootState;
+    }
+  },
+  getters: {
+    categories: function categories(state, commit, rootState) {
+      return state.categories;
+    }
+  }
+};
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/MessageStore.js":
+/*!****************************************************!*\
+  !*** ./resources/js/store/modules/MessageStore.js ***!
+  \****************************************************/
+/*! exports provided: MessageStore */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MessageStore", function() { return MessageStore; });
+var MessageStore = {
+  namespaced: true,
+  state: {
+    messages: []
+  },
+  mutations: {
+    setMessages: function setMessages(state, messages) {
+      state.messages = messages;
+    }
+  },
+  actions: {
+    fetchMessages: function fetchMessages(_ref) {
+      var state = _ref.state,
+          commit = _ref.commit,
+          rootState = _ref.rootState;
       return new Promise(function (resolve, reject) {
         var url = '';
 
-        if (state.selectedCategories.length > 0) {
+        if (rootState.CategoryStore.selectedCategories.length > 0) {
           url = '/api/messages?categories=' + state.selectedCategories.join(',');
         } else {
           url = '/api/messages';
@@ -52183,9 +52210,6 @@ var CategoryStore = {
   getters: {
     messages: function messages(state, commit, rootState) {
       return state.messages;
-    },
-    categories: function categories(state, commit, rootState) {
-      return state.categories;
     }
   }
 };
@@ -52205,13 +52229,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _modules_CategoryStore_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/CategoryStore.js */ "./resources/js/store/modules/CategoryStore.js");
+/* harmony import */ var _modules_MessageStore_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/MessageStore.js */ "./resources/js/store/modules/MessageStore.js");
+
+ // import VueX modules
 
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   modules: {
-    CategoryStore: _modules_CategoryStore_js__WEBPACK_IMPORTED_MODULE_2__["CategoryStore"]
+    CategoryStore: _modules_CategoryStore_js__WEBPACK_IMPORTED_MODULE_2__["CategoryStore"],
+    MessageStore: _modules_MessageStore_js__WEBPACK_IMPORTED_MODULE_3__["MessageStore"]
   }
 }));
 

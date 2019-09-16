@@ -33,7 +33,7 @@
                 // update filter in store
                 this.$store.commit('CategoryStore/setSelectedCategories', this.checkedCategories);
                 // update messages
-                this.$store.dispatch('CategoryStore/fetchMessages');
+                this.$store.dispatch('MessageStore/fetchMessages');
             },
             toggleSelectAllCategories() {
                 this.selectAllCategories = !this.selectAllCategories;

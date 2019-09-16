@@ -40,7 +40,7 @@
     export default {
         mounted() {
             // pre-fetch categories from store
-            this.$store.dispatch('CategoryStore/fetchMessages');
+            this.$store.dispatch('MessageStore/fetchMessages');
         },
         methods: {
             filterMessages(event) {
@@ -53,7 +53,7 @@
         computed: {
             // mix the getters into computed with object spread operator
             ...mapGetters({
-                messages: 'CategoryStore/messages'
+                messages: 'MessageStore/messages'
             })
         }
     }
