@@ -17,3 +17,4 @@ en: https://docs.spatie.be/laravel-permission/v3/introduction/
 14. Spatie package is gebaseerd op Jeffrey Way's code: https://freek.dev/270-a-package-to-add-roles-and-permissions-to-laravel
 15. Git Best Practices: https://sethrobertson.github.io/GitBestPractices/
 16. verdieping VueX modules: https://scrimba.com/p/pnyzgAP/cqKK4psq
+17. Vuetify componenten toepassen in project: https://vuetifyjs.com
