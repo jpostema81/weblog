@@ -18,7 +18,9 @@
 
             @include('layouts.errors')
 
-            @yield('content')
+            {{-- @yield('content') --}}
+
+            <router-view />
             
         </div>
 

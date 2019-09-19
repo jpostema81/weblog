@@ -6,16 +6,20 @@
 
 @section('content')
 
+    <Layout></Layout>
+
     <section>
-        <br>
+        <!-- <br> -->
+
         
-        <div class="box"> 
+        
+        <!-- <div class="box"> 
             <div class="level">
                 <category-filter-component></category-filter-component> 
             </div>
         </div>
 
-        <messages-overview-component></messages-overview-component>
+        <messages-overview-component></messages-overview-component> -->
     </section>
     
 @endsection

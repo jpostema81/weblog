@@ -6,10 +6,10 @@
 
 require('./bootstrap');
 
-window.Vue = require('vue');
+// window.Vue = require('vue');
+import Vue from 'vue';
 
 import store from './store/store';     // by default, load index.js in the imported directory
-
 
 /**
  * The following block of code may be used to automatically register your
@@ -33,12 +33,14 @@ import store from './store/store';     // by default, load index.js in the impor
 import CategoryFilterComponent from './components/frontend/messages_page/CategoryFilterComponent';
 import MessagesOverviewComponent from './components/frontend/messages_page/MessagesOverviewComponent'
 
+import router from './routes';
 
- // wait until DOM is loaded before loading vue root element
+// wait until DOM is loaded before loading vue root element
 window.onload = function () {
     const app = new Vue({
         el: '#app',
-        store: store,
+        store,
+        router,
         data: {
             showNav: false
         },
