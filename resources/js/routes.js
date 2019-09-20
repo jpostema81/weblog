@@ -8,7 +8,7 @@ export default new VueRouter({
 		{   
 			path: '/',
             redirect: { name: 'home' },
-            component: Vue.component('Layout', require( './pages/Layout.vue').default),
+            component: Vue.component('Layout', require( './layouts/Layout.vue').default),
             children: [
                 {
                     path: 'home',

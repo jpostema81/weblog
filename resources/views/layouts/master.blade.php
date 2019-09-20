@@ -12,13 +12,13 @@
     <body>
         <div class="container" id="app">
 
-            @include('layouts.menu')
+            {{-- @include('layouts.menu')
 
             @yield('breadcrumbs')
 
             @include('layouts.errors')
 
-            {{-- @yield('content') --}}
+            @yield('content') --}}
 
             <router-view />
             

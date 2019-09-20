@@ -23,6 +23,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "bootstrap-vue": "^2.0.1",
         "bulma": "^0.7.5",
         "bulma-extensions": "^6.2.7",
         "font-awesome": "^4.7.0",

@@ -18,3 +18,4 @@ en: https://docs.spatie.be/laravel-permission/v3/introduction/
 15. Git Best Practices: https://sethrobertson.github.io/GitBestPractices/
 16. verdieping VueX modules: https://scrimba.com/p/pnyzgAP/cqKK4psq
 17. Vuetify componenten toepassen in project: https://vuetifyjs.com
+18. Building a Vue SPA with Laravel: https://laravel-news.com/using-vue-router-laravel

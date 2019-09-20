@@ -12,14 +12,6 @@
     </div>
 
     <div id="navbarBasicExample" class="navbar-menu" v-bind:class="{ 'is-active' : showNav }">
-        @auth
-        <!-- Admin links -->
-        <!-- <div class="navbar-start">
-            <a class="navbar-item" href="{{ route('admin.messages.index') }}">{{ __('Weblog') }}</a>
-            <a class="navbar-item" href="{{ route('admin.categories.index') }}">{{ __('Categories') }}</a>
-        </div> -->
-        @endauth
-
         <!-- Authentication Links -->
         @guest
         <div class="navbar-end">
