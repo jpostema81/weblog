@@ -23,11 +23,11 @@ window.onload = function () {
         el: '#app',
         store,
         router,
-        data: {
+        data: 
+        {
             showNav: false
         },
-        components: {
-        },
+        components: {},
     });
 }
 

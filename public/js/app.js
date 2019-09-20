@@ -67224,7 +67224,14 @@ var render = function() {
     [
       _c(
         "b-navbar",
-        { attrs: { toggleable: "lg", type: "dark", variant: "primary" } },
+        {
+          attrs: {
+            toggleable: "lg",
+            type: "dark",
+            variant: "primary",
+            id: "navigationBar"
+          }
+        },
         [
           _c("b-navbar-brand", { attrs: { href: "#" } }, [
             _vm._v(_vm._s(_vm.title))
