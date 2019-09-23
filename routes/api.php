@@ -17,6 +17,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('/login', 'Auth\Api\LoginController@login')->name('api.login');
+
+Route::resource('admin/categories', 'Admin\CategoriesController', [
+    'as' => 'admin'
+]);
+
 Route::get('/messages', 'MessagesController@getMessages')->name('api.messages');
 
 Route::get('/categories', 'CategoriesController@getCategories')->name('api.categories');

@@ -1951,7 +1951,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      username: '',
+      email: '',
       password: ''
     };
   },
@@ -1968,10 +1968,10 @@ __webpack_require__.r(__webpack_exports__);
     login: function login() {
       var _this = this;
 
-      var username = this.username,
+      var email = this.email,
           password = this.password;
-      this.$store.dispatch(AUTH_REQUEST, {
-        username: username,
+      this.$store.dispatch('AuthenticationStore/AUTH_REQUEST', {
+        email: email,
         password: password
       }).then(function () {
         _this.$router.push('/home');
@@ -67462,29 +67462,29 @@ var render = function() {
             }
           },
           [
-            _c("label", [_vm._v("User name")]),
+            _c("label", [_vm._v("Email address")]),
             _vm._v(" "),
             _c("input", {
               directives: [
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.username,
-                  expression: "username"
+                  value: _vm.email,
+                  expression: "email"
                 }
               ],
               attrs: {
                 required: "",
                 type: "text",
-                placeholder: "(Your username)"
+                placeholder: "(Your email address)"
               },
-              domProps: { value: _vm.username },
+              domProps: { value: _vm.email },
               on: {
                 input: function($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.username = $event.target.value
+                  _vm.email = $event.target.value
                 }
               }
             }),
@@ -84662,16 +84662,16 @@ var AuthenticationStore = {
         dispatch = _ref.dispatch;
     // The Promise used for router redirect in login
     return new Promise(function (resolve, reject) {
-      commit([_mutation_types__WEBPACK_IMPORTED_MODULE_0__["AUTH_REQUEST"]]); // Good practice: pass the login credentials in the request body, not in the URL. 
+      commit(_mutation_types__WEBPACK_IMPORTED_MODULE_0__["AUTH_REQUEST"]); // Good practice: pass the login credentials in the request body, not in the URL. 
       // The reason behind it is that servers might log URLs, so you don’t have to worry 
       // about credential leaks through logs.
 
       axios({
-        url: 'auth',
+        url: '/api/login',
         data: user,
         method: 'POST'
       }).then(function (resp) {
-        var token = resp.data.token; // store the token in localstorage
+        var token = resp.data.user.api_token; // store the token in localstorage
 
         localStorage.setItem('user-token', token); // set authorization token in default headers
 
