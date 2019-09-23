@@ -20,6 +20,7 @@ class UserTableSeeder extends Seeder
             'name' => 'Jeroen Postema',
             'email' => 'jeroen@script.nl',
             'password' => Hash::make('postema'),
+            'api_token' => Str::random(60),
             'created_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
 
@@ -27,6 +28,7 @@ class UserTableSeeder extends Seeder
             'name' => 'Harry Prins',
             'email' => 'harry@script.nl',
             'password' => Hash::make('prins'),
+            'api_token' => Str::random(60),
             'created_at' => Carbon::now()->subDays(1)->format('Y-m-d H:i:s')
         ]);
 
@@ -34,6 +36,7 @@ class UserTableSeeder extends Seeder
             'name' => 'Marieke Post',
             'email' => 'marieke@script.nl',
             'password' => Hash::make('post'),
+            'api_token' => Str::random(60),
             'created_at' => Carbon::now()->subDays(2)->format('Y-m-d H:i:s')
         ]);
     }

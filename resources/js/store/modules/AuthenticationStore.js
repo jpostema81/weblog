@@ -36,11 +36,11 @@ export const AuthenticationStore =
             // The Promise used for router redirect in login
             return new Promise((resolve, reject) => 
             { 
-                commit([AUTH_REQUEST]);
+                commit(AUTH_REQUEST);
                 // Good practice: pass the login credentials in the request body, not in the URL. 
                 // The reason behind it is that servers might log URLs, so you don’t have to worry 
                 // about credential leaks through logs.
-                axios({ url: 'auth', data: user, method: 'POST' })
+                axios({ url: 'login', data: user, method: 'POST' })
                     .then(resp => 
                         {
                             const token = resp.data.token;

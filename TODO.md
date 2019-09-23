@@ -20,3 +20,6 @@ en: https://docs.spatie.be/laravel-permission/v3/introduction/
 17. Vuetify componenten toepassen in project: https://vuetifyjs.com
 18. Building a Vue SPA with Laravel: https://laravel-news.com/using-vue-router-laravel
 19. DIY authorisatie (ipv Spatie package): https://laravel-news.com/authorization-gates
+20. API token hasing toevoegen: https://laravel.com/docs/5.8/api-authentication
+21. Vue token based authentication: https://blog.sqreen.com/authentication-best-practices-vue/
+22. JWT tokens gaan implementeren

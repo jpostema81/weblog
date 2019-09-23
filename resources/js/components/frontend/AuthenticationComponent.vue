@@ -6,8 +6,8 @@
             <form class="login" @submit.prevent="login">
                 <!-- <h1>Sign in</h1> -->
 
-                <label>User name</label>
-                <input required v-model="username" type="text" placeholder="(Your username)"/>
+                <label>Email address</label>
+                <input required v-model="email" type="text" placeholder="(Your email address)"/>
 
                 <label>Password</label>
                 <input required v-model="password" type="password" placeholder="(Your password)"/>
@@ -25,7 +25,7 @@
     {
         data() {
             return {
-                username: '',
+                email: '',
                 password: ''
             }
         },
@@ -42,19 +42,19 @@
         },
         methods: 
         {
-            login: function() 
+            login() 
             {
-                const { username, password } = this;
+                const { email, password } = this;
 
-                this.$store.dispatch(AUTH_REQUEST, { username, password }).then(() => 
+                this.$store.dispatch('AuthenticationStore/AUTH_REQUEST', { email, password }).then(() => 
                 {
-                    this.$router.push('/home');
+                    this.$router.push('/about');
                 });
             },
-            logout: function() 
+            logout() 
             {
                 // evt. ook DELETE request toevoegen om user token session te deleten bij uitloggen
-                this.$store.dispatch(AUTH_LOGOUT)
+                this.$store.dispatch('AuthenticationStore/AUTH_LOGOUT')
                     .then(() => 
                         {
                             this.$router.push('/home');

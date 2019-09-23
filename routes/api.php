@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 
+// test onderstaande route door een GET request te doen naar:
+// http://localhost:8000/api/user?api_token=<token>
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
