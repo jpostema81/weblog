@@ -16,7 +16,7 @@
     export default 
     {
         components: {
-          NavigationComponent
+            NavigationComponent
         },
         created() {
             // dispatch data from store

@@ -52,4 +52,18 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Message', 'author_id');
     }
+
+    /**
+     * Roll API Key
+     */
+    public function rollApiKey()
+    {
+        do
+        {
+            $this->api_token = str_random(60);
+        } 
+        while($this->where('api_token', $this->api_token)->exists());
+
+        $this->save();
+    }
 }
