@@ -26,5 +26,6 @@ en: https://docs.spatie.be/laravel-permission/v3/introduction/
 
 
 ## Reminders:
+
 1. MVC Best Practices: https://www.yiiframework.com/doc/guide/1.1/en/basics.best-practices
 2. Simple JSON Web Token Guard for Laravel APIs: https://pineco.de/simple-json-web-token-guard-for-laravel-apis/
