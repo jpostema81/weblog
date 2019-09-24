@@ -40,11 +40,7 @@ export const AuthenticationStore =
                 // Good practice: pass the login credentials in the request body, not in the URL. 
                 // The reason behind it is that servers might log URLs, so you don’t have to worry 
                 // about credential leaks through logs.
-<<<<<<< HEAD
-                axios({ url: 'login', data: user, method: 'POST' })
-=======
                 axios({ url: '/api/login', data: user, method: 'POST' })
->>>>>>> 131f2384f4ea71ac7b8002cf602b0e70249a787a
                     .then(resp => 
                         {
                             const token = resp.data.user.api_token;
