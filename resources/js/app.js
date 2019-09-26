@@ -27,7 +27,8 @@ window.onload = function () {
         {
             showNav: false
         },
-        components: {},
+        components: {
+        },
     });
 }
 

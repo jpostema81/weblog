@@ -43,7 +43,7 @@ export const AuthenticationStore =
                 axios({ url: '/api/login', data: user, method: 'POST' })
                     .then(resp => 
                         {
-                            const token = resp.data.user.api_token;
+                            const token = resp.data.access_token;
                             // store the token in localstorage
                             localStorage.setItem('user-token', token);  
                             // set authorization token in default headers

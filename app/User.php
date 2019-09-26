@@ -6,9 +6,10 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+
+class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
     use HasRoles;
@@ -43,27 +44,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function setPasswordAttribute($password)
-    {   
-        $this->attributes['password'] = Hash::make($password);
-    }
-
     public function messages()
     {
         return $this->hasMany('App\Message', 'author_id');
     }
 
-    /**
-     * Roll API Key
-     */
-    public function rollApiKey()
+    public function getJWTIdentifier()
     {
-        do
-        {
-            $this->api_token = str_random(60);
-        } 
-        while($this->where('api_token', $this->api_token)->exists());
-
-        $this->save();
+        return $this->getKey();
     }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }    
 }

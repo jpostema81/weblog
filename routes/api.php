@@ -19,13 +19,44 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/login', 'Auth\Api\LoginController@login')->name('api.login');
+Route::group(['middleware' => ['jwt.verify']], function() 
+{
+    Route::post('/test_jwt', function() {
+        echo "you are authorized!";
+    })->name('api.register');
 
-Route::resource('admin/categories', 'Admin\CategoriesController', [
-    'as' => 'admin'
-]);
+    Route::resource('admin/users', 'Admin\UserController', [
+        'as' => 'admin'
+    ]);
+    
+    Route::resource('admin/roles', 'Admin\RoleController', [
+        'as' => 'admin'
+    ]);
+    
+    Route::resource('admin/permissions', 'Admin\PermissionController', [
+        'as' => 'admin'
+    ]);
+
+    Route::resource('admin/categories', 'Admin\CategoriesController', [
+        'as' => 'admin'
+    ]);
+    
+    Route::resource('admin/messages', 'Admin\MessagesController', [
+        'as' => 'admin'
+    ]);
+});
+
+// Authentication routes
+Route::post('/register', 'Auth\Api\AuthController@register')->name('api.register');
+
+Route::post('/login', 'Auth\Api\AuthController@login')->name('api.login');
+
+Route::post('/logout', 'Auth\Api\AuthController@logout')->name('api.logout');
+//
 
 Route::get('/messages', 'MessagesController@getMessages')->name('api.messages');
 
 Route::get('/categories', 'CategoriesController@getCategories')->name('api.categories');
+
+Route::post('comments/{message}', 'MessagesController@storeComment')->name('comments.store');
 
