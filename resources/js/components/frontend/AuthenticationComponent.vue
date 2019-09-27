@@ -35,7 +35,7 @@
             // so API calls are authenticated again
             const token = localStorage.getItem('user-token');
 
-            if(token) 
+            if(token)
             {
                 // first validate if local token is still valid
                 this.$store.dispatch('AuthenticationStore/AUTH_CHECK_TOKEN_VALID').then(function(data) 
@@ -48,7 +48,7 @@
                     else 
                     {
                         // token is invalid, delete token from store
-                        this.$store.dispatch('AuthenticationStore/AUTH_LOGOUT');
+                        //this.$store.dispatch('AuthenticationStore/AUTH_LOGOUT');
                     }
                 });
             }
