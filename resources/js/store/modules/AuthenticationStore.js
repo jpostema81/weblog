@@ -44,7 +44,7 @@ export const AuthenticationStore =
             {
                 return new Promise((resolve, reject) => 
                 { 
-                    axios({ url: '/api/check_token_valid', data: state.token, method: 'POST' })
+                    axios({ url: '/api/check_token_valid', data: {token: state.token}, method: 'POST' })
                         .then(resp => 
                             {
                                 resolve(resp.data);
