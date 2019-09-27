@@ -1,4 +1,4 @@
-import { AUTH_REQUEST, AUTH_SUCCESS, AUTH_ERROR, AUTH_LOGOUT } from '../mutation_types';
+import { AUTH_REQUEST, AUTH_SUCCESS, AUTH_ERROR, AUTH_LOGOUT, AUTH_CHECK_TOKEN_VALID, SET_USER } from '../mutation_types';
 
 export const AuthenticationStore = 
 {
@@ -6,7 +6,8 @@ export const AuthenticationStore =
     state: 
     {
         token: localStorage.getItem('user-token') || '',
-        status: ''
+        status: '',
+        user: null,
     },
     mutations: 
     {
@@ -23,14 +24,39 @@ export const AuthenticationStore =
         {
             state.status = 'error';
         },
-        // [AUTH_LOGOUT]: (state) => 
-        // {
-        //     state.status = '';
-        //     state.token = '';
-        // }
+        [AUTH_LOGOUT]: (state) => 
+        {
+            state.status = '';
+            state.token = '';
+        },
+
+        [SET_USER]: (state, user) => 
+        {
+            state.user = user;
+        },
     },
     actions: 
     {
+        // this action checks (at page loading) if the available token is still valid / not expired (to show / hide login button)
+        [AUTH_CHECK_TOKEN_VALID]: ({state, commit, getters}) => 
+        {
+            if(getters.isAuthenticated) 
+            {
+                return new Promise((resolve, reject) => 
+                { 
+                    axios({ url: '/api/check_token_valid', data: state.token, method: 'POST' })
+                        .then(resp => 
+                            {
+                                resolve(resp.data);
+                            })
+                        .catch(err => 
+                            {
+                                commit(AUTH_ERROR, err);
+                                reject(err);
+                            });
+                });
+            }
+        },
         [AUTH_REQUEST]: ({commit, dispatch}, user) => 
         {
             // The Promise used for router redirect in login
@@ -80,11 +106,11 @@ export const AuthenticationStore =
     {
         isAuthenticated: (state) => 
         {
-            !!state.token;
+            return !!state.token;
         },
         authStatus: (state) => 
         {
-            state.status;
+            return state.status;
         }
     }
 }
