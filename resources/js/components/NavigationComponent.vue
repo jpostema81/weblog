@@ -33,8 +33,7 @@
                 <b-nav-item-dropdown v-if="userLoggedIn" right>
                     <!-- Using 'button-content' slot -->
                     <template v-slot:button-content>
-                        <em @click="toggleLoginModal">Login</em>
-                        <!-- <b-button v-b-modal.modal-1>Login / Logout</b-button> -->
+                        <em>Logout</em>
                     </template>
                     
                     <b-dropdown-item href="#">Profile</b-dropdown-item>
@@ -78,9 +77,6 @@
         methods: {
             doTest() {
                 axios({ url: '/api/user', method: 'GET' }).then(resp => { console.log(resp); })
-            },
-            toggleLoginModal() {
-
             },
             showLoginModal() {
                 this.$bvModal.show('loginModal');
