@@ -24,11 +24,11 @@ class RolesAndPermissionsSeeder extends Seeder
         DB::table('role_has_permissions')->delete();
 
         // create permissions
-        $adminPermission = Permission::create(['name' => 'Administer roles & permissions']);
+        $adminPermission = Permission::create(['guard_name' => 'api', 'name' => 'Administer roles & permissions']);
 
         // create roles
-        $userRole = Role::create(['name' => 'user']);
-        $adminRole = Role::create(['name' => 'admin']);   
+        $userRole = Role::create(['guard_name' => 'api', 'name' => 'user']);
+        $adminRole = Role::create(['guard_name' => 'api', 'name' => 'admin']);   
 
         // assing permissions to roles
         $adminRole->givePermissionTo($adminPermission);

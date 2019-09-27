@@ -17,6 +17,8 @@ class User extends Authenticatable implements JWTSubject
     // enable automatic timestamp update (created_at and update_at)
     public $timestamps = true;
 
+    protected $guard_name = 'api';
+
     /**
      * The attributes that are mass assignable.
      *
