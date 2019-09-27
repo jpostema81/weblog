@@ -2,6 +2,10 @@
 
 https://script.nl/opdrachten/8-weblog/
 
+# installatie:
+
+JWT:
+https://github.com/tymondesigns/jwt-auth/wiki/Installation
 
 ## used sources:
 
