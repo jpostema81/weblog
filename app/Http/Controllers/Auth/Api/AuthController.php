@@ -13,6 +13,34 @@ use App\User;
 
 class AuthController extends Controller
 {
+    public function checkTokenValid(Request $request) 
+    {
+        try 
+        {
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
+                
+                return response()->json(['status' => '0', 'message' => 'user_not_found'], 404);
+            }
+        } 
+        catch (TokenExpiredException $e) {
+    
+            return response()->json(['status' => '0', 'message' => 'token_expired'], $e->getStatusCode());
+    
+        } 
+        catch (TokenInvalidException $e) {
+    
+            return response()->json(['status' => '0', 'message' => 'token_invalid'], $e->getStatusCode());
+    
+        } 
+        catch (JWTException $e) {
+            return response()->json(['status' => '0', 'message' => 'token_invalid']);
+    
+        }
+    
+        // the token is valid and we have found the user via the sub claim
+        return response()->json(['status' => '1', 'message' => 'token_valid', 'user' => $user]);
+    }
+
     public function register(Request $request)
     {
         $credentials = $request->only('name', 'email', 'password', 'password_confirmation');
@@ -58,12 +86,12 @@ class AuthController extends Controller
             // attempt to verify the credentials and create a token for the user
             if(!$token = JWTAuth::attempt($credentials)) 
             {
-                return response()->json(['error' => 'invalid_credentials'], 400);
+                return response()->json(['status' => '0', 'message' => 'invalid_credentials'], 400);
             }
         } 
         catch (JWTException $e) 
         {
-            return response()->json(['error' => 'could_not_create_token'], 500);
+            return response()->json(['status' => '0', 'message' => 'could_not_create_token'], 500);
         }
 
         return $this->respondWithToken($token);
@@ -73,7 +101,7 @@ class AuthController extends Controller
     {
         auth()->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json(['status' => '1', 'message' => 'Successfully logged out']);
     }
 
     protected function respondWithToken($token)

@@ -28,14 +28,16 @@
                     <b-dropdown-item href="#">FA</b-dropdown-item>
                 </b-nav-item-dropdown> -->
 
-                <b-nav-item-dropdown right>
+                <b-nav-item v-if="!userLoggedIn" @click="showLoginModal" href="#">Log In</b-nav-item>
+
+                <b-nav-item-dropdown v-if="userLoggedIn" right>
                     <!-- Using 'button-content' slot -->
                     <template v-slot:button-content>
-                        <em>User</em>
+                        <em @click="toggleLoginModal">Login</em>
+                        <!-- <b-button v-b-modal.modal-1>Login / Logout</b-button> -->
                     </template>
                     
                     <b-dropdown-item href="#">Profile</b-dropdown-item>
-                    <b-dropdown-item href="#">Log in</b-dropdown-item>
                     <b-dropdown-item href="#">Log Out</b-dropdown-item>
                 </b-nav-item-dropdown>
             </b-navbar-nav>
@@ -76,6 +78,17 @@
         methods: {
             doTest() {
                 axios({ url: '/api/user', method: 'GET' }).then(resp => { console.log(resp); })
+            },
+            toggleLoginModal() {
+
+            },
+            showLoginModal() {
+                this.$bvModal.show('loginModal');
+            },
+        },
+        computed: {
+            userLoggedIn() {
+                return this.$store.getters['AuthenticationStore/isAuthenticated'] === true;
             }
         }
     }
