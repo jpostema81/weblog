@@ -28,7 +28,9 @@
                     <b-dropdown-item href="#">FA</b-dropdown-item>
                 </b-nav-item-dropdown> -->
 
-                <b-nav-item v-if="!userLoggedIn" @click="showLoginModal" href="#">Log In</b-nav-item>
+                <b-nav-item v-if="!userLoggedIn" to="/login">
+                    Login
+                </b-nav-item>
 
                 <b-nav-item-dropdown v-if="userLoggedIn" right>
                     <!-- Using 'button-content' slot -->
@@ -42,19 +44,12 @@
             </b-navbar-nav>
             </b-collapse>
         </b-navbar>
-
-        <authentication-component />
     </div>
 </template>
 
 <script>
-    import AuthenticationComponent from './frontend/AuthenticationComponent.vue';
-
     export default 
     {
-        components: {
-            AuthenticationComponent
-        },
         data() {
             return {
                 title: 'Jeroens Weblog',
@@ -77,9 +72,6 @@
         methods: {
             doTest() {
                 axios({ url: '/api/user', method: 'GET' }).then(resp => { console.log(resp); })
-            },
-            showLoginModal() {
-                this.$bvModal.show('loginModal');
             },
         },
         computed: {

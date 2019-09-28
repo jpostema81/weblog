@@ -21,7 +21,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['middleware' => ['jwt.verify']], function() 
 {
-    Route::post('/test_jwt', function() {
+    Route::post('/test_jwt', function() 
+    {
         echo "you are authorized!";
     })->name('api.register');
 
