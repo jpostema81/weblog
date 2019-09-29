@@ -54,7 +54,7 @@ Route::post('/login', 'Auth\Api\AuthController@login')->name('api.login');
 
 Route::post('/logout', 'Auth\Api\AuthController@logout')->name('api.logout');
 
-Route::post('/check_token_valid', 'Auth\Api\AuthController@checkTokenValid')->name('api.check_token_valid');
+Route::post('/get_user_by_token', 'Auth\Api\AuthController@getUserByToken')->name('api.get_user_by_token');
 //
 
 Route::get('/messages', 'MessagesController@getMessages')->name('api.messages');
