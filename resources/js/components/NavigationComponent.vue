@@ -39,7 +39,7 @@
                     </template>
                     
                     <b-dropdown-item href="#">Profile</b-dropdown-item>
-                    <b-dropdown-item href="#">Log Out</b-dropdown-item>
+                    <b-dropdown-item to="/login">Log Out</b-dropdown-item>
                 </b-nav-item-dropdown>
             </b-navbar-nav>
             </b-collapse>

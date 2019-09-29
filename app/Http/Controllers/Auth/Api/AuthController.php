@@ -13,7 +13,7 @@ use App\User;
 
 class AuthController extends Controller
 {
-    public function checkTokenValid(Request $request) 
+    public function getUserByToken(Request $request) 
     {
         try 
         {
@@ -24,12 +24,12 @@ class AuthController extends Controller
         } 
         catch (TokenExpiredException $e) {
     
-            return response()->json(['status' => '0', 'message' => 'token_expired'], $e->getStatusCode());
+            return response()->json(['status' => '0', 'message' => 'token_expired']);
     
         } 
         catch (TokenInvalidException $e) {
     
-            return response()->json(['status' => '0', 'message' => 'token_invalid'], $e->getStatusCode());
+            return response()->json(['status' => '0', 'message' => 'token_invalid']);
     
         } 
         catch (JWTException $e) {
@@ -97,6 +97,7 @@ class AuthController extends Controller
         return $this->respondWithToken($token);
     }
 
+    // is deze functie nog noodzakelijk?
     public function logout()
     {
         auth()->logout();
