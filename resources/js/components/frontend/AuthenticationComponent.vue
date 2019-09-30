@@ -48,7 +48,7 @@
                     else 
                     {
                         // token is invalid, delete token from store
-                        //this.$store.dispatch('AuthenticationStore/AUTH_LOGOUT');
+                        this.$store.dispatch('AuthenticationStore/AUTH_LOGOUT');
                     }
                 });
             }
