@@ -64,7 +64,7 @@ class AuthController extends Controller
 
         $token = JWTAuth::fromUser($user);
 
-        return $this->respondWithToken($token);
+        return $this->respondWithToken($token, $user);
     }
 
     public function login(Request $request)
@@ -94,7 +94,9 @@ class AuthController extends Controller
             return response()->json(['status' => '0', 'message' => 'could_not_create_token'], 500);
         }
 
-        return $this->respondWithToken($token);
+        $user = JWTAuth::user();
+
+        return $this->respondWithToken($token, $user);
     }
 
     // is deze functie nog noodzakelijk?
@@ -105,12 +107,13 @@ class AuthController extends Controller
         return response()->json(['status' => '1', 'message' => 'Successfully logged out']);
     }
 
-    protected function respondWithToken($token)
+    protected function respondWithToken($token, $user)
     {
         return response()->json([
             'access_token' => $token,
             'token_type'   => 'bearer',
-            'expires_in'   => auth()->factory()->getTTL() * 60
+            'expires_in'   => auth()->factory()->getTTL() * 60,
+            'user'         => $user,
         ]);
     }
 }

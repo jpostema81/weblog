@@ -1,4 +1,4 @@
-import { AUTH_REQUEST, AUTH_SUCCESS, AUTH_ERROR, AUTH_LOGOUT, SET_USER, USER_REQUEST } from '../mutation_types';
+import { AUTH_REQUEST, AUTH_SUCCESS, AUTH_ERROR, AUTH_LOGOUT, USER_REQUEST, AUTH_REGISTER } from '../mutation_types';
 
 export const AuthenticationStore = 
 {
@@ -37,7 +37,7 @@ export const AuthenticationStore =
     },
     actions: 
     {
-        // get user by token (token from login or local storage)
+        // get user object by JWT token (token from login or local storage)
         [USER_REQUEST]: ({commit, dispatch, state}) => 
         {
             return new Promise((resolve, reject) => 
@@ -45,7 +45,10 @@ export const AuthenticationStore =
                 axios({ url: '/api/get_user_by_token', data: {token: state.token}, method: 'POST' })
                     .then(resp => 
                         {
-                            commit(USER_REQUEST);
+                            const user = resp.user;
+
+                            commit(USER_REQUEST, user);
+                            
                             resolve(resp.data);
                         })
                     .catch(err => 
@@ -55,6 +58,7 @@ export const AuthenticationStore =
                         });
             });
         },
+        // authenticate a user
         [AUTH_REQUEST]: ({commit, dispatch}, user) => 
         {
             // The Promise used for router redirect in login
@@ -65,6 +69,54 @@ export const AuthenticationStore =
                 // The reason behind it is that servers might log URLs, so you don’t have to worry 
                 // about credential leaks through logs.
                 axios({ url: '/api/login', data: user, method: 'POST' })
+                    .then(resp => 
+                        {
+                            const token = resp.data.access_token;
+                            const user = resp.data.user;
+
+                            // store the token in localstorage
+                            localStorage.setItem('user-token', token);  
+                            // set authorization token in default headers
+                            axios.defaults.headers.common['Authorization'] = token;
+
+                            commit(AUTH_SUCCESS, token);
+                            
+                            // token received, set user
+                            commit(USER_REQUEST, user);
+
+                            resolve(resp);
+                        })
+                .catch(err => 
+                    {
+                        commit(AUTH_ERROR, err);
+                        // if the request fails, remove any possible user token if possible
+                        localStorage.removeItem('user-token');  
+                        reject(err);
+                    });
+            });
+        },
+        // logout a user
+        [AUTH_LOGOUT]: ({commit, dispatch}) => 
+        {
+            return new Promise((resolve, reject) => 
+            {
+                commit(AUTH_LOGOUT);
+                // clear your user's token from localstorage
+                localStorage.removeItem('user-token');
+                // unset authorization token in default headers
+                delete axios.defaults.headers.common['Authorization'];
+                // set authorization token in default headers
+                resolve();
+            });
+        },
+        // register a new user
+        [AUTH_REGISTER]: ({commit, dispatch}, user) => 
+        {
+            return new Promise((resolve, reject) => 
+            { 
+                commit(AUTH_REGISTER);
+
+                axios({ url: '/api/register', data: user, method: 'POST' })
                     .then(resp => 
                         {
                             const token = resp.data.access_token;
@@ -86,19 +138,6 @@ export const AuthenticationStore =
                     });
             });
         },
-        [AUTH_LOGOUT]: ({commit, dispatch}) => 
-        {
-            return new Promise((resolve, reject) => 
-            {
-                commit(AUTH_LOGOUT);
-                // clear your user's token from localstorage
-                localStorage.removeItem('user-token');
-                // unset authorization token in default headers
-                delete axios.defaults.headers.common['Authorization'];
-                // set authorization token in default headers
-                resolve();
-            });
-        }   
     },
     getters: 
     {
