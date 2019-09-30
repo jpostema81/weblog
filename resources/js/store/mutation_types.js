@@ -1,6 +1,13 @@
+// mutations
 export const AUTH_REQUEST = 'AUTH_REQUEST';
-export const USER_REQUEST = 'USER_REQUEST';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_ERROR = 'AUTH_ERROR';
-export const AUTH_LOGOUT = 'AUTH_LOGOUT';
-export const AUTH_REGISTER = 'AUTH_REGISTER';
+export const SET_USER = 'SET_USER';
+
+// actions
+export const AUTHENTICATE_BY_TOKEN = 'AUTHENTICATE_BY_TOKEN';
+export const AUTHENTICATE_BY_USER_CREDENTIALS = 'AUTHENTICATE_BY_USER_CREDENTIALS';
+export const REGISTER = 'REGISTER';
+
+// actions & mutations
+export const LOGOUT = 'LOGOUT';

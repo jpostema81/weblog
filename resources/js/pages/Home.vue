@@ -28,7 +28,7 @@
             if(token)
             {
                 // first validate if local token is still valid
-                this.$store.dispatch('AuthenticationStore/USER_REQUEST').then(data =>
+                this.$store.dispatch('AuthenticationStore/AUTHENTICATE_BY_TOKEN').then(data =>
                 {
                     if(data.status === '1') 
                     {
@@ -39,7 +39,7 @@
                     else 
                     {
                         // token is invalid, delete token from store
-                        this.$store.dispatch('AuthenticationStore/AUTH_LOGOUT');
+                        this.$store.dispatch('AuthenticationStore/LOGOUT');
                     }
                 });
             }
