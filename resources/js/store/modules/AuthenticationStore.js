@@ -1,4 +1,4 @@
-import { AUTH_REQUEST, AUTH_SUCCESS, AUTH_ERROR, AUTH_LOGOUT, AUTH_CHECK_TOKEN_VALID, SET_USER } from '../mutation_types';
+import { AUTH_REQUEST, AUTH_SUCCESS, AUTH_ERROR, AUTH_LOGOUT, SET_USER, USER_REQUEST } from '../mutation_types';
 
 export const AuthenticationStore = 
 {
@@ -7,7 +7,7 @@ export const AuthenticationStore =
     {
         token: localStorage.getItem('user-token') || '',
         status: '',
-        user: null,
+        user: '',
     },
     mutations: 
     {
@@ -28,34 +28,32 @@ export const AuthenticationStore =
         {
             state.status = '';
             state.token = '';
+            state.user = '';
         },
-
-        [SET_USER]: (state, user) => 
+        [USER_REQUEST]: (state, user) => 
         {
             state.user = user;
         },
     },
     actions: 
     {
-        // this action checks (at page loading) if the available token is still valid / not expired (to show / hide login button)
-        [AUTH_CHECK_TOKEN_VALID]: ({state, commit, getters}) => 
+        // get user by token (token from login or local storage)
+        [USER_REQUEST]: ({commit, dispatch, state}) => 
         {
-            if(getters.isAuthenticated) 
+            return new Promise((resolve, reject) => 
             {
-                return new Promise((resolve, reject) => 
-                { 
-                    axios({ url: '/api/check_token_valid', data: {token: state.token}, method: 'POST' })
-                        .then(resp => 
-                            {
-                                resolve(resp.data);
-                            })
-                        .catch(err => 
-                            {
-                                commit(AUTH_ERROR, err);
-                                reject(err);
-                            });
-                });
-            }
+                axios({ url: '/api/get_user_by_token', data: {token: state.token}, method: 'POST' })
+                    .then(resp => 
+                        {
+                            commit(USER_REQUEST);
+                            resolve(resp.data);
+                        })
+                    .catch(err => 
+                        {
+                            commit(AUTH_ERROR, err);
+                            reject(err);
+                        });
+            });
         },
         [AUTH_REQUEST]: ({commit, dispatch}, user) => 
         {
@@ -75,8 +73,8 @@ export const AuthenticationStore =
                             // set authorization token in default headers
                             axios.defaults.headers.common['Authorization'] = token;
                             commit(AUTH_SUCCESS, token);
-                            // token received, log in user
-                            //dispatch(USER_REQUEST); ???
+                            // token received, get user
+                            dispatch(USER_REQUEST);
                             resolve(resp);
                         })
                 .catch(err => 

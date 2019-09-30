@@ -15,7 +15,7 @@ Vue.use(BootstrapVue);
 
 import store from './store/store';     // by default, load index.js in the imported directory
 
-import router from './routes';
+import { router } from './routes';
 
 // wait until DOM is loaded before loading vue root element
 window.onload = function () {

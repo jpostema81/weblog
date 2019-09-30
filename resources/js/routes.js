@@ -3,7 +3,9 @@ import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
 
-export default new VueRouter({
+//import AuthenticationComponent from './frontend/AuthenticationComponent.vue';
+
+export const router = new VueRouter({
 	routes: [
 		{   
 			path: '/',
@@ -37,9 +39,14 @@ export default new VueRouter({
                     // ]
                 },
                 {
-                    path: 'about',
-                    name: 'about',
-                    component: Vue.component('About', require( './pages/About.vue').default)
+                    path: 'login',
+                    name: 'login',
+                    component: Vue.component('Login', require( './pages/Login.vue').default)
+                },
+                {
+                    path: 'register',
+                    name: 'register',
+                    component: Vue.component('Register', require( './pages/Register.vue').default)
                 }
                 // {
                 // 	path: 'cafes/:slug/edit',
@@ -54,4 +61,18 @@ export default new VueRouter({
         
         }
     ]
+});
+
+router.beforeEach((to, from, next) => 
+{
+    // redirect to login page if not logged in and trying to access a restricted page
+    const publicPages = ['/', '/login', '/register'];
+    const authRequired = !publicPages.includes(to.path);
+    const loggedIn = localStorage.getItem('user');
+  
+    if (authRequired && !loggedIn) {
+    //   return next('/login');
+    }
+  
+    next();
 });
