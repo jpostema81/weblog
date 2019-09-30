@@ -109,6 +109,10 @@ export const AuthenticationStore =
         authStatus: (state) => 
         {
             return state.status;
+        },
+        user: (state) =>
+        {
+            return state.user;
         }
     }
 }

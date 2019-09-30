@@ -35,7 +35,7 @@
                 <b-nav-item-dropdown v-if="userLoggedIn" right>
                     <!-- Using 'button-content' slot -->
                     <template v-slot:button-content>
-                        <em>Logout</em>
+                        <em>{{ user.name }}</em>
                     </template>
                     
                     <b-dropdown-item href="#">Profile</b-dropdown-item>
@@ -48,6 +48,8 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex'
+
     export default 
     {
         data() {
@@ -69,15 +71,11 @@
                 })
             })
         },
-        methods: {
-            doTest() {
-                axios({ url: '/api/user', method: 'GET' }).then(resp => { console.log(resp); })
-            },
-        },
         computed: {
-            userLoggedIn() {
-                return this.$store.getters['AuthenticationStore/isAuthenticated'] === true;
-            }
+            ...mapGetters({
+                userLoggedIn: 'AuthenticationStore/isAuthenticated',
+                user: 'AuthenticationStore/user',
+            }),
         }
     }
 </script>
