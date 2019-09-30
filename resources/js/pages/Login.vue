@@ -49,14 +49,14 @@
         methods: 
         {
             ...mapActions('AuthenticationStore', {
-                logout: 'AUTH_LOGOUT' 
+                logout: 'LOGOUT' 
             }),
             handleSubmit() 
             {
                 this.submitted = true;
                 const { email, password } = this;
 
-                this.$store.dispatch('AuthenticationStore/AUTH_REQUEST', { email, password }).then(() => 
+                this.$store.dispatch('AuthenticationStore/AUTHENTICATE_BY_USER_CREDENTIALS', { email, password }).then(() => 
                 {
                     this.$router.push('/home');
                 });
