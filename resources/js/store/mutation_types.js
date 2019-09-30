@@ -3,4 +3,4 @@ export const USER_REQUEST = 'USER_REQUEST';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const AUTH_LOGOUT = 'AUTH_LOGOUT';
-export const SET_USER = 'SET_USER';
+export const AUTH_REGISTER = 'AUTH_REGISTER';
