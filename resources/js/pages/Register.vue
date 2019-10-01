@@ -6,25 +6,25 @@
             <div class="form-group">
                 <label for="firstName">First Name</label>
                 <input type="text" v-model="user.firstName" required name="firstName" class="form-control" :class="{ 'is-invalid': submitted && errors.has('firstName') }" />
-                <div v-if="submitted && errors.has('firstName')" class="invalid-feedback">{{ errors.first('firstName') }}</div>
+                <!-- <div v-if="submitted && errors.has('firstName')" class="invalid-feedback">{{ errors.first('firstName') }}</div> -->
             </div>
 
             <div class="form-group">
                 <label for="lastName">Last Name</label>
                 <input type="text" v-model="user.lastName" required name="lastName" class="form-control" :class="{ 'is-invalid': submitted && errors.has('lastName') }" />
-                <div v-if="submitted && errors.has('lastName')" class="invalid-feedback">{{ errors.first('lastName') }}</div>
+                <!-- <div v-if="submitted && errors.has('lastName')" class="invalid-feedback">{{ errors.first('lastName') }}</div> -->
             </div>
 
             <div class="form-group">
                 <label for="username">Emailaddress</label>
                 <input type="text" v-model="user.email" required name="email" class="form-control" :class="{ 'is-invalid': submitted && errors.has('email') }" />
-                <div v-if="submitted && errors.has('email')" class="invalid-feedback">{{ errors.first('email') }}</div>
+                <!-- <div v-if="submitted && errors.has('email')" class="invalid-feedback">{{ errors.first('email') }}</div> -->
             </div>
 
             <div class="form-group">
                 <label htmlFor="password">Password</label>
                 <input type="password" v-model="user.password" required pattern=".{6,}" title="Please use at least 6 characters" name="password" class="form-control" :class="{ 'is-invalid': submitted && errors.has('password') }" />
-                <div v-if="submitted && errors.has('password')" class="invalid-feedback">{{ errors.first('password') }}</div>
+                <!-- <div v-if="submitted && errors.has('password')" class="invalid-feedback">{{ errors.first('password') }}</div> -->
             </div>
 
             <div class="form-group">

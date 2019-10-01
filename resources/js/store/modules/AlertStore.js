@@ -33,15 +33,15 @@ export const AlertStore =
    {
        [ALERT_SUCCESS]: ({commit}, message) => 
        {
-            commit([ALERT_SUCCESS], message);
+            commit(ALERT_SUCCESS, message);
        },
        [ALERT_ERROR]: ({commit}, message) => 
        {
-            commit([ALERT_ERROR], message);
+            commit(ALERT_ERROR, message);
        },
        [ALERT_CLEAR]: ({commit}) => 
        {
-            commit([ALERT_CLEAR]);
+            commit(ALERT_CLEAR);
        },
       
    },
