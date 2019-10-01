@@ -32,14 +32,12 @@
                 {
                     if(data.status === '1') 
                     {
-                        this.$store.commit('AuthenticationStore/USER_REQUEST', data.user);
-                        this.$store.commit('AuthenticationStore/AUTH_SUCCESS', token);
                         axios.defaults.headers.common['Authorization'] = token;
                     }
                     else 
                     {
                         // token is invalid, delete token from store
-                        this.$store.dispatch('AuthenticationStore/LOGOUT');
+                        this.$store.dispatch('AuthenticationStore/AUTH_LOGOUT');
                     }
                 });
             }
