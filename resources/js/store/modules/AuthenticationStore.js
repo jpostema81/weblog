@@ -1,5 +1,6 @@
 import { AUTH_REQUEST, AUTH_SUCCESS, AUTH_ERROR, LOGOUT, SET_USER, AUTHENTICATE_BY_TOKEN,
-     AUTHENTICATE_BY_USER_CREDENTIALS, REGISTER, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE } from '../mutation_types';
+     AUTHENTICATE_BY_USER_CREDENTIALS, REGISTER, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE,
+     ALERT_ERROR, ALERT_CLEAR, ALERT_SUCCESS } from '../mutation_types';
 
 export const AuthenticationStore = 
 {
@@ -45,11 +46,11 @@ export const AuthenticationStore =
         },
         [REGISTER_SUCCESS]: (state, user) =>
         {
-            state.registerStatus = '';
+            state.registerStatus = 'success';
         },
         [REGISTER_FAILURE]: (state, error) => 
         {
-            state.registerStatus = '';
+            state.registerStatus = 'error';
         }
     },
     actions: 
@@ -119,7 +120,7 @@ export const AuthenticationStore =
             });
         },
         // register a new user
-        [REGISTER]: ({commit, dispatch}, user) => 
+        [REGISTER]: ({commit, dispatch, context}, user) => 
         {
             commit(REGISTER_REQUEST, user);
 
@@ -127,20 +128,22 @@ export const AuthenticationStore =
             { 
                 axios({ url: '/api/register', data: user, method: 'POST' }).then(resp => 
                 {
-                    commit([REGISTER_SUCCESS], user);
+                    commit(REGISTER_SUCCESS, user);
                     router.push('/login');
 
                     // setTimeout(() => {
                     //     // display success message after route change completes
-                    //     dispatch('alert/success', 'Registration successful', { root: true });
+                    //     dispatch('alert/success', 'Registration successful');
                     // })
 
                     resolve(resp);
                 })
                 .catch(err => 
                 {
+                    const errors = Object.values(JSON.parse(err.response.data)).join(' ');
+
                     commit(REGISTER_FAILURE, err);
-                    //dispatch('alert/error', error, { root: true });
+                    dispatch('AlertStore/' + ALERT_ERROR, errors, { root: true });
                     reject(err);
                 });
             });
