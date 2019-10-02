@@ -28,7 +28,7 @@ class MessagesController extends Controller
 
         // return view('messages.index', ['messages' => $messages]);
 
-        return view('messages.index');
+        return view('index');
     }
 
     /**
