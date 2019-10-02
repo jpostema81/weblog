@@ -9,6 +9,7 @@ export const AuthenticationStore =
     {
         token: localStorage.getItem('user-token') || '',
         status: '',
+        errors: {},
         user: '',
     },
     mutations: 
@@ -16,21 +17,24 @@ export const AuthenticationStore =
         // authentication state
         [AUTH_REQUEST]: (state) => 
         {
-            state.authStatus = 'loading';
+            state.status = 'loading';
+            state.errors = {};
         },
         [AUTH_SUCCESS]: (state, token) => 
         {
-            state.authStatus = 'success';
+            state.status = 'success';
+            state.errors = {};
             state.token = token;
         },
-        [AUTH_ERROR]: (state) => 
+        [AUTH_ERROR]: (state, errors) => 
         {
-            state.authStatus = 'error';
+            state.status = 'error';
+            state.errors = errors;
         },
 
         [LOGOUT]: (state) => 
         {
-            state.authStatus = '';
+            state.status = '';
             state.token = '';
             state.user = '';
         },
@@ -42,15 +46,18 @@ export const AuthenticationStore =
         // registration state
         [REGISTER_REQUEST]: (state, user)  =>
         {
-            state.registerStatus = 'registering';
+            state.status = 'registering';
+            state.errors = {};
         },
         [REGISTER_SUCCESS]: (state, user) =>
         {
-            state.registerStatus = 'success';
+            state.status = 'success';
+            state.errors = {};
         },
-        [REGISTER_FAILURE]: (state, error) => 
+        [REGISTER_FAILURE]: (state, errors) => 
         {
-            state.registerStatus = 'error';
+            state.status = 'error';
+            state.errors = errors;
         }
     },
     actions: 
@@ -138,12 +145,36 @@ export const AuthenticationStore =
 
                     resolve(resp);
                 })
-                .catch(err => 
+                .catch(error => 
                 {
-                    const errors = Object.values(JSON.parse(err.response.data)).join(' ');
+                    dispatch('AlertStore/' + ALERT_ERROR, 'Something went wrong', { root: true });
 
-                    commit(REGISTER_FAILURE, err);
-                    dispatch('AlertStore/' + ALERT_ERROR, errors, { root: true });
+                    if (error.response) 
+                    {
+                        /*
+                         * The request was made and the server responded with a
+                         * status code that falls out of the range of 2xx
+                         */
+                        console.log(error.response.data);
+                        commit(REGISTER_FAILURE, JSON.parse(error.response.data));
+     
+                    } 
+                    else if (error.request) 
+                    {
+                        /*
+                         * The request was made but no response was received, `error.request`
+                         * is an instance of XMLHttpRequest in the browser and an instance
+                         * of http.ClientRequest in Node.js
+                         */
+                        console.log(error.request);
+                    } 
+                    else 
+                    {
+                        // Something happened in setting up the request and triggered an Error
+                        console.log('Error', error.message);
+                    }
+
+                    //const errors = Object.values(JSON.parse(err.response.data)).join(' ');
                     reject(err);
                 });
             });

@@ -6,16 +6,14 @@
 
 require('./bootstrap');
 
-// window.Vue = require('vue');
-import Vue from 'vue';
 
+import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
+import store from './store/store';     // by default, load index.js in the imported directory
+import router from './router/index';
 
 Vue.use(BootstrapVue);
 
-import store from './store/store';     // by default, load index.js in the imported directory
-
-import router from './router/index';
 
 // wait until DOM is loaded before loading vue root element
 window.onload = function () {
@@ -26,8 +24,6 @@ window.onload = function () {
         data: 
         {
             showNav: false
-        },
-        components: {
         },
     });
 }
