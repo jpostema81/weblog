@@ -2,6 +2,8 @@ import { AUTH_REQUEST, AUTH_SUCCESS, AUTH_ERROR, LOGOUT, SET_USER, AUTHENTICATE_
      AUTHENTICATE_BY_USER_CREDENTIALS, REGISTER, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE,
      ALERT_ERROR, ALERT_CLEAR, ALERT_SUCCESS } from '../mutation_types';
 
+import router from '../../router/index';
+
 export const AuthenticationStore = 
 {
     namespaced: true,
@@ -127,21 +129,19 @@ export const AuthenticationStore =
             });
         },
         // register a new user
-        [REGISTER]: ({commit, dispatch, context}, user) => 
-        {
+        [REGISTER]: function({commit, dispatch, context}, user) {
             commit(REGISTER_REQUEST, user);
 
-            return new Promise((resolve, reject) => 
-            { 
+            return new Promise((resolve, reject) => { 
                 axios({ url: '/api/register', data: user, method: 'POST' }).then(resp => 
                 {
                     commit(REGISTER_SUCCESS, user);
                     router.push('/login');
 
-                    // setTimeout(() => {
-                    //     // display success message after route change completes
-                    //     dispatch('alert/success', 'Registration successful');
-                    // })
+                    setTimeout(() => {
+                        // display success message after route change completes
+                        dispatch('AlertStore/' + ALERT_SUCCESS, 'Registration successful', { root: true });
+                    })
 
                     resolve(resp);
                 })
@@ -175,7 +175,7 @@ export const AuthenticationStore =
                     }
 
                     //const errors = Object.values(JSON.parse(err.response.data)).join(' ');
-                    reject(err);
+                    reject(error);
                 });
             });
         },
