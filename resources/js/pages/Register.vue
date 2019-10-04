@@ -6,33 +6,33 @@
             <div class="form-group">
                 <label for="firstName">First Name</label>
                 <input type="text" v-model="user.firstName" required name="firstName" class="form-control" :class="{ 'is-invalid': submitted && errors.hasOwnProperty('firstName') }" />
-                <div v-if="submitted && errors.hasOwnProperty('firstName')" class="invalid-feedback">{{ errors.firstName }}</div>
+                <div v-if="submitted && errors.hasOwnProperty('firstName')" class="invalid-feedback">{{ errors.firstName.join(' ') }}</div>
             </div>
 
             <div class="form-group">
                 <label for="lastName">Last Name</label>
                 <input type="text" v-model="user.lastName" required name="lastName" class="form-control" :class="{ 'is-invalid': submitted && errors.hasOwnProperty('lastName') }" />
-                <div v-if="submitted && errors.hasOwnProperty('lastName')" class="invalid-feedback">{{ errors.lastName }}</div>
+                <div v-if="submitted && errors.hasOwnProperty('lastName')" class="invalid-feedback">{{ errors.lastName.join(' ') }}</div>
             </div>
 
             <div class="form-group">
                 <label for="username">Emailaddress</label>
                 <input type="text" v-model="user.email" required name="email" class="form-control" :class="{ 'is-invalid': submitted && errors.hasOwnProperty('email') }" />
-                <div v-if="submitted && errors.hasOwnProperty('email')" class="invalid-feedback">{{ errors.email }}</div>
+                <div v-if="submitted && errors.hasOwnProperty('email')" class="invalid-feedback">{{ errors.email.join(' ') }}</div>
             </div>
 
             <div class="form-group">
                 <label htmlFor="password">Password</label>
                 <input type="password" v-model="user.password" required title="Please use at least 6 characters" name="password" class="form-control" 
                 :class="{ 'is-invalid': submitted && errors.hasOwnProperty('password') }" />
-                <div v-if="submitted && errors.hasOwnProperty('password')" class="invalid-feedback">{{ errors.password }}</div>
+                <div v-if="submitted && errors.hasOwnProperty('password')" class="invalid-feedback">{{ errors.password.join(' ') }}</div>
             </div>
 
             <div class="form-group">
                 <label htmlFor="password">Password confirmation</label>
                 <input type="password" v-model="user.password_confirmation" required title="Please use at least 6 characters" name="password_confirmation" class="form-control" 
                 :class="{ 'is-invalid': submitted && errors.hasOwnProperty('password') }" />
-                <div v-if="submitted && errors.hasOwnProperty('password')" class="invalid-feedback">{{ errors.password }}</div>
+                <div v-if="submitted && errors.hasOwnProperty('password')" class="invalid-feedback">{{ errors.password.join(' ') }}</div>
             </div>
 
             <div class="form-group">

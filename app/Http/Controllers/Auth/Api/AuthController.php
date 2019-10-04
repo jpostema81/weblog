@@ -17,28 +17,26 @@ class AuthController extends Controller
     {
         try 
         {
-            if (!$user = JWTAuth::parseToken()->authenticate()) {
-                
-                return response()->json(['status' => '0', 'message' => 'user_not_found'], 404);
+            if (!$user = JWTAuth::parseToken()->authenticate()) 
+            {
+                return response()->json(['status' => '0', 'message' => 'user not found'], 404);
             }
         } 
-        catch (TokenExpiredException $e) {
-    
-            return response()->json(['status' => '0', 'message' => 'token_expired']);
-    
+        catch (TokenExpiredException $e) 
+        {
+            return response()->json(['status' => '0', 'message' => 'token expired']);
         } 
-        catch (TokenInvalidException $e) {
-    
-            return response()->json(['status' => '0', 'message' => 'token_invalid']);
-    
+        catch (TokenInvalidException $e) 
+        {
+            return response()->json(['status' => '0', 'message' => 'token invalid']);
         } 
-        catch (JWTException $e) {
-            return response()->json(['status' => '0', 'message' => 'token_invalid']);
-    
+        catch (JWTException $e) 
+        {
+            return response()->json(['status' => '0', 'message' => 'There is a problem with your token']);
         }
     
         // the token is valid and we have found the user via the sub claim
-        return response()->json(['status' => '1', 'message' => 'token_valid', 'user' => $user]);
+        return response()->json(['status' => '1', 'message' => 'token valid', 'user' => $user]);
     }
 
     public function register(Request $request)
@@ -54,7 +52,7 @@ class AuthController extends Controller
 
         if($validator->fails())
         {
-            return response()->json($validator->errors()->toJson(), 422);
+            return response()->json($validator->errors(), 422);
         }
         
         $user = User::create([
@@ -75,12 +73,12 @@ class AuthController extends Controller
 
         $validator = Validator::make($credentials, [
             'email' => 'required|string|email',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:6|max:1',
         ]);
 
         if($validator->fails())
         {
-            return response()->json($validator->errors()->toJson(), 422);
+            return response()->json($validator->errors(), 422);
         }
 
         try 
@@ -88,12 +86,12 @@ class AuthController extends Controller
             // attempt to verify the credentials and create a token for the user
             if(!$token = JWTAuth::attempt($credentials)) 
             {
-                return response()->json(['status' => '0', 'message' => 'invalid_credentials'], 400);
+                return response()->json(['status' => '0', 'message' => 'invalid credentials'], 400);
             }
         } 
         catch (JWTException $e) 
         {
-            return response()->json(['status' => '0', 'message' => 'could_not_create_token'], 500);
+            return response()->json(['status' => '0', 'message' => 'could not create token'], 500);
         }
 
         $user = JWTAuth::user();
@@ -104,7 +102,14 @@ class AuthController extends Controller
     // is deze functie nog noodzakelijk?
     public function logout()
     {
-        auth()->logout();
+        try 
+        {
+            auth()->logout();
+        }
+        catch (JWTException $e) 
+        {
+            return response()->json(['status' => '0', 'message' => 'There is a problem with your token']);
+        }
 
         return response()->json(['status' => '1', 'message' => 'Successfully logged out']);
     }
