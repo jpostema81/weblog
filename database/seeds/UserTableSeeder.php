@@ -17,21 +17,24 @@ class UserTableSeeder extends Seeder
 
         // insert new default users
         DB::table('users')->insert([
-            'name' => 'Jeroen Postema',
+            'first_name' => 'Jeroen',
+            'last_name' => 'Postema',
             'email' => 'jeroen@script.nl',
             'password' => Hash::make('postemapostema'),
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
         DB::table('users')->insert([
-            'name' => 'Harry Prins',
+            'first_name' => 'Harry',
+            'last_name' => 'Prins',
             'email' => 'harry@script.nl',
             'password' => Hash::make('prinsprins'),
             'created_at' => Carbon::now()->subDays(1)->format('Y-m-d H:i:s'),
         ]);
 
         DB::table('users')->insert([
-            'name' => 'Marieke Post',
+            'first_name' => 'Marieke',
+            'last_name' => 'Post',
             'email' => 'marieke@script.nl',
             'password' => Hash::make('postpost'),
             'created_at' => Carbon::now()->subDays(2)->format('Y-m-d H:i:s'),
