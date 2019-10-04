@@ -1,6 +1,8 @@
 import { AUTH_REQUEST, AUTH_SUCCESS, AUTH_ERROR, LOGOUT, SET_USER, AUTHENTICATE_BY_TOKEN,
-     AUTHENTICATE_BY_USER_CREDENTIALS, REGISTER, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE,
+     AUTHENTICATE_BY_USER_CREDENTIALS, REGISTER, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_ERROR,
      ALERT_ERROR, ALERT_CLEAR, ALERT_SUCCESS } from '../mutation_types';
+
+import router from '../../router/index';
 
 export const AuthenticationStore = 
 {
@@ -54,7 +56,7 @@ export const AuthenticationStore =
             state.status = 'success';
             state.errors = {};
         },
-        [REGISTER_FAILURE]: (state, errors) => 
+        [REGISTER_ERROR]: (state, errors) => 
         {
             state.status = 'error';
             state.errors = errors;
@@ -82,7 +84,7 @@ export const AuthenticationStore =
             });
         },
         // authenticate by user login (email & password)
-        [AUTHENTICATE_BY_USER_CREDENTIALS]: ({commit}, user) => 
+        [AUTHENTICATE_BY_USER_CREDENTIALS]: ({commit, dispatch}, user) => 
         {
             return new Promise((resolve, reject) => 
             { 
@@ -103,12 +105,16 @@ export const AuthenticationStore =
 
                     resolve(resp);
                 })
-                .catch(err => 
+                .catch(error => 
                 {
-                    commit(AUTH_ERROR, err);
+                    dispatch('AlertStore/' + ALERT_ERROR, 'Something went wrong', { root: true });
+                    commit(AUTH_ERROR, JSON.parse(error.response.data));
+                    
                     // if the request fails, remove any possible user token if possible
-                    localStorage.removeItem('user-token');  
-                    reject(err);
+                    localStorage.removeItem('user-token');
+
+                    
+                    reject(error);
                 });
             });
         },
@@ -127,21 +133,19 @@ export const AuthenticationStore =
             });
         },
         // register a new user
-        [REGISTER]: ({commit, dispatch, context}, user) => 
-        {
+        [REGISTER]: function({commit, dispatch, context}, user) {
             commit(REGISTER_REQUEST, user);
 
-            return new Promise((resolve, reject) => 
-            { 
+            return new Promise((resolve, reject) => { 
                 axios({ url: '/api/register', data: user, method: 'POST' }).then(resp => 
                 {
                     commit(REGISTER_SUCCESS, user);
                     router.push('/login');
 
-                    // setTimeout(() => {
-                    //     // display success message after route change completes
-                    //     dispatch('alert/success', 'Registration successful');
-                    // })
+                    setTimeout(() => {
+                        // display success message after route change completes
+                        dispatch('AlertStore/' + ALERT_SUCCESS, 'Registration successful', { root: true });
+                    })
 
                     resolve(resp);
                 })
@@ -156,7 +160,7 @@ export const AuthenticationStore =
                          * status code that falls out of the range of 2xx
                          */
                         console.log(error.response.data);
-                        commit(REGISTER_FAILURE, JSON.parse(error.response.data));
+                        commit(REGISTER_ERROR, JSON.parse(error.response.data));
      
                     } 
                     else if (error.request) 
@@ -175,7 +179,7 @@ export const AuthenticationStore =
                     }
 
                     //const errors = Object.values(JSON.parse(err.response.data)).join(' ');
-                    reject(err);
+                    reject(error);
                 });
             });
         },
