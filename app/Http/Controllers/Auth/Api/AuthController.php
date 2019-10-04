@@ -45,7 +45,7 @@ class AuthController extends Controller
     {
         $credentials = $request->only('firstName', 'lastName', 'email', 'password', 'password_confirmation');
 
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make($credentials, [
             'firstName' => 'required|string|max:255',
             'lastName' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -54,7 +54,7 @@ class AuthController extends Controller
 
         if($validator->fails())
         {
-            return response()->json($validator->errors()->toJson(), 400);
+            return response()->json($validator->errors()->toJson(), 422);
         }
         
         $user = User::create([
@@ -80,7 +80,7 @@ class AuthController extends Controller
 
         if($validator->fails())
         {
-            return response()->json($validator->errors()->toJson(), 400);
+            return response()->json($validator->errors()->toJson(), 422);
         }
 
         try 

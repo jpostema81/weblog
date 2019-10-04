@@ -139,5 +139,3 @@ window.deteleUser = function(userId) {
         })
     }
 }
-
-
