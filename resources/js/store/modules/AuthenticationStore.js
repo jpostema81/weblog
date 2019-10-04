@@ -108,7 +108,7 @@ export const AuthenticationStore =
                 .catch(error => 
                 {
                     dispatch('AlertStore/' + ALERT_ERROR, 'Something went wrong', { root: true });
-                    commit(AUTH_ERROR, JSON.parse(error.response.data));
+                    commit(AUTH_ERROR, error.response.data);
                     
                     // if the request fails, remove any possible user token if possible
                     localStorage.removeItem('user-token');
@@ -160,7 +160,7 @@ export const AuthenticationStore =
                          * status code that falls out of the range of 2xx
                          */
                         console.log(error.response.data);
-                        commit(REGISTER_ERROR, JSON.parse(error.response.data));
+                        commit(REGISTER_ERROR, error.response.data);
      
                     } 
                     else if (error.request) 
@@ -178,7 +178,7 @@ export const AuthenticationStore =
                         console.log('Error', error.message);
                     }
 
-                    //const errors = Object.values(JSON.parse(err.response.data)).join(' ');
+                    //const errors = Object.values(err.response.data).join(' ');
                     reject(error);
                 });
             });

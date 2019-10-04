@@ -7,13 +7,13 @@
             <div class="form-group">
                 <label for="username">Email address</label>
                 <input type="text" v-model="email" required name="email" class="form-control" :class="{ 'is-invalid': submitted && errors.hasOwnProperty('email') }" />
-                <div v-if="submitted && errors.hasOwnProperty('email')" class="invalid-feedback">{{ errors.email }}</div>
+                <div v-if="submitted && errors.hasOwnProperty('email')" class="invalid-feedback">{{ errors.email.join(' ') }}</div>
             </div>
 
             <div class="form-group">
                 <label htmlFor="password">Password</label>
                 <input type="password" v-model="password" required name="password" class="form-control" :class="{ 'is-invalid': submitted && errors.hasOwnProperty('password') }" />
-                <div v-if="submitted && errors.hasOwnProperty('password')" class="invalid-feedback">{{ errors.password }}</div>
+                <div v-if="submitted && errors.hasOwnProperty('password')" class="invalid-feedback">{{ errors.password.join(' ') }}</div>
             </div>
 
             <div class="form-group">
