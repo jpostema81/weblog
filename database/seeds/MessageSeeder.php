@@ -13,13 +13,10 @@ class MessageSeeder extends Seeder
      */
     public function run()
     {
-        // delete all existing posts first
-        DB::table('messages')->delete();
-
         // get first user
         $user = \App\User::first();
 
-        // insert new posts
+        // insert new hard-coded seeder posts
         DB::table('messages')->insert([
             'title' => 'Eerste hardlooptraining',
             'content' => 'Gisteren deed ik mijn eerste looptraining na enkele weken rust. Het ging lekker.',

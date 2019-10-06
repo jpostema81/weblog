@@ -2,13 +2,13 @@ export const CategoryStore = {
     namespaced: true,
     state: {
         categories: [],
-        selectedCategories: [],
+        selectedCategories: []
     },
     mutations: { 
         setCategories(state, categories) {
             state.categories = categories;
         },
-        setSelectedCategories(state, selectedCategories) {
+        updateSelectedCategories(state, selectedCategories) {
             state.selectedCategories = selectedCategories;
         }
     },
@@ -25,11 +25,12 @@ export const CategoryStore = {
                         reject();
                     });
             });
-        }
+        },
     },
     getters: {
-        categories:  (state, commit, rootState) => {
-            return state.categories;
-        }
+        getSelectedCategoryIds: (state) => 
+        {
+            return state.selectedCategories.map(value => value.id);
+        },
     }
 }

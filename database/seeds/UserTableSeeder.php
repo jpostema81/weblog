@@ -39,5 +39,14 @@ class UserTableSeeder extends Seeder
             'password' => Hash::make('postpost'),
             'created_at' => Carbon::now()->subDays(2)->format('Y-m-d H:i:s'),
         ]);
+
+        // let the MessageFactory which uses the BlogArticleFaker custom Provider create a large amount of auto-generated blog messages
+        // and link it to the a blog user
+        foreach(App\User::all() as $blogUser)
+        {
+            $blogUser->messages()->createMany(
+                factory(App\Message::class, 50)->make()->toArray()
+            );
+        }
     }
 }

@@ -1,24 +1,19 @@
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+
 <template>
     <div class="field">
-        <span v-for="(category, key) in categories" v-bind:key="category.id">
-            <input class="is-checkradio" :id="'category_'+key" type="checkbox" name="categoryFilter[]" checked="checked" :value="category.id"
-                @change="filterMessages" v-model="checkedCategories">
-            <label :for="'category_'+key">{{ category.name }}</label>
-        </span>
-
-        <a class="button" @click="toggleSelectAllCategories">{{ selectAllCategories ? 'Clear' : 'Select all' }}</a>
+        <multiselect :value="selectedCategories" :options="categories" @input="updateSelectedCategories" placeholder="Filter posts by category" label="name" 
+            track-by="id" :multiple="true" :taggable="false"></multiselect>
     </div>
 </template>
 
 <script>
-    import { mapGetters } from 'vuex';
+    import { mapState } from 'vuex';
+    import Multiselect from 'vue-multiselect';
 
     export default {
-        data () {
-            return {
-                checkedCategories: [],
-                selectAllCategories: false
-            }
+        components: {
+            Multiselect
         },
         mounted() {
             // pre-fetch categories from store
@@ -29,32 +24,16 @@
             });
         },
         methods: {
-            filterMessages() {
-                // update filter in store
-                this.$store.commit('CategoryStore/setSelectedCategories', this.checkedCategories);
-                // update messages
+            updateSelectedCategories: function(selectedCategories) {
+                this.$store.commit('CategoryStore/updateSelectedCategories', selectedCategories);
                 this.$store.dispatch('MessageStore/fetchMessages');
-            },
-            toggleSelectAllCategories() {
-                this.selectAllCategories = !this.selectAllCategories;
-
-                if(this.selectAllCategories) {
-                    this.checkedCategories = this.categories.map(value => value.id);
-                } else {
-                    this.checkedCategories = [];  
-                }
-
-                this.filterMessages();
             }
-            // ...mapActions({
-            //     filterMessages: 'fetchMessages' // map `this.add()` to `this.$store.dispatch('increment')`
-            // })
         },
         computed: {
-            // mix the getters into computed with object spread operator
-            ...mapGetters({
-                categories: 'CategoryStore/categories'    // map `this.categories` to `this.$store.getters.categories`
+            ...mapState('CategoryStore', {
+                selectedCategories: state => state.selectedCategories,
+                categories: state => state.categories,
             })
-        }
+        },
     }
 </script>

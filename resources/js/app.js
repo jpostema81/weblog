@@ -11,8 +11,10 @@ import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
 import store from './store/store';     // by default, load index.js in the imported directory
 import router from './router/index';
+import Multiselect from 'vue-multiselect';
 
 Vue.use(BootstrapVue);
+Vue.component('Multiselect', Multiselect);
 
 
 // wait until DOM is loaded before loading vue root element

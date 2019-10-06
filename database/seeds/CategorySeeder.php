@@ -14,19 +14,26 @@ class CategorySeeder extends Seeder
         // delete all existing categories first
         DB::table('categories')->delete();
 
+        $categories = [];
+
         // insert new category
-        $message_id = DB::table('categories')->insertGetId([
+        array_push($categories, App\Category::create([
             'name' => 'sport'
-        ]);
+        ]));
 
-        // insert new category
-        $message_id = DB::table('categories')->insertGetId([
+        array_push($categories, App\Category::create([
             'name' => 'programmeren'
-        ]);
+        ]));
 
-        // insert new category
-        $message_id = DB::table('categories')->insertGetId([
+        array_push($categories, App\Category::create([
             'name' => 'muziek'
-        ]);
+        ]));
+
+        // attach categories to messages
+        foreach($categories as $category) 
+        {
+            $randomMessages = App\Message::all()->random(100);
+            $category->messages()->attach($randomMessages);
+        }
     }
 }
