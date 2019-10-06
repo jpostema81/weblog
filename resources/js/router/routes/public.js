@@ -12,6 +12,11 @@ const routes = [
         component: Vue.component('Login', require( '../../pages/Login.vue').default)
     },
     {
+        path: 'profile',
+        name: 'profile',
+        component: Vue.component('Profile', require( '../../pages/Profile.vue').default)
+    },
+    {
         path: 'register',
         name: 'register',
         component: Vue.component('Register', require( '../../pages/Register.vue').default)

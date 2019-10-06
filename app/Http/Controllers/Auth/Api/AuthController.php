@@ -73,7 +73,7 @@ class AuthController extends Controller
 
         $validator = Validator::make($credentials, [
             'email' => 'required|string|email',
-            'password' => 'required|string|min:6|max:1',
+            'password' => 'required|string|min:6',
         ]);
 
         if($validator->fails())
@@ -86,7 +86,7 @@ class AuthController extends Controller
             // attempt to verify the credentials and create a token for the user
             if(!$token = JWTAuth::attempt($credentials)) 
             {
-                return response()->json(['status' => '0', 'message' => 'invalid credentials'], 400);
+                return response()->json(['password' => ['invalid credentials']], 400);
             }
         } 
         catch (JWTException $e) 
