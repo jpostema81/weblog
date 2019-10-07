@@ -14,16 +14,6 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Return all categories.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getCategories()
-    {
         $categories = Category::select('id', 'name')->get();
 
         return response()->json($categories);

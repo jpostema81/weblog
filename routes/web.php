@@ -11,13 +11,6 @@
 |
 */
 
-Route::get('/', 'MessagesController@index')->name('home');
-
-// register a resourceful route to the controller:
-// Route::resource('messages', 'MessagesController');
-
-// Route::resource('categories', 'CategoriesController');
-
-// Auth::routes();
+Route::get('/', 'HomeController@index')->name('home');
 
 
