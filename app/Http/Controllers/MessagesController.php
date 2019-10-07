@@ -33,7 +33,7 @@ class MessagesController extends Controller
             });
         }
 
-        return response()->json($messages->get());
+        return response()->json($messages->paginate(10));
     }
 
     /**

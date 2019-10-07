@@ -13,28 +13,27 @@ export const MessageStore = {
     },
     actions: 
     {
-        fetchMessages({state, commit, rootState, rootGetters}) 
+        fetchMessages({state, commit, rootState, rootGetters}, pageNumber = 1) 
         {
             return new Promise((resolve, reject) => {
-                let url = '';
+                let url = '/api/messages';
+                let data = { pageNumber: pageNumber };
 
                 if(rootGetters['CategoryStore/getSelectedCategoryIds'].length > 0) 
                 {
-                    url = '/api/messages?categories='+rootGetters['CategoryStore/getSelectedCategoryIds'].join(',');
-                } 
-                else 
-                {
-                    url = '/api/messages';
+                    data.categories = rootGetters['CategoryStore/getSelectedCategoryIds'].join(',');
                 }
 
-                axios
-                    .get(url)
-                    .then(messages => {
-                        commit('setMessages', messages.data)
-                        resolve();
-                    }, error => {
-                        reject();
-                    })
+                axios({
+                    method: 'get',
+                    url: url,
+                    params: data,
+                  }).then(messages => {
+                    commit('setMessages', messages.data.data)
+                    resolve();
+                }, error => {
+                    reject();
+                });
             });   
         }
     },

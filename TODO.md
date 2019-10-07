@@ -33,3 +33,4 @@ en: https://docs.spatie.be/laravel-permission/v3/introduction/
 4. https://jasonwatmore.com/post/2018/07/14/vue-vuex-user-registration-and-login-tutorial-example
 5. API throttling: https://www.cloudways.com/blog/laravel-and-api-rate-limiting/
 6. Laravel & JWT: https://blog.pusher.com/laravel-jwt/
+7. paging: https://appdividend.com/2018/04/26/vue-pagination-tutorial-from-scratch/
