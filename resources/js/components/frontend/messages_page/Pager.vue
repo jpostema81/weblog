@@ -2,7 +2,8 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination">
             <li class="page-item"><a class="page-link" href="#" @click="previousPage">Previous</a></li>
-            <li class="page-item" v-for="pageNumber in pages.slice(page-1, page+5)" :key="pageNumber" @click="page = pageNumber">
+            <li :class="{'page-item':true, 'active':(pageNumber === page)}" v-for="pageNumber in pageBlock" :key="pageNumber" 
+                @click="updatePageNumber(pageNumber)">
                 <a class="page-link" href="#">{{ pageNumber }}</a>
             </li>
             <li class="page-item"><a class="page-link" href="#" @click="nextPage">Next</a></li>
@@ -25,6 +26,12 @@
             ...mapGetters({
                 messages: 'MessageStore/messages'
             }),
+            pageBlock() {
+                let from = this.page - 1;
+                let to = this.page + 5;
+
+                return this.pages.slice(from, to);
+            },
         },
         methods: {
             setPages() {
@@ -36,10 +43,16 @@
                 }
             },
             previousPage() {
-                this.page > 0 && this.page--;
+                this.page > 1 && this.page--;
+                this.$store.dispatch('MessageStore/fetchMessages', this.page);
             },
             nextPage() {
                 this.page < this.pages.length && this.page++;
+                this.$store.dispatch('MessageStore/fetchMessages', this.page);
+            },
+            updatePageNumber(pageNumber) {
+                this.page = pageNumber;
+                this.$store.dispatch('MessageStore/fetchMessages', this.page);
             }
         },
          watch: {

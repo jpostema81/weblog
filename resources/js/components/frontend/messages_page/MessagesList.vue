@@ -8,7 +8,7 @@
                             <a v-bind:href="'/messages/' + message.id">{{ message.title }}</a>
                         </p>
                         <div class="tags has-addons level-item">
-                            <span class="tag is-rounded is-info">@ {{ message.user.name }}</span>
+                            <span class="tag is-rounded is-info">@ {{ message.user.first_name }} {{ message.user.last_name }}</span>
 
                                 <span v-for="(category, categoryKey) in message.categories" v-bind:key="category.id" class="tag is-black">
                                     {{ category.name }}<span v-if="categoryKey != message.categories.length - 1">,</span>
