@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <div class="content article-body">
-                    {{ message.content }}
+                    {{ message.content.slice(0, 240) }}...
                     <div v-if="message.image">
                         <img v-bind:src="'/storage/' + message.image">
                     </div>
