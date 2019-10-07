@@ -4,21 +4,21 @@
 
 <template>
     <div>
-        <category-filter-component></category-filter-component>
+        <category-filter></category-filter>
 
-        <messages-overview-component></messages-overview-component>
+        <messages-list></messages-list>
     </div>
 </template>
 
 <script>
-    import CategoryFilterComponent from '../components/frontend/messages_page/CategoryFilterComponent';
-    import MessagesOverviewComponent from '../components/frontend/messages_page/MessagesOverviewComponent';
+    import CategoryFilter from '../components/frontend/messages_page/CategoryFilter';
+    import MessagesList from '../components/frontend/messages_page/MessagesList';
 
     export default 
     {
         components: {
-            CategoryFilterComponent,
-            MessagesOverviewComponent
+            CategoryFilter,
+            MessagesList
         },
         created() {
             // if there is an old token from a previous login, restore it (set axios default headers with token)

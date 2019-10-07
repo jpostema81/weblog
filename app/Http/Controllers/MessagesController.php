@@ -21,24 +21,9 @@ class MessagesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // get all blogposts (messages having no parent_id)
-        // $messages = Message::whereNull('parent_id')->with('user')->orderBy('created_ad', 'desc')->get();
-
-        // return view('messages.index', ['messages' => $messages]);
-
-        return view('index');
-    }
-
-    /**
-     * Return all messages.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getMessages(Request $request)
-    {
-        $messages = Message::whereNull('parent_id')->with('user')->with('categories')->orderBy('created_ad', 'desc');
+        $messages = Message::whereNull('parent_id')->with('user')->with('categories')->orderBy('created_at', 'desc');
 
         if($request->has('categories')) {
             $category_ids = explode(",", $request->get('categories'));
