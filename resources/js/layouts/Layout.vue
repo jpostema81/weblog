@@ -4,13 +4,13 @@
 
 <template>
     <div id="app-layout">
-      <navigation-component />
+      <navigation-component></navigation-component>
 
       <div v-if="alert.message" :class="`alert ${ alert.type }`">{{ alert.message }}</div>
 
-      <router-view />
+      <router-view></router-view>
 
-      <footer-component />
+      <footer-component></footer-component>
     </div>
 </template>
 
