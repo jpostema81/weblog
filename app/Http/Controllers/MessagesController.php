@@ -24,7 +24,7 @@ class MessagesController extends Controller
     public function index(Request $request)
     {
         $messages = Message::whereNull('parent_id')->with('user')->with('categories')->orderBy('created_at', 'desc');
-
+        
         if($request->has('categories')) {
             $category_ids = explode(",", $request->get('categories'));
             
@@ -32,6 +32,9 @@ class MessagesController extends Controller
                 $query->whereIn('categories.id', $category_ids);
             });
         }
+
+        $messagesResource = MessageResource::collection($messages);
+
 
         return response()->json($messages->get());
     }
