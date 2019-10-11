@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Message;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use App\Http\Resources\MessageResource;
 
 class MessagesController extends Controller
 {
@@ -24,7 +25,7 @@ class MessagesController extends Controller
     public function index(Request $request)
     {
         $messages = Message::whereNull('parent_id')->with('user')->with('categories')->orderBy('created_at', 'desc');
-
+        
         if($request->has('categories')) {
             $category_ids = explode(",", $request->get('categories'));
             
@@ -33,7 +34,11 @@ class MessagesController extends Controller
             });
         }
 
+<<<<<<< HEAD
         return response()->json($messages->paginate(10));
+=======
+        return MessageResource::collection($messages->paginate(10));
+>>>>>>> 66253cbcfc1c83845c37d83445d3100285946d0c
     }
 
     /**
