@@ -23,6 +23,8 @@ en: https://docs.spatie.be/laravel-permission/v3/introduction/
 21. Vue token based authentication: https://blog.sqreen.com/authentication-best-practices-vue/
 22. JWT tokens gaan implementeren
 23. Handling Authentication In Vue Using Vuex: https://scotch.io/tutorials/handling-authentication-in-vue-using-vuex
+24. Meer gebruik makan van Resources: https://medium.com/@dinotedesco/using-laravel-5-5-resources-to-create-your-own-json-api-formatted-api-2c6af5e4d0e8
+25: custom blade directives: https://scotch.io/tutorials/all-about-writing-custom-blade-directives
 
 
 ## Reminders:
