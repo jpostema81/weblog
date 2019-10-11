@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Message;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use App\Http\Resources\MessageResource;
 
 class MessagesController extends Controller
 {
@@ -33,10 +34,7 @@ class MessagesController extends Controller
             });
         }
 
-        $messagesResource = MessageResource::collection($messages);
-
-
-        return response()->json($messages->get());
+        return MessageResource::collection($messages->paginate(10));
     }
 
     /**

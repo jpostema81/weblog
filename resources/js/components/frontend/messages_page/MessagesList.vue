@@ -9,7 +9,7 @@
                         </p>
                         
                         <div>
-                            <span class="badge badge-pill badge-default">@ {{ message.user.first_name }}</span>
+                            <!-- <span class="badge badge-pill badge-default">@ {{ message.user }}</span> -->
 
                             <span v-for="(category, categoryKey) in message.categories" v-bind:key="category.id" class="tag is-black">
                                 {{ category.name }}<span v-if="categoryKey != message.categories.length - 1">,</span>

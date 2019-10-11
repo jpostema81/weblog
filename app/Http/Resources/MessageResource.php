@@ -3,8 +3,9 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\UserResource;
 
-class Message extends JsonResource
+class MessageResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,10 +19,19 @@ class Message extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'content' => $this->content,
-            'author' => UserResource($this->user),
+            'author' => new UserResource($this->user),
             'image' => $this->image,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
     }
+
+    // public function with($request)
+    // {
+    //     return [
+    //         'links' => [
+    //             'self' => route('home'),
+    //         ],
+    //     ];
+    // }
 }
