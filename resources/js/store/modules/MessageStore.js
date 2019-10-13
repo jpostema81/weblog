@@ -2,13 +2,18 @@ export const MessageStore = {
     namespaced: true,
     state: 
     {
-        messages: []
+        messages: [],
+        meta: [],
     },
     mutations: 
     {
         setMessages(state, messages) 
         {
             state.messages = messages;
+        },
+        setMeta(state, meta) 
+        {
+            state.meta = meta;
         }
     },
     actions: 
@@ -17,7 +22,7 @@ export const MessageStore = {
         {
             return new Promise((resolve, reject) => {
                 let url = '/api/messages';
-                let data = { pageNumber: pageNumber };
+                let data = { page: pageNumber };
 
                 if(rootGetters['CategoryStore/getSelectedCategoryIds'].length > 0) 
                 {
@@ -28,11 +33,13 @@ export const MessageStore = {
                     method: 'get',
                     url: url,
                     params: data,
-                  }).then(messages => {
-                    commit('setMessages', messages.data.data)
+                }).then(messages => {
+                    commit('setMessages', messages.data.data);
+                    commit('setMeta', messages.data.meta);
                     resolve();
-                }, error => {
-                    reject();
+                }).catch(function (error) {
+                    console.log(error);
+                    reject(error);
                 });
             });   
         }
@@ -41,6 +48,9 @@ export const MessageStore = {
     {
         messages: (state, commit, rootState) => {
             return state.messages;
+        },
+        meta: (state, commit, rootState) => {
+            return state.meta;
         }
     }
 }

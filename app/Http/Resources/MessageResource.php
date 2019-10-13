@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\CategoryResource;
 
 class MessageResource extends JsonResource
 {
@@ -20,6 +21,7 @@ class MessageResource extends JsonResource
             'title' => $this->title,
             'content' => $this->content,
             'author' => new UserResource($this->user),
+            'categories' => CategoryResource::collection($this->categories),
             'image' => $this->image,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

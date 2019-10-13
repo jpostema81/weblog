@@ -21,8 +21,10 @@ export const CategoryStore = {
                         commit('setCategories', categories.data);
                         //context.commit('setSelectedCategories', categories.data);
                         resolve();
-                    }, error => {
-                        reject();
+                    }).catch(function (error) {
+                        // handle error
+                        console.log(error);
+                        reject(error);
                     });
             });
         },

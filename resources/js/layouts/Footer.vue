@@ -4,7 +4,7 @@
 
 <template>
     <footer class="footer">
-        <div class="content has-text-centered">
+        <div class="p-3 text-center">
             <p>
             <strong>Jeroen's weblog</strong> by <a href="http://www.jeroenpostema.nl">Jeroen Postema</a>.
             </p>

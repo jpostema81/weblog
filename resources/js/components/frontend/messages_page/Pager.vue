@@ -2,7 +2,7 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination">
             <li class="page-item"><a class="page-link" href="#" @click="previousPage">Previous</a></li>
-            <li :class="{'page-item':true, 'active':(pageNumber === page)}" v-for="pageNumber in pageBlock" :key="pageNumber" 
+            <li :class="{'page-item':true, 'active':(pageNumber === currentPage)}" v-for="pageNumber in pageBlock" :key="pageNumber" 
                 @click="updatePageNumber(pageNumber)">
                 <a class="page-link" href="#">{{ pageNumber }}</a>
             </li>
@@ -17,42 +17,72 @@
     export default {
         data() {
             return {
-                page: 1,
-                perPage: 10,
-                pages: [],
+                currentPage: '',
+                perPage: '',
+                firstPage: 1,
+                lastPage: '',
+                nbPagesShow: 5,
             }
         },
         computed: {
             ...mapGetters({
-                messages: 'MessageStore/messages'
+                messages: 'MessageStore/messages',
+                meta: 'MessageStore/meta'
             }),
             pageBlock() {
-                let from = this.page - 1;
-                let to = this.page + 5;
+                let from = this.currentPage;
+                let to = this.currentPage + this.nbPagesShow;
+                let pages = [];
 
-                return this.pages.slice(from, to);
+                if(this.currentPage <= Math.ceil(this.nbPagesShow / 2))
+                {
+                    from = this.firstPage;
+                    to = this.nbPagesShow;
+                } else {
+                    if(this.currentPage > this.lastPage - Math.floor(this.nbPagesShow / 2))
+                    {
+                        from = this.lastPage - this.nbPagesShow + 1;
+                        to = this.lastPage;
+                    }
+                    else
+                    {
+                        let offset = Math.floor(this.nbPagesShow / 2);
+                        from = this.currentPage - offset;
+                        to = this.currentPage + offset;
+                    }
+                }
+
+                for(let i=from; i<to+1; i++)
+                {   
+                    pages.push(i);
+                }
+
+                return pages;
             },
         },
         methods: {
             setPages() {
-                let numberOfPages = Math.ceil(this.messages.length / this.perPage);
-
-                for (let index = 1; index <= numberOfPages; index++) 
-                {
-                    this.pages.push(index);
-                }
+                this.currentPage = this.meta.current_page; 
+                this.perPage = this.meta.per_page;
+                this.lastPage = this.meta.last_page;
             },
             previousPage() {
-                this.page > 1 && this.page--;
-                this.$store.dispatch('MessageStore/fetchMessages', this.page);
+                if(this.currentPage > 1)
+                {
+                    this.currentPage--;
+                    this.$store.dispatch('MessageStore/fetchMessages', this.currentPage);
+                }
             },
             nextPage() {
-                this.page < this.pages.length && this.page++;
-                this.$store.dispatch('MessageStore/fetchMessages', this.page);
+                if(this.currentPage < this.lastPage)
+                {
+                    this.currentPage++;
+                    this.$store.dispatch('MessageStore/fetchMessages', this.currentPage);
+                }
             },
             updatePageNumber(pageNumber) {
-                this.page = pageNumber;
-                this.$store.dispatch('MessageStore/fetchMessages', this.page);
+                this.currentPage = pageNumber;
+                this.$store.dispatch('MessageStore/fetchMessages', this.currentPage);
             }
         },
          watch: {
