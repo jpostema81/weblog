@@ -34,11 +34,7 @@ class MessagesController extends Controller
             });
         }
 
-<<<<<<< HEAD
-        return response()->json($messages->paginate(10));
-=======
         return MessageResource::collection($messages->paginate(10));
->>>>>>> 66253cbcfc1c83845c37d83445d3100285946d0c
     }
 
     /**

@@ -1,3 +1,11 @@
 #navigationBar {
     margin-bottom: 10px;
 }
+
+.page-item {
+    width: 42px;
+}
+
+.page-item:first-child, .page-item:last-child  {
+    width: 80px;
+}
