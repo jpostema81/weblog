@@ -3,7 +3,7 @@
 1. soft deletes
 2. authorization: gates & policies
 3. factories
-4. unit testing
+4. unit testing: https://www.guru99.com/test-case.html
 5. register.blade.php aanpassen van Bootstrap naar Bulma styling
 6. login en register views van Laravel form-builder voorzien
 7. responsive navbar styling fixen
@@ -22,7 +22,6 @@ en: https://docs.spatie.be/laravel-permission/v3/introduction/
 20. API token hasing toevoegen: https://laravel.com/docs/5.8/api-authentication
 21. Vue token based authentication: https://blog.sqreen.com/authentication-best-practices-vue/
 22. JWT tokens gaan implementeren
-23. Handling Authentication In Vue Using Vuex: https://scotch.io/tutorials/handling-authentication-in-vue-using-vuex
 24. Meer gebruik makan van Resources: https://medium.com/@dinotedesco/using-laravel-5-5-resources-to-create-your-own-json-api-formatted-api-2c6af5e4d0e8
 25: custom blade directives: https://scotch.io/tutorials/all-about-writing-custom-blade-directives
 
@@ -36,3 +35,5 @@ en: https://docs.spatie.be/laravel-permission/v3/introduction/
 5. API throttling: https://www.cloudways.com/blog/laravel-and-api-rate-limiting/
 6. Laravel & JWT: https://blog.pusher.com/laravel-jwt/
 7. paging: https://appdividend.com/2018/04/26/vue-pagination-tutorial-from-scratch/
+8. interceptors: https://gist.github.com/hfalucas/60cb40c62e2e13e6c797f4887e43c8f6
+9. https://gist.github.com/hfalucas/60cb40c62e2e13e6c797f4887e43c8f6
