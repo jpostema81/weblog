@@ -5,7 +5,7 @@
                 <div class="media">
                     <div class="media-body text-center">
                         <h5 class="card-title">
-                            <a v-bind:href="'/messages/' + message.id">{{ message.title }}</a>
+                            <router-link :to="{ name: 'blogpost', params: { blogPostID: message.id }}">{{ message.title }}</router-link>
                         </h5>
                         <div class="tags has-addons level-item">
                             <span class="tag is-rounded is-info">@ {{ message.author.full_name }}</span> |

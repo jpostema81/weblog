@@ -49,6 +49,9 @@ export const MessageStore = {
         messages: (state, commit, rootState) => {
             return state.messages;
         },
+        getMessageById: (state) => (id) => {
+            return state.messages.find(message => message.id === id);
+        },
         meta: (state, commit, rootState) => {
             return state.meta;
         }

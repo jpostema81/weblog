@@ -5,6 +5,7 @@
  */
 
 require('./bootstrap');
+require('./interceptors');
 
 
 import Vue from 'vue';

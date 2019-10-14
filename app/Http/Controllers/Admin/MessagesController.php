@@ -27,6 +27,7 @@ class MessagesController extends Controller
      */
     public function index()
     {
+        return "Test";
         $userId = Auth::user()->id;
         $messages = Message::orderBy('created_ad', 'desc')->where('author_id', $userId)->get();
 
