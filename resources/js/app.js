@@ -19,7 +19,8 @@ Vue.component('Multiselect', Multiselect);
 
 
 // wait until DOM is loaded before loading vue root element
-window.onload = function () {
+window.onload = function () 
+{
     const app = new Vue({
         el: '#app',
         store,
@@ -28,6 +29,17 @@ window.onload = function () {
         {
             showNav: false
         },
+        created() 
+        {
+            this.$store.dispatch('AuthenticationStore/AUTHENTICATE_BY_TOKEN').then(data =>
+            {
+                if(data.status !== '1') 
+                {
+                    // token is invalid, delete token from store so it doesn't get attached to the request headers by the axios interceptor
+                    this.$store.dispatch('AuthenticationStore/LOGOUT');
+                }
+            });
+        }
     });
 }
 

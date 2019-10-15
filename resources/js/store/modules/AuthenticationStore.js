@@ -96,9 +96,7 @@ export const AuthenticationStore =
                     const user = resp.data.user;
 
                     // store the token in localstorage
-                    localStorage.setItem('user-token', token);  
-                    // set authorization token in default headers
-                    axios.defaults.headers.common['Authorization'] = token;
+                    localStorage.setItem('user-token', token);
                     commit(AUTH_SUCCESS, token);
                     // token received, set user
                     commit(SET_USER, user);
@@ -126,9 +124,6 @@ export const AuthenticationStore =
                 commit(LOGOUT);
                 // clear your user's token from localstorage
                 localStorage.removeItem('user-token');
-                // unset authorization token in default headers
-                delete axios.defaults.headers.common['Authorization'];
-                // set authorization token in default headers
                 resolve();
             });
         },
