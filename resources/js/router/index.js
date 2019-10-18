@@ -1,8 +1,12 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-
+import store from '../store/store';  
 
 Vue.use(VueRouter);
+
+const publicRoutes = require('../router/routes/public').default;
+const privateRoutes = require('../router/routes/private').default;
+
 
 const router = new VueRouter({
 	routes: [
@@ -10,7 +14,7 @@ const router = new VueRouter({
 			path: '/',
             redirect: { name: 'home' },
             component: Vue.component('Layout', require( '../layouts/Layout.vue').default),
-            children: require('../router/routes/public').default
+            children: [...publicRoutes, ...privateRoutes],
         }
     ]
 });
@@ -19,13 +23,15 @@ router.beforeEach((to, from, next) =>
 {
     // redirect to login page if not logged in and trying to access a restricted page
     const authRequired = !to.matched.some(record => record.meta.public);
-    const loggedIn = localStorage.getItem('user');
+    const loggedIn = store.getters['AuthenticationStore/isAuthenticated'];
   
-    if (authRequired && !loggedIn) {
+    if(authRequired && !loggedIn) 
+    {
         return next('/login');
     }
   
     next();
 });
+
 
 export default router;
