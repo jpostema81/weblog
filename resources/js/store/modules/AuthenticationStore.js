@@ -1,5 +1,5 @@
 import { AUTH_REQUEST, AUTH_SUCCESS, AUTH_ERROR, LOGOUT, SET_USER, AUTHENTICATE_BY_TOKEN,
-     AUTHENTICATE_BY_USER_CREDENTIALS, REGISTER, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_ERROR,
+     LOGIN, REGISTER, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_ERROR,
      ALERT_ERROR, ALERT_CLEAR, ALERT_SUCCESS } from '../mutation_types';
 
 import router from '../../router/index';
@@ -9,7 +9,6 @@ export const AuthenticationStore =
     namespaced: true,
     state: 
     {
-        token: localStorage.getItem('user-token') || '',
         status: '',
         errors: {},
         user: '',
@@ -22,11 +21,10 @@ export const AuthenticationStore =
             state.status = 'loading';
             state.errors = {};
         },
-        [AUTH_SUCCESS]: (state, token) => 
+        [AUTH_SUCCESS]: (state) => 
         {
             state.status = 'success';
             state.errors = {};
-            state.token = token;
         },
         [AUTH_ERROR]: (state, errors) => 
         {
@@ -37,7 +35,6 @@ export const AuthenticationStore =
         [LOGOUT]: (state) => 
         {
             state.status = '';
-            state.token = '';
             state.user = '';
         },
         [SET_USER]: (state, user) => 
@@ -69,12 +66,12 @@ export const AuthenticationStore =
         {
             return new Promise((resolve, reject) => 
             {
-                axios({ url: '/api/get_user_by_token', data: {token: state.token}, method: 'POST' }).then(resp => 
+                axios({ url: '/api/get_user_by_token', method: 'POST' }).then(resp => 
                 {
-                    const user = resp.data.user;
-                    commit(AUTH_SUCCESS, state.token);
+                    const user = resp.data;
+                    commit(AUTH_SUCCESS);
                     commit(SET_USER, user);
-                    resolve(resp.data);
+                    resolve(resp);
                 })
                 .catch(err => 
                 {
@@ -84,7 +81,7 @@ export const AuthenticationStore =
             });
         },
         // authenticate by user login (email & password)
-        [AUTHENTICATE_BY_USER_CREDENTIALS]: ({commit, dispatch}, user) => 
+        [LOGIN]: ({commit, dispatch}, user) => 
         {
             return new Promise((resolve, reject) => 
             { 
@@ -97,7 +94,7 @@ export const AuthenticationStore =
 
                     // store the token in localstorage
                     localStorage.setItem('user-token', token);
-                    commit(AUTH_SUCCESS, token);
+                    commit(AUTH_SUCCESS);
                     // token received, set user
                     commit(SET_USER, user);
 
@@ -110,21 +107,34 @@ export const AuthenticationStore =
                     
                     // if the request fails, remove any possible user token if possible
                     localStorage.removeItem('user-token');
-
-                    
                     reject(error);
                 });
             });
         },
         // logout a user
-        [LOGOUT]: ({commit}) => 
+        [LOGOUT]: ({commit, dispatch}) => 
         {
             return new Promise((resolve, reject) => 
             {
                 commit(LOGOUT);
-                // clear your user's token from localstorage
-                localStorage.removeItem('user-token');
-                resolve();
+                
+                axios({ url: '/api/logout', method: 'POST' }).then(resp => 
+                {
+                    // clear your user's token from localstorage
+                    localStorage.removeItem('user-token');
+                    dispatch('AlertStore/' + ALERT_ERROR, 'You are logged out now!', { root: true });
+                    resolve(resp);
+                })
+                .catch(error => 
+                {
+                    dispatch('AlertStore/' + ALERT_ERROR, 'Something went wrong during logging out', { root: true });
+                    // clear your user's token from localstorage
+                    localStorage.removeItem('user-token');
+                    //commit(LOGOUT_ERROR, error.response.data);
+                    reject(error);
+                });
+
+                
             });
         },
         // register a new user
@@ -183,7 +193,7 @@ export const AuthenticationStore =
     {
         isAuthenticated: (state) => 
         {
-            return !!state.token;
+            return !!state.user;
         },
         authStatus: (state) => 
         {

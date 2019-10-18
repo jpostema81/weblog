@@ -6,37 +6,28 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use JWTAuth;
-use Tymon\JWTAuth\Exceptions\JWTException;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\UserResource;
 use App\User;
+
+// https://jwt-auth.readthedocs.io/en/docs/quick-start/
 
 
 class AuthController extends Controller
 {
-    public function getUserByToken(Request $request) 
+    public function __construct()
     {
-        try 
-        {
-            if (!$user = JWTAuth::parseToken()->authenticate()) 
-            {
-                return response()->json(['status' => '0', 'message' => 'user not found'], 404);
-            }
-        } 
-        catch (TokenExpiredException $e) 
-        {
-            return response()->json(['status' => '0', 'message' => 'token expired']);
-        } 
-        catch (TokenInvalidException $e) 
-        {
-            return response()->json(['status' => '0', 'message' => 'token invalid']);
-        } 
-        catch (JWTException $e) 
-        {
-            return response()->json(['status' => '0', 'message' => 'There is a problem with your token']);
-        }
-    
-        // the token is valid and we have found the user via the sub claim
-        return response()->json(['status' => '1', 'message' => 'token valid', 'user' => $user]);
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+    }
+
+    /**
+     * Get the authenticated User.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getUserByToken()
+    {
+        return response()->json(new UserResource($this->guard()->user()), 200);
     }
 
     public function register(Request $request)
@@ -62,7 +53,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->get('password')),
         ]);
 
-        $token = JWTAuth::fromUser($user);
+        $token = auth()->tokenById($user->id);
 
         return $this->respondWithToken($token, $user);
     }
@@ -81,37 +72,20 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        try 
+        if($token = $this->guard()->attempt($credentials)) 
         {
-            // attempt to verify the credentials and create a token for the user
-            if(!$token = JWTAuth::attempt($credentials)) 
-            {
-                return response()->json(['password' => ['invalid credentials']], 400);
-            }
-        } 
-        catch (JWTException $e) 
-        {
-            return response()->json(['status' => '0', 'message' => 'could not create token'], 500);
+            $user = $this->guard()->user();
+            return $this->respondWithToken($token, $user);
         }
 
-        $user = JWTAuth::user();
-
-        return $this->respondWithToken($token, $user);
+        return response()->json(['error' => 'Invalid Login Details'], 401);
     }
 
-    // is deze functie nog noodzakelijk?
     public function logout()
     {
-        try 
-        {
-            auth()->logout();
-        }
-        catch (JWTException $e) 
-        {
-            return response()->json(['status' => '0', 'message' => 'There is a problem with your token']);
-        }
+        $this->guard()->logout();
 
-        return response()->json(['status' => '1', 'message' => 'Successfully logged out']);
+        return response()->json(['message' => 'Successfully logged out']);
     }
 
     protected function respondWithToken($token, $user)
@@ -122,5 +96,15 @@ class AuthController extends Controller
             'expires_in'   => auth()->factory()->getTTL() * 60,
             'user'         => $user,
         ]);
+    }
+
+    /**
+     * Get the guard to be used during authentication.
+     *
+     * @return \Illuminate\Contracts\Auth\Guard
+     */
+    public function guard()
+    {
+        return Auth::guard('api');
     }
 }

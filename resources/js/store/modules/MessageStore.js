@@ -18,7 +18,24 @@ export const MessageStore = {
     },
     actions: 
     {
-        fetchMessages({state, commit, rootState, rootGetters}, pageNumber = 1) 
+        fetchMessage({state, commit, rootState, rootGetters}, messageId) 
+        {
+            return new Promise((resolve, reject) => {
+                let url = '/api/messages/' + messageId;
+
+                axios({
+                    method: 'get',
+                    url: url,
+                }).then(messages => {
+                    commit('setMessages', [messages.data.data]);
+                    commit('setMeta', messages.data.meta);
+                    resolve();
+                }).catch(function (error) {
+                    reject(error);
+                });
+            });   
+        },
+        fetchAllMessages({state, commit, rootState, rootGetters}, pageNumber = 1) 
         {
             return new Promise((resolve, reject) => {
                 let url = '/api/messages';
@@ -38,7 +55,6 @@ export const MessageStore = {
                     commit('setMeta', messages.data.meta);
                     resolve();
                 }).catch(function (error) {
-                    console.log(error);
                     reject(error);
                 });
             });   
@@ -48,9 +64,6 @@ export const MessageStore = {
     {
         messages: (state, commit, rootState) => {
             return state.messages;
-        },
-        getMessageById: (state) => (id) => {
-            return state.messages.find(message => message.id === id);
         },
         meta: (state, commit, rootState) => {
             return state.meta;

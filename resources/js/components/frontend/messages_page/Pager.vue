@@ -70,19 +70,19 @@
                 if(this.currentPage > 1)
                 {
                     this.currentPage--;
-                    this.$store.dispatch('MessageStore/fetchMessages', this.currentPage);
+                    this.$store.dispatch('MessageStore/fetchAllMessages', this.currentPage);
                 }
             },
             nextPage() {
                 if(this.currentPage < this.lastPage)
                 {
                     this.currentPage++;
-                    this.$store.dispatch('MessageStore/fetchMessages', this.currentPage);
+                    this.$store.dispatch('MessageStore/fetchAllMessages', this.currentPage);
                 }
             },
             updatePageNumber(pageNumber) {
                 this.currentPage = pageNumber;
-                this.$store.dispatch('MessageStore/fetchMessages', this.currentPage);
+                this.$store.dispatch('MessageStore/fetchAllMessages', this.currentPage);
             }
         },
          watch: {
