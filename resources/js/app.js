@@ -31,14 +31,17 @@ window.onload = function ()
         },
         created() 
         {
-            this.$store.dispatch('AuthenticationStore/AUTHENTICATE_BY_TOKEN').then(data =>
+            // check if there is a token in localStorage
+            if(localStorage.getItem('user-token'))
             {
-                if(data.status !== '1') 
+                // token found, try to get user by token
+                this.$store.dispatch('AuthenticationStore/AUTHENTICATE_BY_TOKEN').then(data => {}).catch(error => 
                 {
-                    // token is invalid, delete token from store so it doesn't get attached to the request headers by the axios interceptor
-                    this.$store.dispatch('AuthenticationStore/LOGOUT');
-                }
-            });
+                    // token is invalid, delete token from localStorage so it doesn't get attached to the request headers by 
+                    // the axios interceptor
+                    localStorage.removeItem('user-token');
+                });
+            }
         }
     });
 }

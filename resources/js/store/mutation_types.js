@@ -10,7 +10,7 @@ export const REGISTER_ERROR = 'REGISTER_ERROR';
 
 // actions
 export const AUTHENTICATE_BY_TOKEN = 'AUTHENTICATE_BY_TOKEN';
-export const AUTHENTICATE_BY_USER_CREDENTIALS = 'AUTHENTICATE_BY_USER_CREDENTIALS';
+export const LOGIN = 'LOGIN';
 export const REGISTER = 'REGISTER';
 
 // actions & mutations

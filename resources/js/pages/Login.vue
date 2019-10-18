@@ -37,10 +37,6 @@
                 submitted: false,
             }
         },
-        created()
-        {
-            this.logout();
-        },
         computed: {
             ...mapState('AuthenticationStore', {
                 status: state => state.status,
@@ -57,7 +53,7 @@
                 this.submitted = true;
                 const { email, password } = this;
 
-                this.$store.dispatch('AuthenticationStore/AUTHENTICATE_BY_USER_CREDENTIALS', { email, password }).then(() => 
+                this.$store.dispatch('AuthenticationStore/LOGIN', { email, password }).then(() => 
                 {
                     this.$router.push('/home');
                 });

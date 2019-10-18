@@ -4,7 +4,7 @@
 
 <template>
     <div>
-        <div class="card article">
+        <div v-if="message.id" class="card article">
             <div class="card-body">
                 <div class="media">
                     <div class="media-body text-center">
@@ -65,7 +65,7 @@
                 </div>
             </article>
 
-        @endforeach -->
+        @endforeach
 
         <br>
 
@@ -99,8 +99,6 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex';
-
     export default 
     {
         data() {
@@ -108,9 +106,13 @@
                 blogPostID: this.$route.params.blogPostID,
             }
         },
+        mounted() {
+            this.$store.dispatch('MessageStore/fetchMessage', this.blogPostID);
+        },
         computed: {
-            message() {
-                return this.$store.getters['MessageStore/getMessageById'](this.blogPostID);
+            message() 
+            {
+                return this.$store.state.MessageStore.messages.find(x=>x!==undefined) || [];
             }
         },
         methods: {

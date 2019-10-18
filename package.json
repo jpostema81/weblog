@@ -27,6 +27,7 @@
         "bulma": "^0.7.5",
         "bulma-extensions": "^6.2.7",
         "font-awesome": "^4.7.0",
+        "get-google-fonts": "^1.2.0",
         "moment": "^2.24.0",
         "vee-validate": "^3.0.8",
         "vue-multiselect": "^2.1.6",

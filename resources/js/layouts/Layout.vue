@@ -4,13 +4,19 @@
 
 <template>
     <div id="app-layout">
-      <navigation-component></navigation-component>
+        <navigation-component></navigation-component>
 
-      <div v-if="alert.message" :class="`alert ${ alert.type }`">{{ alert.message }}</div>
+        <div v-if="alert.message" :class="`alert ${ alert.type } alert-dismissible fade show`">
+            {{ alert.message }}
 
-      <router-view></router-view>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
 
-      <footer-component></footer-component>
+        <router-view></router-view>
+
+        <footer-component></footer-component>
     </div>
 </template>
 
