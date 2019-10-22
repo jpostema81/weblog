@@ -25,19 +25,19 @@
 
 
             <div class="form-group">
-                <label htmlFor="passwordReset">New password</label>
-                <button type="submit" class="btn btn-primary" :disabled="status.registering" id="passwordReset">Reset your password</button>
+                <button type="button" class="btn btn-primary" @click="showPasswordReset = !showPasswordReset" id="passwordReset">Reset your password</button>
+            </div>
 
-                <label htmlFor="password">Password confirmation</label>
-                <input type="password" value="" required title="Please use at least 6 characters" name="password_confirmation" class="form-control" 
+            <div class="form-group" v-if="showPasswordReset">
+                <label for="password">New password</label>
+                <input type="password" autocomplete="new-password" id="password" value="" required title="Please use at least 6 characters" name="password" class="form-control" 
                 :class="{ 'is-invalid': submitted && errors.hasOwnProperty('password') }" />
                 <div v-if="submitted && errors.hasOwnProperty('password')" class="invalid-feedback">{{ errors.password.join(' ') }}</div>
 
-                 <label htmlFor="password">Password</label>
-                <input type="password" value="" required title="Please use at least 6 characters" name="password" class="form-control" 
+                <label for="password_reset">New password confirmation</label>
+                <input type="password" autocomplete="new-password" id="password_reset" value="" required title="Please use at least 6 characters" name="password_confirmation" class="form-control" 
                 :class="{ 'is-invalid': submitted && errors.hasOwnProperty('password') }" />
                 <div v-if="submitted && errors.hasOwnProperty('password')" class="invalid-feedback">{{ errors.password.join(' ') }}</div>
-                
             </div>
 
             <div class="form-group">
@@ -57,29 +57,34 @@
         data() 
         {
             return {
+                showPasswordReset: false,
                 submitted: false,
+                user: {},
             }
+        },
+        created() {
+            this.user = this.$store.getters['AuthenticationStore/user'];
         },
         computed: {
             ...mapState('AuthenticationStore', {
                 status: state => state.status,
                 errors: state => state.errors,
             }),
-            ...mapGetters({
-                user: 'AuthenticationStore/user',
-            }),
+            // ...mapGetters({
+            //     user: 'AuthenticationStore/user',
+            // }),
         },
         methods: 
         {
-            ...mapActions('AuthenticationStore', {
-                logout: 'LOGOUT' 
-            }),
+            // ...mapActions('AuthenticationStore', {
+            //     logout: 'LOGOUT' 
+            // }),
             handleSubmit() 
             {
                 this.submitted = true;
                 const { email, password } = this;
 
-                this.$store.dispatch('AuthenticationStore/AUTHENTICATE_BY_USER_CREDENTIALS', { email, password }).then(() => 
+                this.$store.dispatch('AuthenticationStore/UPDATE_USER', { email, password }).then(() => 
                 {
                     this.$router.push('/home');
                 });
