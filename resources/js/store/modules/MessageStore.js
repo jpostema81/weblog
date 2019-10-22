@@ -42,15 +42,29 @@ export const MessageStore = {
                     reject(error);
                 });
             });   
-        }
+        },
+        getMessageById({state, commit}, id) {
+            return new Promise((resolve, reject) => {
+                let url = 'api/messages/' + id;
+
+                axios.get(url).then(message => {
+                    console.log(message);
+                    commit('setMessages', [message.data.data]);
+                    resolve();
+                }).catch(function (error) {
+                    console.log(error);
+                    reject(error);
+                });
+            });   
+        },
     },
     getters: 
     {
         messages: (state, commit, rootState) => {
             return state.messages;
         },
-        getMessageById: (state) => (id) => {
-            return state.messages.find(message => message.id === id);
+        message: (state, commit, rootState) => {
+            return state.messages[0];
         },
         meta: (state, commit, rootState) => {
             return state.meta;

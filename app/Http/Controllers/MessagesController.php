@@ -75,7 +75,7 @@ class MessagesController extends Controller
      */
     public function show(Request $request, Message $message)
     {       
-        return view('messages.show', ['message' => $message]);
+        return new MessageResource($message);
     }
 
     /**
