@@ -59,20 +59,16 @@
             return {
                 showPasswordReset: false,
                 submitted: false,
-                user: {},
             }
-        },
-        created() {
-            this.user = this.$store.getters['AuthenticationStore/user'];
         },
         computed: {
             ...mapState('AuthenticationStore', {
                 status: state => state.status,
                 errors: state => state.errors,
             }),
-            // ...mapGetters({
-            //     user: 'AuthenticationStore/user',
-            // }),
+            ...mapGetters({
+                user: 'AuthenticationStore/user',
+            }),
         },
         methods: 
         {
