@@ -8,6 +8,10 @@ export const REGISTER_REQUEST = 'REGISTER_REQUEST';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_ERROR = 'REGISTER_ERROR';
 
+export const USER_UPDATE_REQUEST = 'USER_UPDATE_REQUEST';
+export const USER_UPDATE_SUCCESS = 'USER_UPDATE_SUCCESS';
+export const USER_UPDATE_ERROR = 'USER_UPDATE_ERROR';
+
 // actions
 export const AUTHENTICATE_BY_TOKEN = 'AUTHENTICATE_BY_TOKEN';
 export const LOGIN = 'LOGIN';
@@ -18,4 +22,3 @@ export const LOGOUT = 'LOGOUT';
 export const ALERT_SUCCESS = 'ALERT_SUCCESS';
 export const ALERT_ERROR = 'ALERT_ERROR';
 export const ALERT_CLEAR = 'ALERT_CLEAR';
-

@@ -25,19 +25,22 @@
 
 
             <div class="form-group">
-                <label htmlFor="passwordReset">New password</label>
-                <button type="submit" class="btn btn-primary" :disabled="status.registering" id="passwordReset">Reset your password</button>
+                <label for="passwordReset" class="mr-3">New password</label>
+                <button type="submit" class="btn btn-primary" :disabled="status.registering" id="passwordReset" @click="displayPasswordFields = !displayPasswordFields">Reset your password</button>
 
-                <label htmlFor="password">Password confirmation</label>
-                <input type="password" value="" required title="Please use at least 6 characters" name="password_confirmation" class="form-control" 
-                :class="{ 'is-invalid': submitted && errors.hasOwnProperty('password') }" />
-                <div v-if="submitted && errors.hasOwnProperty('password')" class="invalid-feedback">{{ errors.password.join(' ') }}</div>
+                <span v-if="displayPasswordFields">
+                    <div class="form-group mt-3">
+                        <label for="password">Password confirmation</label>
+                        <input type="password" id="password" value="" required title="Please use at least 6 characters" name="password" class="form-control" 
+                        :class="{ 'is-invalid': submitted && errors.hasOwnProperty('password') }" />
+                        <div v-if="submitted && errors.hasOwnProperty('password')" class="invalid-feedback">{{ errors.password.join(' ') }}</div>
 
-                 <label htmlFor="password">Password</label>
-                <input type="password" value="" required title="Please use at least 6 characters" name="password" class="form-control" 
-                :class="{ 'is-invalid': submitted && errors.hasOwnProperty('password') }" />
-                <div v-if="submitted && errors.hasOwnProperty('password')" class="invalid-feedback">{{ errors.password.join(' ') }}</div>
-                
+                        <label for="password_confirmation">Password</label>
+                        <input type="password" id="password_confirmation" value="" required title="Please use at least 6 characters" name="password_confirmation" class="form-control" 
+                        :class="{ 'is-invalid': submitted && errors.hasOwnProperty('password') }" />
+                        <div v-if="submitted && errors.hasOwnProperty('password')" class="invalid-feedback">{{ errors.password.join(' ') }}</div>
+                    </div>
+                </span>
             </div>
 
             <div class="form-group">
@@ -58,6 +61,7 @@
         {
             return {
                 submitted: false,
+                displayPasswordFields: false,
             }
         },
         computed: {
@@ -72,7 +76,7 @@
         methods: 
         {
             ...mapActions('AuthenticationStore', {
-                logout: 'LOGOUT' 
+                //logout: 'LOGOUT' 
             }),
             handleSubmit() 
             {
