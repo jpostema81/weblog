@@ -4,7 +4,7 @@
 
 <template>
     <div>
-        <div v-if="message.id" class="card article">
+        <div class="card article" v-if="message">
             <div class="card-body">
                 <div class="media">
                     <div class="media-body text-center">
@@ -99,6 +99,8 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex';
+
     export default 
     {
         data() {
@@ -108,12 +110,14 @@
         },
         mounted() {
             this.$store.dispatch('MessageStore/fetchMessage', this.blogPostID);
+        }, 
+        created() {
+            this.$store.dispatch('MessageStore/getMessageById', this.blogPostID);
         },
         computed: {
-            message() 
-            {
-                return this.$store.state.MessageStore.messages.find(x=>x!==undefined) || [];
-            }
+            ...mapGetters({
+                message: 'MessageStore/message',
+            }),
         },
         methods: {
             moment: function (date) {

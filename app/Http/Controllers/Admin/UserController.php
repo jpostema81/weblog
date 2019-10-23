@@ -19,7 +19,9 @@ class UserController extends Controller
 {
     public function __construct() {
         //isAdmin middleware lets only users with a //specific permission permission to access these resources
-        $this->middleware(['auth', 'isAdmin']);
+        $this->middleware(['auth:api']);
+
+        //$this->middleware(['auth:api', 'isAdmin']);
     }
 
     /**
@@ -119,9 +121,10 @@ class UserController extends Controller
     {
         // Validate name, email and password fields    
         $this->validate($request, [
-            'name' => 'required|max:120',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'required|min:6|confirmed'
+            'firstName' => 'required|string|max:255',
+            'lastName' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
         ]);
 
         // Retreive the name, email and password fields

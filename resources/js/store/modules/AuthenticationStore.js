@@ -1,6 +1,6 @@
 import { AUTH_REQUEST, AUTH_SUCCESS, AUTH_ERROR, LOGOUT, SET_USER, AUTHENTICATE_BY_TOKEN,
      LOGIN, REGISTER, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_ERROR,
-     ALERT_ERROR, ALERT_CLEAR, ALERT_SUCCESS } from '../mutation_types';
+     ALERT_ERROR, ALERT_SUCCESS, USER_UPDATE_REQUEST, USER_UPDATE_SUCCESS, USER_UPDATE_ERROR } from '../mutation_types';
 
 import router from '../../router/index';
 
@@ -54,6 +54,23 @@ export const AuthenticationStore =
             state.errors = {};
         },
         [REGISTER_ERROR]: (state, errors) => 
+        {
+            state.status = 'error';
+            state.errors = errors;
+        },
+
+        // user update state
+        [USER_UPDATE_REQUEST]: (state, user)  =>
+        {
+            state.status = 'updating';
+            state.errors = {};
+        },
+        [USER_UPDATE_SUCCESS]: (state, user) =>
+        {
+            state.status = 'success';
+            state.errors = {};
+        },
+        [USER_UPDATE_ERROR]: (state, errors) => 
         {
             state.status = 'error';
             state.errors = errors;
@@ -140,6 +157,56 @@ export const AuthenticationStore =
         // register a new user
         [REGISTER]: function({commit, dispatch, context}, user) {
             commit(REGISTER_REQUEST, user);
+
+            return new Promise((resolve, reject) => { 
+                axios({ url: '/api/register', data: user, method: 'POST' }).then(resp => 
+                {
+                    commit(REGISTER_SUCCESS, user);
+                    router.push('/login');
+
+                    setTimeout(() => {
+                        // display success message after route change completes
+                        dispatch('AlertStore/' + ALERT_SUCCESS, 'Registration successful', { root: true });
+                    })
+
+                    resolve(resp);
+                })
+                .catch(error => 
+                {
+                    dispatch('AlertStore/' + ALERT_ERROR, 'Something went wrong', { root: true });
+
+                    if (error.response) 
+                    {
+                        /*
+                         * The request was made and the server responded with a
+                         * status code that falls out of the range of 2xx
+                         */
+                        console.log(error.response.data);
+                        commit(REGISTER_ERROR, error.response.data);
+     
+                    } 
+                    else if (error.request) 
+                    {
+                        /*
+                         * The request was made but no response was received, `error.request`
+                         * is an instance of XMLHttpRequest in the browser and an instance
+                         * of http.ClientRequest in Node.js
+                         */
+                        console.log(error.request);
+                    } 
+                    else 
+                    {
+                        // Something happened in setting up the request and triggered an Error
+                        console.log('Error', error.message);
+                    }
+
+                    //const errors = Object.values(err.response.data).join(' ');
+                    reject(error);
+                });
+            });
+        },
+        [UPDATE_USER]: function({commit, dispatch, context}, user) {
+            commit(USER_UPDATE_REQUEST, user);
 
             return new Promise((resolve, reject) => { 
                 axios({ url: '/api/register', data: user, method: 'POST' }).then(resp => 

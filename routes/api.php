@@ -52,6 +52,8 @@ Route::post('/logout', 'Auth\Api\AuthController@logout')->name('api.logout');
 Route::post('/get_user_by_token', 'Auth\Api\AuthController@getUserByToken')->name('api.get_user_by_token');
 //
 
+//Route::get('/messages', 'MessagesController@index')->name('api.messages');
+
 Route::resource('/messages', 'MessagesController');
 
 Route::get('/categories', 'CategoriesController@index')->name('api.categories');
