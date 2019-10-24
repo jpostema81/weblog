@@ -7,36 +7,35 @@
         <form @submit.prevent="handleSubmit">
             <div class="form-group">
                 <label for="firstName">First Name</label>
-                <input type="text" :value="user.first_name" required name="firstName" class="form-control" :class="{ 'is-invalid': submitted && errors.hasOwnProperty('firstName') }" />
+                <input type="text" :value="user.first_name" @input="updateFirstName" required name="firstName" class="form-control" :class="{ 'is-invalid': submitted && errors.hasOwnProperty('firstName') }" />
                 <div v-if="submitted && errors.hasOwnProperty('firstName')" class="invalid-feedback">{{ errors.firstName.join(' ') }}</div>
             </div>
 
             <div class="form-group">
                 <label for="lastName">Last Name</label>
-                <input type="text" :value="user.last_name" required name="lastName" class="form-control" :class="{ 'is-invalid': submitted && errors.hasOwnProperty('lastName') }" />
+                <input type="text" :value="user.last_name" @input="updateLastName" required name="lastName" class="form-control" :class="{ 'is-invalid': submitted && errors.hasOwnProperty('lastName') }" />
                 <div v-if="submitted && errors.hasOwnProperty('lastName')" class="invalid-feedback">{{ errors.lastName.join(' ') }}</div>
             </div>
 
             <div class="form-group">
                 <label for="username">Emailaddress</label>
-                <input type="text" :value="user.email" required name="email" class="form-control" :class="{ 'is-invalid': submitted && errors.hasOwnProperty('email') }" />
+                <input type="text" :value="user.email" @input="updateEmail" required name="email" class="form-control" :class="{ 'is-invalid': submitted && errors.hasOwnProperty('email') }" />
                 <div v-if="submitted && errors.hasOwnProperty('email')" class="invalid-feedback">{{ errors.email.join(' ') }}</div>
             </div>
 
 
             <div class="form-group">
-                <label for="passwordReset" class="mr-3">New password</label>
-                <button type="submit" class="btn btn-primary" :disabled="status.registering" id="passwordReset" @click="displayPasswordFields = !displayPasswordFields">Reset your password</button>
+                <button type="button" class="btn btn-primary" :disabled="status.registering" id="passwordReset" @click="displayPasswordFields = !displayPasswordFields">Reset your password</button>
 
                 <span v-if="displayPasswordFields">
                     <div class="form-group mt-3">
-                        <label for="password">Password confirmation</label>
-                        <input type="password" id="password" value="" required title="Please use at least 6 characters" name="password" class="form-control" 
+                        <label for="password">New password</label>
+                        <input type="password" autocomplete="new-password" id="password" v-model="updatedUser.password" required title="Please use at least 6 characters" name="password" class="form-control" 
                         :class="{ 'is-invalid': submitted && errors.hasOwnProperty('password') }" />
                         <div v-if="submitted && errors.hasOwnProperty('password')" class="invalid-feedback">{{ errors.password.join(' ') }}</div>
 
-                        <label for="password_confirmation">Password</label>
-                        <input type="password" id="password_confirmation" value="" required title="Please use at least 6 characters" name="password_confirmation" class="form-control" 
+                        <label for="password_confirmation">New password confirmation</label>
+                        <input type="password" autocomplete="new-password" id="password_confirmation" v-model="updatedUser.password_confirmation" required title="Please use at least 6 characters" name="password_confirmation" class="form-control" 
                         :class="{ 'is-invalid': submitted && errors.hasOwnProperty('password') }" />
                         <div v-if="submitted && errors.hasOwnProperty('password')" class="invalid-feedback">{{ errors.password.join(' ') }}</div>
                     </div>
@@ -62,6 +61,8 @@
             return {
                 submitted: false,
                 displayPasswordFields: false,
+                user: this.$store.state.AuthenticationStore.user,
+                updatedUser: {...this.$store.state.AuthenticationStore.user},
             }
         },
         computed: {
@@ -69,24 +70,32 @@
                 status: state => state.status,
                 errors: state => state.errors,
             }),
-            ...mapGetters({
-                user: 'AuthenticationStore/user',
-            }),
         },
         methods: 
         {
             ...mapActions('AuthenticationStore', {
-                //logout: 'LOGOUT' 
+                //logout: 'logout' 
             }),
-            handleSubmit() 
+            updateFirstName(e) {
+                this.updatedUser.first_name = e.target.value;
+            },
+            updateLastName(e) {
+                console.log('updateLastName');
+                this.updatedUser.last_name = e.target.value;
+            },
+            updateEmail(e) {
+                console.log('updateEmail');
+                this.updatedUser.email = e.target.value;
+            },
+            handleSubmit(e) 
             {
                 this.submitted = true;
-                const { email, password } = this;
+                console.log(this.user);
 
-                this.$store.dispatch('AuthenticationStore/LOGIN', { email, password }).then(() => 
-                {
-                    this.$router.push('/home');
-                });
+                // this.$store.dispatch('AuthenticationStore/updateUser', { user }).then(() => 
+                // {
+                //     this.$router.push('/home');
+                // });
             },
         }
     }

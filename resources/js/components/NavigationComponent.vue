@@ -67,7 +67,7 @@
         methods: 
         {
             ...mapActions('AuthenticationStore', {
-                logout: 'LOGOUT' 
+                logout: 'logout' 
             }),
         },
         computed: {

@@ -1,7 +1,3 @@
-import { AUTH_REQUEST, AUTH_SUCCESS, AUTH_ERROR, LOGOUT, SET_USER, AUTHENTICATE_BY_TOKEN,
-     LOGIN, REGISTER, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_ERROR,
-     ALERT_ERROR, ALERT_SUCCESS, USER_UPDATE_REQUEST, USER_UPDATE_SUCCESS, USER_UPDATE_ERROR } from '../mutation_types';
-
 import router from '../../router/index';
 
 export const AuthenticationStore = 
@@ -16,61 +12,61 @@ export const AuthenticationStore =
     mutations: 
     {
         // authentication state
-        [AUTH_REQUEST]: (state) => 
+        AUTH_REQUEST: (state) => 
         {
             state.status = 'loading';
             state.errors = {};
         },
-        [AUTH_SUCCESS]: (state) => 
+        AUTH_SUCCESS: (state) => 
         {
             state.status = 'success';
             state.errors = {};
         },
-        [AUTH_ERROR]: (state, errors) => 
+        AUTH_ERROR: (state, errors) => 
         {
             state.status = 'error';
             state.errors = errors;
         },
 
-        [LOGOUT]: (state) => 
+        LOGOUT: (state) => 
         {
             state.status = '';
             state.user = '';
         },
-        [SET_USER]: (state, user) => 
+        SET_USER: (state, user) => 
         {
             state.user = user;
         },
 
         // registration state
-        [REGISTER_REQUEST]: (state, user)  =>
+        REGISTER_REQUEST: (state, user)  =>
         {
             state.status = 'registering';
             state.errors = {};
         },
-        [REGISTER_SUCCESS]: (state, user) =>
+        REGISTER_SUCCESS: (state, user) =>
         {
             state.status = 'success';
             state.errors = {};
         },
-        [REGISTER_ERROR]: (state, errors) => 
+        REGISTER_ERROR: (state, errors) => 
         {
             state.status = 'error';
             state.errors = errors;
         },
 
         // user update state
-        [USER_UPDATE_REQUEST]: (state, user)  =>
+        USER_UPDATE_REQUEST: (state, user)  =>
         {
             state.status = 'updating';
             state.errors = {};
         },
-        [USER_UPDATE_SUCCESS]: (state, user) =>
+        USER_UPDATE_SUCCESS: (state, user) =>
         {
             state.status = 'success';
             state.errors = {};
         },
-        [USER_UPDATE_ERROR]: (state, errors) => 
+        USER_UPDATE_ERROR: (state, errors) => 
         {
             state.status = 'error';
             state.errors = errors;
@@ -79,30 +75,30 @@ export const AuthenticationStore =
     actions: 
     {
         // authenticate by JWT token (token from login or local storage)
-        [AUTHENTICATE_BY_TOKEN]: ({commit, state}) => 
+        authenticateByToken: ({commit, state}) => 
         {
             return new Promise((resolve, reject) => 
             {
                 axios({ url: '/api/get_user_by_token', method: 'POST' }).then(resp => 
                 {
                     const user = resp.data;
-                    commit(AUTH_SUCCESS);
-                    commit(SET_USER, user);
+                    commit('AUTH_SUCCESS');
+                    commit('SET_USER', user);
                     resolve(resp);
                 })
                 .catch(err => 
                 {
-                    commit(AUTH_ERROR, err);
+                    commit('AUTH_ERROR', err);
                     reject(err);
                 });
             });
         },
         // authenticate by user login (email & password)
-        [LOGIN]: ({commit, dispatch}, user) => 
+        login: ({commit, dispatch}, user) => 
         {
             return new Promise((resolve, reject) => 
             { 
-                commit(AUTH_REQUEST);
+                commit('AUTH_REQUEST');
 
                 axios({ url: '/api/login', data: user, method: 'POST' }).then(resp => 
                 {
@@ -111,16 +107,16 @@ export const AuthenticationStore =
 
                     // store the token in localstorage
                     localStorage.setItem('user-token', token);
-                    commit(AUTH_SUCCESS);
+                    commit('AUTH_SUCCESS');
                     // token received, set user
-                    commit(SET_USER, user);
+                    commit('SET_USER', user);
 
                     resolve(resp);
                 })
                 .catch(error => 
                 {
-                    dispatch('AlertStore/' + ALERT_ERROR, 'Something went wrong', { root: true });
-                    commit(AUTH_ERROR, error.response.data);
+                    dispatch('AlertStore/' + alertError, 'Something went wrong', { root: true });
+                    commit('AUTH_ERROR', error.response.data);
                     
                     // if the request fails, remove any possible user token if possible
                     localStorage.removeItem('user-token');
@@ -129,22 +125,22 @@ export const AuthenticationStore =
             });
         },
         // logout a user
-        [LOGOUT]: ({commit, dispatch}) => 
+        logout: ({commit, dispatch}) => 
         {
             return new Promise((resolve, reject) => 
             {
-                commit(LOGOUT);
+                commit('LOGOUT');
                 
                 axios({ url: '/api/logout', method: 'POST' }).then(resp => 
                 {
                     // clear your user's token from localstorage
                     localStorage.removeItem('user-token');
-                    dispatch('AlertStore/' + ALERT_ERROR, 'You are logged out now!', { root: true });
+                    dispatch('AlertStore/' + alertError, 'You are logged out now!', { root: true });
                     resolve(resp);
                 })
                 .catch(error => 
                 {
-                    dispatch('AlertStore/' + ALERT_ERROR, 'Something went wrong during logging out', { root: true });
+                    dispatch('AlertStore/' + alertError, 'Something went wrong during logging out', { root: true });
                     // clear your user's token from localstorage
                     localStorage.removeItem('user-token');
                     //commit(LOGOUT_ERROR, error.response.data);
@@ -155,8 +151,8 @@ export const AuthenticationStore =
             });
         },
         // register a new user
-        [REGISTER]: function({commit, dispatch, context}, user) {
-            commit(REGISTER_REQUEST, user);
+        register: function({commit, dispatch, context}, user) {
+            commit('REGISTER_REQUEST', user);
 
             return new Promise((resolve, reject) => { 
                 axios({ url: '/api/register', data: user, method: 'POST' }).then(resp => 
@@ -166,14 +162,14 @@ export const AuthenticationStore =
 
                     setTimeout(() => {
                         // display success message after route change completes
-                        dispatch('AlertStore/' + ALERT_SUCCESS, 'Registration successful', { root: true });
+                        dispatch('AlertStore/' + alertSuccess, 'Registration successful', { root: true });
                     })
 
                     resolve(resp);
                 })
                 .catch(error => 
                 {
-                    dispatch('AlertStore/' + ALERT_ERROR, 'Something went wrong', { root: true });
+                    dispatch('AlertStore/' + alertError, 'Something went wrong', { root: true });
 
                     if (error.response) 
                     {
@@ -182,7 +178,7 @@ export const AuthenticationStore =
                          * status code that falls out of the range of 2xx
                          */
                         console.log(error.response.data);
-                        commit(REGISTER_ERROR, error.response.data);
+                        commit('REGISTER_ERROR', error.response.data);
      
                     } 
                     else if (error.request) 
@@ -205,8 +201,8 @@ export const AuthenticationStore =
                 });
             });
         },
-        [UPDATE_USER]: function({commit, dispatch, context}, user) {
-            commit(USER_UPDATE_REQUEST, user);
+        updateUser: function({commit, dispatch, context}, user) {
+            commit('USER_UPDATE_REQUEST', user);
 
             return new Promise((resolve, reject) => { 
                 axios({ url: '/api/register', data: user, method: 'POST' }).then(resp => 
@@ -223,7 +219,7 @@ export const AuthenticationStore =
                 })
                 .catch(error => 
                 {
-                    dispatch('AlertStore/' + ALERT_ERROR, 'Something went wrong', { root: true });
+                    dispatch('AlertStore/' + alertError, 'Something went wrong', { root: true });
 
                     if (error.response) 
                     {
@@ -232,7 +228,7 @@ export const AuthenticationStore =
                          * status code that falls out of the range of 2xx
                          */
                         console.log(error.response.data);
-                        commit(REGISTER_ERROR, error.response.data);
+                        commit('REGISTER_ERROR', error.response.data);
      
                     } 
                     else if (error.request) 
