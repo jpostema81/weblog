@@ -1,7 +1,5 @@
 // centralized alert management
 
-import { ALERT_SUCCESS, ALERT_ERROR, ALERT_CLEAR } from '../mutation_types';
-
 export const AlertStore = 
 {
    namespaced: true,
@@ -12,17 +10,17 @@ export const AlertStore =
    },
    mutations: 
    {
-       [ALERT_SUCCESS]: (state, message) => 
+       ALERT_SUCCESS: (state, message) => 
        {
             state.type = 'alert-success';
             state.message = message;
        },
-       [ALERT_ERROR]: (state, message) => 
+       ALERT_ERROR: (state, message) => 
        {
             state.type = 'alert-danger';
             state.message = message;
        },
-       [ALERT_CLEAR]: (state) => 
+       ALERT_CLEAR: (state) => 
        {
             state.type = null;
             state.message = null;
@@ -31,17 +29,17 @@ export const AlertStore =
    },
    actions: 
    {
-       [ALERT_SUCCESS]: ({commit}, message) => 
+       alertSucces: ({commit}, message) => 
        {
-            commit(ALERT_SUCCESS, message);
+            commit('ALERT_SUCCESS', message);
        },
-       [ALERT_ERROR]: ({commit}, message) => 
+       alertError: ({commit}, message) => 
        {
-            commit(ALERT_ERROR, message);
+            commit('ALERT_ERROR', message);
        },
-       [ALERT_CLEAR]: ({commit}) => 
+       alertClear: ({commit}) => 
        {
-            commit(ALERT_CLEAR);
+            commit('ALERT_CLEAR');
        },
       
    },

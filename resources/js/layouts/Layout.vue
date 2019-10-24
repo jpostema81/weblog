@@ -38,7 +38,7 @@
         },
         methods: {
             ...mapActions('AlertStore', {
-                clearAlert: 'ALERT_CLEAR' 
+                clearAlert: 'alertClear' 
             })
         },
         watch: {

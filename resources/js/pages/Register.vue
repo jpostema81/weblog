@@ -74,7 +74,7 @@
         methods: 
         {
             ...mapActions('AuthenticationStore', {
-                register: 'REGISTER'
+                register: 'register'
             }),
             handleSubmit(e) 
             {

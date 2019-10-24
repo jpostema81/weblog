@@ -35,7 +35,7 @@ window.onload = function ()
             if(localStorage.getItem('user-token'))
             {
                 // token found, try to get user by token
-                this.$store.dispatch('AuthenticationStore/AUTHENTICATE_BY_TOKEN').then(data => {}).catch(error => 
+                this.$store.dispatch('AuthenticationStore/authenticateByToken').then(data => {}).catch(error => 
                 {
                     // token is invalid, delete token from localStorage so it doesn't get attached to the request headers by 
                     // the axios interceptor

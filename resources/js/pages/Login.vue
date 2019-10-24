@@ -53,7 +53,7 @@
                 this.submitted = true;
                 const { email, password } = this;
 
-                this.$store.dispatch('AuthenticationStore/LOGIN', { email, password }).then(() => 
+                this.$store.dispatch('AuthenticationStore/login', { email, password }).then(() => 
                 {
                     this.$router.push('/home');
                 });
