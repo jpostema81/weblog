@@ -32,11 +32,11 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        $credentials = $request->only('firstName', 'lastName', 'email', 'password', 'password_confirmation');
+        $credentials = $request->only('first_name', 'last_name', 'email', 'password', 'password_confirmation');
 
         $validator = Validator::make($credentials, [
-            'firstName' => 'required|string|max:255',
-            'lastName' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -47,10 +47,10 @@ class AuthController extends Controller
         }
         
         $user = User::create([
-            'first_name' => $request->get('firstName'),
-            'last_name' => $request->get('lastName'),
+            'first_name' => $request->get('first_name'),
+            'last_name' => $request->get('last_name'),
             'email' => $request->get('email'),
-            'password' => Hash::make($request->get('password')),
+            'password' => $request->get('password'),
         ]);
 
         $token = auth()->tokenById($user->id);
@@ -75,10 +75,10 @@ class AuthController extends Controller
         if($token = $this->guard()->attempt($credentials)) 
         {
             $user = $this->guard()->user();
-            return $this->respondWithToken($token, $user);
+            return $this->respondWithToken($token, new UserResource($user));
         }
 
-        return response()->json(['error' => 'Invalid Login Details'], 401);
+        return response()->json(['error' => 'Invalid Login Credentials'], 401);
     }
 
     public function logout()

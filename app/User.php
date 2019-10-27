@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Support\Facades\Hash;
 
 
 class User extends Authenticatable implements JWTSubject
@@ -60,4 +61,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }    
+
+    public function setPasswordAttribute($value)
+    {
+        return $this->attributes['password'] = Hash::needsRehash($value) ? Hash::make($value) : $value;
+    }
 }
