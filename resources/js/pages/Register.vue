@@ -4,15 +4,15 @@
 
         <form @submit.prevent="handleSubmit">
             <div class="form-group">
-                <label for="firstName">First Name</label>
-                <input type="text" v-model="user.firstName" required name="firstName" class="form-control" :class="{ 'is-invalid': submitted && errors.hasOwnProperty('firstName') }" />
-                <div v-if="submitted && errors.hasOwnProperty('firstName')" class="invalid-feedback">{{ errors.firstName.join(' ') }}</div>
+                <label for="first_name">First Name</label>
+                <input type="text" v-model="user.first_name" required name="first_name" class="form-control" :class="{ 'is-invalid': submitted && errors.hasOwnProperty('first_name') }" />
+                <div v-if="submitted && errors.hasOwnProperty('first_name')" class="invalid-feedback">{{ errors.first_name.join(' ') }}</div>
             </div>
 
             <div class="form-group">
-                <label for="lastName">Last Name</label>
-                <input type="text" v-model="user.lastName" required name="lastName" class="form-control" :class="{ 'is-invalid': submitted && errors.hasOwnProperty('lastName') }" />
-                <div v-if="submitted && errors.hasOwnProperty('lastName')" class="invalid-feedback">{{ errors.lastName.join(' ') }}</div>
+                <label for="last_name">Last Name</label>
+                <input type="text" v-model="user.last_name" required name="last_name" class="form-control" :class="{ 'is-invalid': submitted && errors.hasOwnProperty('last_name') }" />
+                <div v-if="submitted && errors.hasOwnProperty('last_name')" class="invalid-feedback">{{ errors.last_name.join(' ') }}</div>
             </div>
 
             <div class="form-group">
@@ -54,8 +54,8 @@
         {
             return {
                 user: {
-                    firstName: '',
-                    lastName: '',
+                    first_name: '',
+                    last_name: '',
                     email: '',
                     username: '',
                     password: '',
