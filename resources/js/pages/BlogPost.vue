@@ -65,7 +65,7 @@
                 </div>
             </article>
 
-        @endforeach -->
+        @endforeach
 
         <br>
 
@@ -108,6 +108,9 @@
                 blogPostID: this.$route.params.blogPostID,
             }
         },
+        mounted() {
+            this.$store.dispatch('MessageStore/fetchMessage', this.blogPostID);
+        }, 
         created() {
             this.$store.dispatch('MessageStore/getMessageById', this.blogPostID);
         },

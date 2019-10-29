@@ -11,6 +11,7 @@ use Spatie\Permission\Models\Permission;
 
 use App\User;
 use Auth;
+use App\Http\Requests\UpdateUser;
 
 //Enables us to output flash messaging
 use Session;
@@ -19,7 +20,9 @@ class UserController extends Controller
 {
     public function __construct() {
         //isAdmin middleware lets only users with a //specific permission permission to access these resources
-        $this->middleware(['auth', 'isAdmin']);
+        $this->middleware(['auth:api']);
+
+        //$this->middleware(['auth:api', 'isAdmin']);
     }
 
     /**
@@ -111,27 +114,20 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  App\Http\Requests\UpdateUser  $request
+     * @param  User $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUser $request, User $user)
     {
-        // Validate name, email and password fields    
-        $this->validate($request, [
-            'name' => 'required|max:120',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'required|min:6|confirmed'
-        ]);
-
-        // Retreive the name, email and password fields
-        $input = $request->only(['name', 'email', 'password']);
+        // Validate and retrieve only the updated fields    
+        $validatedInput = $request->validated();
 
         // Retreive all roles
         $roles = $request['roles']; 
-        $user->fill($input)->save();
+        $user->fill($validatedInput)->save();
 
-        if (isset($roles)) 
+        if(isset($roles)) 
         {     
             // If one or more role is selected associate user to roles       
             $user->roles()->sync($roles);        
@@ -142,7 +138,10 @@ class UserController extends Controller
             $user->roles()->detach(); 
         }
 
-        return redirect()->route('admin.users.index')->with('flash_message', 'User successfully edited.');
+        return response()->json([
+            'message' => "User successfully edited",
+            'user'    => $user,
+        ]);
     }
 
     /**

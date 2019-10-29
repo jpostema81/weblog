@@ -21,11 +21,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['middleware' => ['auth']], function() 
 {
-    Route::post('/test_jwt', function() 
-    {
-        echo "you are authorized!";
-    })->name('api.register');
-
     Route::resource('admin/users', 'Admin\UserController', [
         'as' => 'admin'
     ]);

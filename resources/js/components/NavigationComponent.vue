@@ -32,7 +32,7 @@
                     </template>
                     
                     <b-dropdown-item to="/profile">Profile</b-dropdown-item>
-                    <b-dropdown-item to="/login">Log Out</b-dropdown-item>
+                    <b-dropdown-item @click="logout">Log Out</b-dropdown-item>
                 </b-nav-item-dropdown>
             </b-navbar-nav>
             </b-collapse>
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex';
+    import { mapActions, mapGetters } from 'vuex';
 
     export default 
     {
@@ -63,6 +63,12 @@
                     });
                 })
             })
+        },
+        methods: 
+        {
+            ...mapActions('AuthenticationStore', {
+                logout: 'logout' 
+            }),
         },
         computed: {
             ...mapGetters({

@@ -36,7 +36,7 @@
     export default {
         mounted() {
             // pre-fetch categories from store
-            this.$store.dispatch('MessageStore/fetchMessages');
+            this.$store.dispatch('MessageStore/fetchAllMessages');
         },
         methods: {
             filterMessages(event) {
@@ -47,7 +47,6 @@
             }
         },
         computed: {
-            // mix the getters into computed with object spread operator
             ...mapGetters({
                 messages: 'MessageStore/messages'
             })
