@@ -13,9 +13,9 @@
 </template>
 
 <script>
-    import CategoryFilter from '../components/frontend/messages_page/CategoryFilter';
-    import MessagesList from '../components/frontend/messages_page/MessagesList';
-    import Pager from '../components/frontend/messages_page/Pager';
+    import CategoryFilter from '../components/frontend/home_page/CategoryFilter';
+    import MessagesList from '../components/frontend/home_page/MessagesList';
+    import Pager from '../components/frontend/home_page/Pager';
 
 
     export default 

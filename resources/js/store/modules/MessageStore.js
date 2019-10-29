@@ -18,7 +18,7 @@ export const MessageStore = {
     },
     actions: 
     {
-        fetchMessage({state, commit, rootState, rootGetters}, messageId) 
+        fetchMessageById({state, commit, rootState, rootGetters}, messageId) 
         {
             return new Promise((resolve, reject) => {
                 let url = '/api/messages/' + messageId;

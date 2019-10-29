@@ -21,23 +21,27 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['middleware' => ['auth']], function() 
 {
-    Route::resource('admin/users', 'Admin\UserController', [
+    Route::resource('/admin/users', 'Admin\UserController', [
         'as' => 'admin'
     ]);
     
-    Route::resource('admin/roles', 'Admin\RoleController', [
+    Route::resource('/admin/roles', 'Admin\RoleController', [
         'as' => 'admin'
     ]);
     
-    Route::resource('admin/permissions', 'Admin\PermissionController', [
+    Route::resource('/admin/permissions', 'Admin\PermissionController', [
         'as' => 'admin'
     ]);
 
-    Route::resource('admin/categories', 'Admin\CategoriesController', [
+    Route::resource('/admin/categories', 'Admin\CategoriesController', [
         'as' => 'admin'
     ]);
     
-    Route::resource('admin/messages', 'Admin\MessagesController', [
+    Route::resource('/admin/messages', 'Admin\MessagesController', [
+        'as' => 'admin'
+    ]);
+
+    Route::resource('/admin/comments', 'CommentsController', [
         'as' => 'admin'
     ]);
 });
@@ -57,6 +61,3 @@ Route::post('/get_user_by_token', 'Auth\Api\AuthController@getUserByToken')->nam
 Route::resource('/messages', 'MessagesController');
 
 Route::get('/categories', 'CategoriesController@index')->name('api.categories');
-
-Route::post('comments/{message}', 'MessagesController@storeComment')->name('comments.store');
-

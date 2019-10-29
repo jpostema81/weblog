@@ -43,6 +43,9 @@
             @endcan
         {!! Form::close() !!} -->
 
+
+        
+
         <!-- @foreach ($message->descendants as $comment)
         {{ $comment->depth }}
         
@@ -109,11 +112,8 @@
             }
         },
         mounted() {
-            this.$store.dispatch('MessageStore/fetchMessage', this.blogPostID);
+            this.$store.dispatch('MessageStore/fetchMessageById', this.blogPostID);
         }, 
-        created() {
-            this.$store.dispatch('MessageStore/getMessageById', this.blogPostID);
-        },
         computed: {
             ...mapGetters({
                 message: 'MessageStore/message',

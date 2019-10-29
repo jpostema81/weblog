@@ -3,38 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Message;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use App\Http\Resources\MessageResource;
 
-class MessagesController extends Controller
+class CommentsController extends Controller
 {
-    /**
-     * Register Auth middleware for this controller
-     */
-    // public function __contruct() {
-    //     $this->middleware('auth');
-    // }
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $messages = Message::whereNull('parent_id')->with('user')->with('categories')->orderBy('created_at', 'desc');
-        
-        if($request->has('categories')) {
-            $category_ids = explode(",", $request->get('categories'));
-            
-            $messages->whereHas('categories', function($query) use ($category_ids) {
-                $query->whereIn('categories.id', $category_ids);
-            });
-        }
-
-        return MessageResource::collection($messages->paginate(10));
+        //
     }
 
     /**
@@ -44,7 +23,7 @@ class MessagesController extends Controller
      */
     public function create()
     {
-        
+        //
     }
 
     /**
@@ -55,7 +34,16 @@ class MessagesController extends Controller
      */
     public function store(Request $request)
     {
-    
+        $user = $this->guard()->user;
+
+        $comment = new Message();
+        $comment->title = "";
+        $comment->content = $request->get('comment');
+        $comment->user()->associate($user);
+        $comment->message()->associate($message);
+        $comment->save();
+
+        return view('messages.show', ['message' => $message]);       
     }
 
     /**
@@ -64,9 +52,9 @@ class MessagesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, Message $message)
-    {       
-        return new MessageResource($message);
+    public function show($id)
+    {
+        //
     }
 
     /**
@@ -101,5 +89,10 @@ class MessagesController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function guard()
+    {
+        return Auth::guard('api');
     }
 }
