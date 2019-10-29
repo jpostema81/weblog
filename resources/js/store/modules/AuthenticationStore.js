@@ -202,7 +202,6 @@ export const AuthenticationStore =
             });
         },
         updateUser: function({commit, dispatch, context}, user) {
-
             commit('USER_UPDATE_REQUEST');
 
             return new Promise((resolve, reject) => { 
