@@ -26,12 +26,18 @@ class MessagesController extends Controller
     {
         $messages = Message::whereNull('parent_id')->with('user')->with('categories')->orderBy('created_at', 'desc');
         
+        // apply categories filter
         if($request->has('categories')) {
             $category_ids = explode(",", $request->get('categories'));
             
             $messages->whereHas('categories', function($query) use ($category_ids) {
                 $query->whereIn('categories.id', $category_ids);
             });
+        }
+
+        // apply keyword filter
+        if($request->has('keyword')) {
+            $messages->where('title', 'like', '%' . $request->get('keyword') . '%');
         }
 
         return MessageResource::collection($messages->paginate(10));

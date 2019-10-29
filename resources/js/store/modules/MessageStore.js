@@ -35,6 +35,24 @@ export const MessageStore = {
                 });
             });   
         },
+        fetchMessagesByKeyword({commit}, keyword) 
+        {
+            return new Promise((resolve, reject) => {
+                let url = '/api/messages/';
+
+                axios({
+                    method: 'get',
+                    url: url,
+                    params: { keyword: keyword },
+                }).then(messages => {
+                    commit('setMessages', messages.data.data);
+                    commit('setMeta', messages.data.meta);
+                    resolve();
+                }).catch(function (error) {
+                    reject(error);
+                });
+            });   
+        },
         fetchAllMessages({state, commit, rootState, rootGetters}, pageNumber = 1) 
         {
             return new Promise((resolve, reject) => {
@@ -55,20 +73,6 @@ export const MessageStore = {
                     commit('setMeta', messages.data.meta);
                     resolve();
                 }).catch(function (error) {
-                    reject(error);
-                });
-            });   
-        },
-        getMessageById({state, commit}, id) {
-            return new Promise((resolve, reject) => {
-                let url = 'api/messages/' + id;
-
-                axios.get(url).then(message => {
-                    console.log(message);
-                    commit('setMessages', [message.data.data]);
-                    resolve();
-                }).catch(function (error) {
-                    console.log(error);
                     reject(error);
                 });
             });   

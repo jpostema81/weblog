@@ -69,8 +69,9 @@
             ...mapActions('AuthenticationStore', {
                 logout: 'logout' 
             }),
-            searchMessagesByKeyword(keyWord) {
-                console.log(keyWord);
+            searchMessagesByKeyword(keyword) {
+                console.log(keyword);
+                this.$store.dispatch('MessageStore/fetchMessagesByKeyword', keyword);
             },
         },
         computed: {
