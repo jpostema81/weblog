@@ -59,11 +59,14 @@
         data() 
         {
             return {
+                showPasswordReset: false,
                 submitted: false,
                 displayPasswordFields: false,
-                user: this.$store.state.AuthenticationStore.user,
-                updatedUser: {...this.$store.state.AuthenticationStore.user},
             }
+        },
+        created() {
+            console.log('initializing user');
+            this.user = {...this.$store.state.AuthenticationStore.user};
         },
         computed: {
             ...mapState('AuthenticationStore', {
@@ -74,19 +77,19 @@
         methods: 
         {
             updateFirstName(e) {
-                this.updatedUser.first_name = e.target.value;
+                this.user.first_name = e.target.value;
             },
             updateLastName(e) {
-                this.updatedUser.last_name = e.target.value;
+                this.user.last_name = e.target.value;
             },
             updateEmail(e) {
-                this.updatedUser.email = e.target.value;
+                this.user.email = e.target.value;
             },
             handleSubmit(e) 
             {
                 this.submitted = true;
 
-                this.$store.dispatch('AuthenticationStore/updateUser', this.updatedUser).then(() => 
+                this.$store.dispatch('AuthenticationStore/updateUser', this.user).then(() => 
                 {
                     this.$router.push('/home');
                 });

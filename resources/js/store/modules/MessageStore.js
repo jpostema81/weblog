@@ -18,7 +18,7 @@ export const MessageStore = {
     },
     actions: 
     {
-        fetchMessage({state, commit, rootState, rootGetters}, messageId) 
+        fetchMessageById({state, commit, rootState, rootGetters}, messageId) 
         {
             return new Promise((resolve, reject) => {
                 let url = '/api/messages/' + messageId;
@@ -28,6 +28,24 @@ export const MessageStore = {
                     url: url,
                 }).then(messages => {
                     commit('setMessages', [messages.data.data]);
+                    commit('setMeta', messages.data.meta);
+                    resolve();
+                }).catch(function (error) {
+                    reject(error);
+                });
+            });   
+        },
+        fetchMessagesByKeyword({commit}, keyword) 
+        {
+            return new Promise((resolve, reject) => {
+                let url = '/api/messages/';
+
+                axios({
+                    method: 'get',
+                    url: url,
+                    params: { keyword: keyword },
+                }).then(messages => {
+                    commit('setMessages', messages.data.data);
                     commit('setMeta', messages.data.meta);
                     resolve();
                 }).catch(function (error) {
@@ -55,20 +73,6 @@ export const MessageStore = {
                     commit('setMeta', messages.data.meta);
                     resolve();
                 }).catch(function (error) {
-                    reject(error);
-                });
-            });   
-        },
-        getMessageById({state, commit}, id) {
-            return new Promise((resolve, reject) => {
-                let url = 'api/messages/' + id;
-
-                axios.get(url).then(message => {
-                    console.log(message);
-                    commit('setMessages', [message.data.data]);
-                    resolve();
-                }).catch(function (error) {
-                    console.log(error);
                     reject(error);
                 });
             });   
