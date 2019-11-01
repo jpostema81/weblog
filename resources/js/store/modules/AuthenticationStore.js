@@ -135,7 +135,7 @@ export const AuthenticationStore =
                 {
                     // clear your user's token from localstorage
                     localStorage.removeItem('user-token');
-                    dispatch('AlertStore/alertError', 'You are logged out now!', { root: true });
+                    dispatch('AlertStore/alertSucces', 'You are logged out now!', { root: true });
                     resolve(resp);
                 })
                 .catch(error => 

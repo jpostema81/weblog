@@ -30,35 +30,9 @@
                     </div>
                 </div>
 
-                <comment-component :depth="0" :comments="message.comments"></comment-component>
+                <comment-component :depth="0" :comments="message.comments" :enableReply="false"></comment-component>
 
-                <!-- @foreach ($message->descendants as $comment)
-                {{ $comment->depth }}
-
-                
-                
-                    <article class="media">
-                        <figure class="media-left">
-                            <p class="image is-64x64">
-                            <img src="https://bulma.io/images/placeholders/128x128.png">
-                            </p>
-                        </figure>
-                        <div class="media-content">
-                            <div class="content">
-                                <p>
-                                    <strong>{{ $comment->user->name }}</strong>
-                                    <br>
-                                    {{ $comment->content }}
-                                    <br>
-                                    <small><a>Reply</a> · {{ Carbon\Carbon::parse($comment->created_at)->diffForHumans() }}</small>
-                                </p>
-                            </div>
-                        </div>
-                    </article>
-
-                @endforeach-->
-
-                <a class="btn btn-primary" @click="$router.go(-1)">Back</a>
+                <b-button variant="primary" @click="$router.go(-1)">Back</b-button>
             </div>  
         </div>
 

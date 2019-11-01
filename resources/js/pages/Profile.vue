@@ -30,12 +30,12 @@
                 <span v-if="displayPasswordFields">
                     <div class="form-group mt-3">
                         <label for="password">New password</label>
-                        <input type="password" autocomplete="new-password" id="password" v-model="updatedUser.password" required title="Please use at least 6 characters" name="password" class="form-control" 
+                        <input type="password" autocomplete="new-password" id="password" v-model="user.password" required title="Please use at least 6 characters" name="password" class="form-control" 
                         :class="{ 'is-invalid': submitted && errors.hasOwnProperty('password') }" />
                         <div v-if="submitted && errors.hasOwnProperty('password')" class="invalid-feedback">{{ errors.password.join(' ') }}</div>
 
                         <label for="password_confirmation">New password confirmation</label>
-                        <input type="password" autocomplete="new-password" id="password_confirmation" v-model="updatedUser.password_confirmation" required title="Please use at least 6 characters" name="password_confirmation" class="form-control" 
+                        <input type="password" autocomplete="new-password" id="password_confirmation" v-model="user.password_confirmation" required title="Please use at least 6 characters" name="password_confirmation" class="form-control" 
                         :class="{ 'is-invalid': submitted && errors.hasOwnProperty('password') }" />
                         <div v-if="submitted && errors.hasOwnProperty('password')" class="invalid-feedback">{{ errors.password.join(' ') }}</div>
                     </div>
