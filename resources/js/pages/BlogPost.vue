@@ -30,7 +30,9 @@
                     </div>
                 </div>
 
-                <a class="btn btn-primary" @click="$router.go(-1)">Back</a>
+                <comment-component :depth="0" :comments="message.comments" :enableReply="false"></comment-component>
+
+                <b-button variant="primary" @click="$router.go(-1)">Back</b-button>
             </div>  
         </div>
 
@@ -46,31 +48,8 @@
 
         
 
-        <!-- @foreach ($message->descendants as $comment)
-        {{ $comment->depth }}
         
-            <article class="media">
-                <figure class="media-left">
-                    <p class="image is-64x64">
-                    <img src="https://bulma.io/images/placeholders/128x128.png">
-                    </p>
-                </figure>
-                <div class="media-content">
-                    <div class="content">
-                        <p>
-                            <strong>{{ $comment->user->name }}</strong>
-                            <br>
-                            {{ $comment->content }}
-                            <br>
-                            <small><a>Reply</a> · {{ Carbon\Carbon::parse($comment->created_at)->diffForHumans() }}</small>
-                        </p>
-                    </div>
-                </div>
-            </article>
 
-        @endforeach
-
-        <br>
 
         <!-- @auth
         {{ Form::model($message, ['route' => ['comments.store', $message->id], 'method' => 'POST']) }}
@@ -103,6 +82,7 @@
 
 <script>
     import { mapGetters } from 'vuex';
+    import CommentComponent from '../components/frontend/blogpost_page/CommentComponent';
 
     export default 
     {
@@ -110,6 +90,9 @@
             return {
                 blogPostID: this.$route.params.blogPostID,
             }
+        },
+        components: {
+            CommentComponent,
         },
         mounted() {
             this.$store.dispatch('MessageStore/fetchMessageById', this.blogPostID);

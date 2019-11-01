@@ -6,6 +6,8 @@
     <div>
         <category-filter></category-filter>
 
+        <b-form-input size="sm" class="mr-sm-2 mt-sm-2" placeholder="Search" @input="updateKeyword"></b-form-input>
+
         <pager class="mt-2"></pager>
 
         <messages-list></messages-list>
@@ -20,10 +22,17 @@
 
     export default 
     {
-        components: {
+        components: 
+        {
             CategoryFilter,
             MessagesList,
             Pager,
+        },
+        methods: {
+            updateKeyword: function(keyword) {
+                this.$store.commit('MessageStore/setKeyword', keyword);
+                this.$store.dispatch('MessageStore/fetchAllMessages');
+            },
         },
     }
 </script>

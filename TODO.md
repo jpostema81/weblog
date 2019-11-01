@@ -23,6 +23,7 @@ en: https://docs.spatie.be/laravel-permission/v3/introduction/
 22. JWT tokens gaan implementeren
 24. Meer gebruik makan van Resources: https://medium.com/@dinotedesco/using-laravel-5-5-resources-to-create-your-own-json-api-formatted-api-2c6af5e4d0e8
 25: custom blade directives: https://scotch.io/tutorials/all-about-writing-custom-blade-directives
+26: recursive components in Vue: https://vuejsdevelopers.com/2017/10/23/vue-js-tree-menu-recursive-components/
 
 
 ## Reminders:

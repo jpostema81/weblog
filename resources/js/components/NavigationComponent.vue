@@ -9,21 +9,20 @@
 
             <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
-                <b-nav v-for="item in items" v-bind:key="item.id">
-                    <b-nav-item :to="item.path">{{ item.name }}</b-nav-item>
-                </b-nav>
+                <b-nav-item to="/home">Home</b-nav-item>
             </b-navbar-nav>
 
             <!-- Right aligned nav items -->
             <b-navbar-nav class="ml-auto">
-                <b-nav-form>
+                <!-- <b-nav-form>
                     <b-form-input size="sm" class="mr-sm-2" placeholder="Search" @input="searchMessagesByKeyword"></b-form-input>
-                    <!-- <b-button size="sm" class="my-2 my-sm-0" type="submit" @click.prevent="doTest">Search</b-button> -->
-                </b-nav-form>
+                    <b-button size="sm" class="my-2 my-sm-0" type="submit" @click.prevent="doTest">Search</b-button>
+                </b-nav-form> -->
 
                 <b-nav-item v-if="!userLoggedIn" to="/login">
                     Login
                 </b-nav-item>
+                <b-nav-item v-if="!userLoggedIn" to="/register">Register</b-nav-item>
 
                 <b-nav-item-dropdown v-if="userLoggedIn" right>
                     <!-- Using 'button-content' slot -->
@@ -48,31 +47,13 @@
         data() {
             return {
                 title: 'Jeroens Weblog',
-                items: []
             }
-        },
-        created() {
-            // 2 levels deep nested routing:
-            // level #1: master layout component
-            // level #2: page components
-            this.$router.options.routes.forEach(route => {
-                route.children.forEach(pageRoute => {
-                    this.items.push({
-                        name: pageRoute.name, 
-                        path: pageRoute.path
-                    });
-                })
-            })
         },
         methods: 
         {
             ...mapActions('AuthenticationStore', {
                 logout: 'logout' 
             }),
-            searchMessagesByKeyword(keyword) {
-                console.log(keyword);
-                this.$store.dispatch('MessageStore/fetchMessagesByKeyword', keyword);
-            },
         },
         computed: {
             ...mapGetters({

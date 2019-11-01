@@ -32,7 +32,7 @@ export const CategoryStore = {
     getters: {
         getSelectedCategoryIds: (state) => 
         {
-            return state.selectedCategories.map(value => value.id);
+            return state.selectedCategories.map(value => value.id).join(',');
         },
     }
 }
