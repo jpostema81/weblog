@@ -41,7 +41,7 @@ Route::group(['middleware' => ['auth']], function()
         'as' => 'admin'
     ]);
 
-    Route::resource('/admin/comments', 'CommentsController', [
+    Route::resource('/admin/comments', 'Admin\CommentsController', [
         'as' => 'admin'
     ]);
 });

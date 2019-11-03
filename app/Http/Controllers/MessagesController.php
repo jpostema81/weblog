@@ -11,13 +11,6 @@ use App\Http\Resources\MessageResource;
 class MessagesController extends Controller
 {
     /**
-     * Register Auth middleware for this controller
-     */
-    // public function __contruct() {
-    //     $this->middleware('auth');
-    // }
-
-    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

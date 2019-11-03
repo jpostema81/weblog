@@ -30,7 +30,7 @@
                     </div>
                 </div>
 
-                <comment-component :depth="0" :comments="message.comments" :enableReply="false"></comment-component>
+                <comment-component :depth="0" :comment="message" :enableReply="isAuthenticated"></comment-component>
 
                 <b-button variant="primary" @click="$router.go(-1)">Back</b-button>
             </div>  
@@ -100,6 +100,7 @@
         computed: {
             ...mapGetters({
                 message: 'MessageStore/message',
+                isAuthenticated: 'AuthenticationStore/isAuthenticated',
             }),
         },
         methods: {

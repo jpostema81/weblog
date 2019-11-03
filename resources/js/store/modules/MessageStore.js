@@ -39,7 +39,6 @@ export const MessageStore = {
                     url: url,
                 }).then(messages => {
                     commit('setMessages', [messages.data.data]);
-                    commit('setMeta', messages.data.meta);
                     resolve();
                 }).catch(function (error) {
                     reject(error);
@@ -95,38 +94,25 @@ export const MessageStore = {
                 });
             });   
         },
+        addComment({commit, state, rootState, rootGetters}, payload) 
+        {
+            return new Promise((resolve, reject) => {
+                let url = '/api/admin/comments';
+                let data = payload;
 
-        // addComment({commit, state, rootState, rootGetters}, pageNumber = 1) 
-        // {
-        //     return new Promise((resolve, reject) => {
-        //         let url = '/api/messages';
-        //         let data = { page: pageNumber };
-
-        //         // include filters
-        //         // uitzoeken: is het netjes dat de filters verspreid zijn over meerdere VueX modules? (selectedCategories, keyWord)
-        //         if(rootState.CategoryStore.selectedCategories.length) 
-        //         {
-        //             data.categories = rootGetters['CategoryStore/getSelectedCategoryIds'];
-        //         }
-
-        //         if(state.filter.keyWord.length)
-        //         {
-        //             data.keyword = state.filter.keyWord;
-        //         }
-
-        //         axios({
-        //             method: 'get',
-        //             url: url,
-        //             params: data,
-        //         }).then(messages => {
-        //             commit('setMessages', messages.data.data);
-        //             commit('setMeta', messages.data.meta);
-        //             resolve();
-        //         }).catch(function (error) {
-        //             reject(error);
-        //         });
-        //     });   
-        // },
+                axios({
+                    method: 'post',
+                    url: url,
+                    params: data,
+                }).then(messages => {
+                    // set parent of newly inserted comment as active message at BlogPost.vue page
+                    commit('setMessages', [messages.data]);
+                    resolve();
+                }).catch(function (error) {
+                    reject(error);
+                });
+            });   
+        },
     },
     getters: 
     {

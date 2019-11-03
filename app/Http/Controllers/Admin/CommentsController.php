@@ -1,8 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Message;
+use App\Http\Resources\MessageResource;
+
 
 class CommentsController extends Controller
 {
@@ -34,16 +39,17 @@ class CommentsController extends Controller
      */
     public function store(Request $request)
     {
-        $user = $this->guard()->user;
+        // TODO: include validation
+
+        $user = $this->guard()->user();
 
         $comment = new Message();
-        $comment->title = "";
-        $comment->content = $request->get('comment');
+        $comment->content = $request->get('reply');
         $comment->user()->associate($user);
-        $comment->message()->associate($message);
+        $comment->parent_id = $request->get('messageId');
         $comment->save();
 
-        return view('messages.show', ['message' => $message]);       
+        return response()->json(new MessageResource($comment->ancestors->last(), 200));      
     }
 
     /**

@@ -6,22 +6,22 @@
     <div class="blogpost-comments-tree card-text mt-2" :style="indent">
 
         <p>
-            <span v-if="content">
-                <strong v-if="author">{{ author.full_name }}</strong>
-                <small>{{ moment(date) }}</small>
+            <span v-if="depth > 0">
+                <strong>{{ comment.author.full_name }}</strong>
+                <small>{{ moment(comment.created_at) }}</small>
                 <br>
-                {{ content }}
+                {{ comment.content }}
                 <br>
             </span>
 
             <b-link @click="toggleDisplayReplyInput">Reply</b-link>
         
-            <b-alert v-model="enableReply" variant="info" dismissible>
+            <b-alert :show="displayReplyInput && !enableReply" variant="info" dismissible>
                 Please login or register first in order to leave a comment
             </b-alert>
 
             <b-form-textarea
-                v-if="enableReply"
+                v-if="displayReplyInput && enableReply"
                 id="textarea"
                 v-model="reply"
                 placeholder="Please put your comment here..."
@@ -29,12 +29,10 @@
                 max-rows="6"
             ></b-form-textarea>
 
-            <b-button v-if="enableReply" variant="outline-primary" size="sm" class="mt-2" @click="submitReply">Submit reply</b-button>
+            <b-button v-if="displayReplyInput && enableReply" variant="outline-primary" size="sm" class="mt-2" @click="submitReply">Submit reply</b-button>
         </p>
 
-        <comment-component v-for="comment in comments" :depth="depth + 1" :comments="comment.comments" 
-            :author="comment.author" :date="comment.created_at" :content="comment.content" 
-            v-bind:key="comment.id" :enableReply="enableReply">
+        <comment-component v-for="comment in comment.comments" :depth="depth + 1" :comment="comment" :key="comment.id" :enableReply="enableReply">
             
         </comment-component>
     </div>
@@ -52,7 +50,8 @@
                 reply: '',
             }
         },
-        props: [ 'comments', 'content', 'author', 'date', 'depth', 'enableReply' ],
+        // props: [ 'comments', 'content', 'author', 'date', 'depth', 'enableReply' ],
+        props: [ 'comment', 'depth', 'enableReply' ],
         name: 'comment-component',
         components: 
         {
@@ -79,10 +78,10 @@
             },
             submitReply(e)
             {
-                // this.$store.dispatch('MessageStore/addComment', this.reply).then(() => 
-                // {
-                //     //this.$router.push('/home');
-                // });
+                this.$store.dispatch('MessageStore/addComment', { messageId: this.comment.id, reply: this.reply }).then(() => 
+                {
+                    //this.$router.push('/home');
+                });
             },
         },
     }
