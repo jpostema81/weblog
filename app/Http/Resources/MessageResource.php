@@ -22,7 +22,7 @@ class MessageResource extends JsonResource
             'content' => $this->content,
             'author' => new UserResource($this->user),
             'categories' => CategoryResource::collection($this->categories),
-            'comments' => MessageResource::collection($this->descendants),
+            'comments' => MessageResource::collection($this->allChildrenMessages),
             'image' => $this->image,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

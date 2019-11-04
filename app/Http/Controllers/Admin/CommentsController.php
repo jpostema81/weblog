@@ -49,7 +49,7 @@ class CommentsController extends Controller
         $comment->parent_id = $request->get('messageId');
         $comment->save();
 
-        return response()->json(new MessageResource($comment->ancestors->last(), 200));      
+        return response()->json(new MessageResource($comment->getRootParent(), 200));      
     }
 
     /**

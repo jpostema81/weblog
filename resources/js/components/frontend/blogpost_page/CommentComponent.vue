@@ -7,7 +7,7 @@
 
         <p>
             <span v-if="depth > 0">
-                <strong>{{ comment.author.full_name }}</strong>
+                <strong>{{ comment.author.full_name }} {{ comment.id }}</strong>
                 <small>{{ moment(comment.created_at) }}</small>
                 <br>
                 {{ comment.content }}
