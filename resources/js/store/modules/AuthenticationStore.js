@@ -77,7 +77,7 @@ export const AuthenticationStore =
     actions: 
     {
         // authenticate by JWT token (token from login or local storage)
-        authenticateByToken: ({commit, state}) => 
+        authenticateByToken: ({commit, state, dispatch}) => 
         {
             return new Promise((resolve, reject) => 
             {
@@ -90,6 +90,7 @@ export const AuthenticationStore =
                 .catch(err => 
                 {
                     commit('LOGIN_ERROR', err);
+                    dispatch('logout');
                     reject(err);
                 });
             });

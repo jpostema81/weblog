@@ -17,7 +17,7 @@
             <b-link @click="toggleDisplayReplyInput">Reply</b-link>
         
             <b-alert :show="displayReplyInput && !enableReply" variant="info" dismissible>
-                Please login or register first in order to leave a comment
+                Please <b-link to="/login">login</b-link> or <b-link to="/register">register</b-link> first in order to leave a comment
             </b-alert>
 
             <b-form-textarea
