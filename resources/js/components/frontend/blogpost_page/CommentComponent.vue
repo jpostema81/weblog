@@ -41,6 +41,7 @@
 <script>
     import { mapGetters } from 'vuex';
     import CommentComponent from './CommentComponent';
+    import MessageBus from './../../../messageBus';
 
     export default 
     {
@@ -50,12 +51,12 @@
                 reply: '',
             }
         },
-        // props: [ 'comments', 'content', 'author', 'date', 'depth', 'enableReply' ],
-        props: [ 'comment', 'depth', 'enableReply' ],
+        props: ['comment', 'depth', 'enableReply'],
         name: 'comment-component',
         components: 
         {
             CommentComponent,
+            MessageBus,
         },
         computed: 
         {
@@ -80,7 +81,8 @@
             {
                 this.$store.dispatch('MessageStore/addComment', { messageId: this.comment.id, reply: this.reply }).then(() => 
                 {
-                    //this.$router.push('/home');
+                    this.displayReplyInput = false;
+                    MessageBus.$emit('message', {message: 'Your reply has been placed successfully', variant: 'success'});
                 });
             },
         },

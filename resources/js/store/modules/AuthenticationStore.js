@@ -1,4 +1,5 @@
 import router from '../../router/index';
+import MessageBus from './../../messageBus';
 
 export const AuthenticationStore = 
 {
@@ -111,12 +112,12 @@ export const AuthenticationStore =
                     localStorage.setItem('user-token', token);
                     // token received, set user
                     commit('LOGIN_SUCCESS', user);
-
+                    MessageBus.$emit('message', {message: 'Welcome back ' + user.full_name + ', you are logged in now' , variant: 'success'});
                     resolve(resp);
                 })
                 .catch(error => 
                 {
-                    dispatch('AlertStore/alertError', error.response.data.error, { root: true });
+                    MessageBus.$emit('message', {message: error.response.data.error, variant: 'danger'});
                     commit('LOGIN_ERROR', error.response.data);
                     
                     // if the request fails, remove any possible user token if possible
@@ -136,12 +137,12 @@ export const AuthenticationStore =
                 {
                     // clear your user's token from localstorage
                     localStorage.removeItem('user-token');
-                    dispatch('AlertStore/alertSucces', 'You are logged out now!', { root: true });
+                    MessageBus.$emit('message', {message: 'You are logged out now!', variant: 'success'});
                     resolve(resp);
                 })
                 .catch(error => 
                 {
-                    dispatch('AlertStore/alertError', 'Something went wrong during logging out', { root: true });
+                    MessageBus.$emit('message', {message: 'Something went wrong during logging out', variant: 'danger'});
                     // clear your user's token from localstorage
                     localStorage.removeItem('user-token');
                     //commit(LOGOUT_ERROR, error.response.data);
@@ -163,14 +164,14 @@ export const AuthenticationStore =
 
                     setTimeout(() => {
                         // display success message after route change completes
-                        dispatch('AlertStorealertSuccess', 'Registration successful', { root: true });
+                        MessageBus.$emit('message', {message: 'Registration successful', variant: 'success'});
                     })
 
                     resolve(resp);
                 })
                 .catch(error => 
                 {
-                    dispatch('AlertStore/alertError', 'Something went wrong', { root: true });
+                    MessageBus.$emit('message', {message: 'Something went wrong', variant: 'danger'});
 
                     if (error.response) 
                     {
@@ -212,14 +213,14 @@ export const AuthenticationStore =
                     
                     setTimeout(() => {
                         // display success message after route change completes
-                        dispatch('AlertStore/alertSucces', 'Profile update successful', { root: true });
+                        MessageBus.$emit('message', {message: 'Profile update successful', variant: 'success'});
                     })
 
                     resolve(resp);
                 })
                 .catch(error => 
                 {
-                    dispatch('AlertStore/alertError', 'Something went wrong while updating your profile data', { root: true });
+                    MessageBus.$emit('message', {message: 'Something went wrong while updating your profile data', variant: 'danger'});
 
                     if (error.response) 
                     {

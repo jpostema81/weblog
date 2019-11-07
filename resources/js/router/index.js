@@ -15,7 +15,7 @@ const router = new VueRouter({
             redirect: { name: 'home' },
             component: Vue.component('Layout', require( '../layouts/Layout.vue').default),
             children: [...publicRoutes, ...privateRoutes],
-        }
+        },
     ]
 });
 
