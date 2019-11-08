@@ -13,6 +13,8 @@
 
 Route::get('/', 'HomeController@index')->name('home');
 
+Route::resource('websockets', 'WebsocketsController');
+
 
 
 

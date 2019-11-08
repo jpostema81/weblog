@@ -24,6 +24,7 @@ en: https://docs.spatie.be/laravel-permission/v3/introduction/
 24. Meer gebruik makan van Resources: https://medium.com/@dinotedesco/using-laravel-5-5-resources-to-create-your-own-json-api-formatted-api-2c6af5e4d0e8
 25: custom blade directives: https://scotch.io/tutorials/all-about-writing-custom-blade-directives
 26: recursive components in Vue: https://vuejsdevelopers.com/2017/10/23/vue-js-tree-menu-recursive-components/
+27: websockets: http://socketo.me/docs/hello-world
 
 
 ## Reminders:
@@ -37,3 +38,4 @@ en: https://docs.spatie.be/laravel-permission/v3/introduction/
 7. paging: https://appdividend.com/2018/04/26/vue-pagination-tutorial-from-scratch/
 8. interceptors: https://gist.github.com/hfalucas/60cb40c62e2e13e6c797f4887e43c8f6
 9. https://gist.github.com/hfalucas/60cb40c62e2e13e6c797f4887e43c8f6
+
