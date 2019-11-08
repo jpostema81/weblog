@@ -21,6 +21,27 @@ window.onload = function ()
     Vue.use(BootstrapVue);
     Vue.component('Multiselect', Multiselect);
 
+    ////
+    window.service = new WebSocket("ws://localhost:8888");
+
+    window.service.onmessage = function(event) {
+        alert("onmessage event: "+event.data);
+    }
+    window.service.onopen = function() {
+        window.service.send("hello!");
+    }
+    window.service.onclose = function() {
+        alert("closed");
+    }
+    window.service.onerror = function() {
+        alert("error");
+    }
+
+
+
+    
+    ////
+
     const app = new Vue({
         el: '#app',
         store,
