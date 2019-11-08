@@ -6,7 +6,7 @@
     <div>
         <category-filter></category-filter>
 
-        <b-form-input size="sm" class="mr-sm-2 mt-sm-2" placeholder="Search" @input="updateKeyword"></b-form-input>
+        <b-form-input :value="keyword" size="sm" class="mr-sm-2 mt-sm-2" placeholder="Search" @input="updateKeyword"></b-form-input>
 
         <pager class="mt-2"></pager>
 
@@ -18,6 +18,7 @@
     import CategoryFilter from '../components/frontend/home_page/CategoryFilter';
     import MessagesList from '../components/frontend/home_page/MessagesList';
     import Pager from '../components/frontend/home_page/Pager';
+    import { mapState } from 'vuex';
 
 
     export default 
@@ -28,11 +29,16 @@
             MessagesList,
             Pager,
         },
-        methods: {
+        methods: {        
             updateKeyword: function(keyword) {
                 this.$store.commit('MessageStore/setKeyword', keyword);
                 this.$store.dispatch('MessageStore/fetchAllMessages');
             },
         },
+        computed: {
+            ...mapState('MessageStore', {
+                keyword: state => state.filter.keyWord,
+            }),
+        }
     }
 </script>

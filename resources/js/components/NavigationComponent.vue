@@ -40,7 +40,7 @@
 </template>
 
 <script>
-    import { mapActions, mapGetters } from 'vuex';
+    import { mapMutations, mapGetters } from 'vuex';
 
     export default 
     {
@@ -51,8 +51,8 @@
         },
         methods: 
         {
-            ...mapActions('AuthenticationStore', {
-                logout: 'logout' 
+            ...mapMutations('AuthenticationStore', {
+                logout: 'LOGOUT' 
             }),
         },
         computed: {

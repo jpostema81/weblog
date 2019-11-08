@@ -16,7 +16,7 @@
 
             <b-link @click="toggleDisplayReplyInput">Reply</b-link>
         
-            <b-alert :show="displayReplyInput && !enableReply" variant="info" dismissible>
+            <b-alert :show="displayReplyInput && !enableReply" variant="info" class="mt-2" dismissible>
                 Please <b-link to="/login">login</b-link> or <b-link to="/register">register</b-link> first in order to leave a comment
             </b-alert>
 

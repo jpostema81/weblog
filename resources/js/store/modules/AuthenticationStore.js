@@ -32,6 +32,10 @@ export const AuthenticationStore =
 
         LOGOUT: (state) => 
         {
+            // no server side logout to keep tokens stateless. Just remove tokens from client
+            localStorage.removeItem('user-token');
+            MessageBus.$emit('message', {message: 'You are logged out now!', variant: 'success'});
+            
             state.status = '';
             state.user = '';
         },
@@ -124,32 +128,6 @@ export const AuthenticationStore =
                     localStorage.removeItem('user-token');
                     reject(error);
                 });
-            });
-        },
-        // logout a user
-        logout: ({commit, dispatch}) => 
-        {
-            return new Promise((resolve, reject) => 
-            {
-                commit('LOGOUT');
-                
-                axios({ url: '/api/logout', method: 'POST' }).then(resp => 
-                {
-                    // clear your user's token from localstorage
-                    localStorage.removeItem('user-token');
-                    MessageBus.$emit('message', {message: 'You are logged out now!', variant: 'success'});
-                    resolve(resp);
-                })
-                .catch(error => 
-                {
-                    MessageBus.$emit('message', {message: 'Something went wrong during logging out', variant: 'danger'});
-                    // clear your user's token from localstorage
-                    localStorage.removeItem('user-token');
-                    //commit(LOGOUT_ERROR, error.response.data);
-                    reject(error);
-                });
-
-                
             });
         },
         // register a new user

@@ -26,7 +26,7 @@
 </template>
 
 <script>
-    import { mapState, mapActions } from 'vuex';
+    import { mapState, mapMutations } from 'vuex';
 
     export default 
     {
@@ -45,7 +45,7 @@
         },
         methods: 
         {
-            ...mapActions('AuthenticationStore', {
+            ...mapMutations('AuthenticationStore', {
                 logout: 'LOGOUT' 
             }),
             handleSubmit() 
