@@ -6,6 +6,11 @@ const routes = [
         name: 'profile',
         component: Vue.component('Profile', require( '../../pages/Profile.vue').default)
     },
+    {
+        path: '/dashboard',
+        name: 'dashboard',
+        component: Vue.component('Dashboard', require( '../../pages/Dashboard.vue').default)
+    },
     // {
     // 	path: 'cafes/:slug/edit',
     // 	name: 'editcafe',

@@ -30,6 +30,7 @@
                         <em>{{ user.first_name + ' ' + user.last_name }}</em>
                     </template>
                     
+                    <b-dropdown-item to="/dashboard">Dashboard</b-dropdown-item>
                     <b-dropdown-item to="/profile">Profile</b-dropdown-item>
                     <b-dropdown-item @click="logout">Log Out</b-dropdown-item>
                 </b-nav-item-dropdown>

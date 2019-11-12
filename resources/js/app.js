@@ -12,35 +12,19 @@ import BootstrapVue from 'bootstrap-vue';
 import store from './store/store';
 import router from './router/index';
 import Multiselect from 'vue-multiselect';
-import 'bootstrap-vue/dist/bootstrap-vue.css';
 import MessageBus from './messageBus';
+import VueSidebarMenu from 'vue-sidebar-menu'
+
+import 'bootstrap-vue/dist/bootstrap-vue.css';
+import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
+
 
 // wait until DOM is loaded before loading vue root element
 window.onload = function () 
 {
     Vue.use(BootstrapVue);
     Vue.component('Multiselect', Multiselect);
-
-    ////
-    window.service = new WebSocket("ws://localhost:8888");
-
-    window.service.onmessage = function(event) {
-        alert("onmessage event: "+event.data);
-    }
-    window.service.onopen = function() {
-        window.service.send("hello!");
-    }
-    window.service.onclose = function() {
-        alert("closed");
-    }
-    window.service.onerror = function() {
-        alert("error");
-    }
-
-
-
-    
-    ////
+    Vue.use(VueSidebarMenu)
 
     const app = new Vue({
         el: '#app',

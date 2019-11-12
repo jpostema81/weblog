@@ -29,9 +29,10 @@ class WebsocketsController extends Controller implements MessageComponentInterfa
     // onMessage - Called when a message is received by a Connection
     public function onMessage(ConnectionInterface $from, $msg) 
     {
+        echo "onMessage: $msg\n";
         $numRecv = count($this->clients) - 1;
-        echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
-            , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
+        // echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
+        //     , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
 
         foreach ($this->clients as $client) {
             if ($from !== $client) {
@@ -39,6 +40,8 @@ class WebsocketsController extends Controller implements MessageComponentInterfa
                 $client->send($msg);
             }
         }
+
+        echo $msg;
     }
 
     // onClose - Called when a Connection is closed
