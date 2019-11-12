@@ -14,7 +14,12 @@ const router = new VueRouter({
 			path: '/',
             redirect: { name: 'home' },
             component: Vue.component('Layout', require( '../layouts/Layout.vue').default),
-            children: [...publicRoutes, ...privateRoutes],
+            children: publicRoutes,
+        },
+        {   
+			path: '/dashboard/',
+            component: Vue.component('Dashboard', require( '../layouts/DashboardLayout.vue').default),
+            children: privateRoutes,
         },
     ]
 });

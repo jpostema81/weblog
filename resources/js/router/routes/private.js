@@ -2,7 +2,7 @@ import Vue from 'vue';
 
 const routes = [
     {
-        path: '/profile',
+        path: '/dashboard/profile',
         name: 'profile',
         component: Vue.component('Profile', require( '../../pages/Profile.vue').default)
     },

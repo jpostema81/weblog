@@ -10,7 +10,7 @@
         <link type="text/css" rel="stylesheet" href="{{ mix('css/app.css') }}">
     </head>
     <body>
-        <div class="container" id="app">
+        <div id="app">
             <router-view></router-view>
         </div>
     </body>

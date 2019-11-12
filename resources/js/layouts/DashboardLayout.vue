@@ -1,17 +1,22 @@
-<style>
-
-</style>
-
 <template>
-    <div>
-       <sidebar-menu :menu="menu" />
+    <div class="container-fluid">
+        <sidebar-menu :menu="menu" />
+
+        <navigation-component></navigation-component>
+
+        <router-view></router-view>
+
+        <footer-component></footer-component>
     </div>
 </template>
 
 <script>
-    import { SidebarMenu } from 'vue-sidebar-menu'
+    import NavigationComponent from '../components/NavigationComponent';
+    import FooterComponent from '../layouts/Footer';
+    import { SidebarMenu } from 'vue-sidebar-menu';
 
-    export default {
+    export default 
+    {
         data() {
             return {
                 menu: [
@@ -39,8 +44,11 @@
                 ]
             }
         },
-        components: {
-            SidebarMenu
-        }
+        components: 
+        {
+            NavigationComponent,
+            FooterComponent,
+            SidebarMenu,
+        },
     }
 </script>
