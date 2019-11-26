@@ -26,7 +26,8 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => 
 {
-    // redirect to login page if not logged in and trying to access a restricted page
+    // redirect to login page if not logged in and trying to access a restricted page. Zie voor meer info:
+    // https://router.vuejs.org/guide/advanced/meta.html
     const authRequired = !to.matched.some(record => record.meta.public);
     const loggedIn = store.getters['AuthenticationStore/isAuthenticated'];
   
