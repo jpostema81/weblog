@@ -70,9 +70,13 @@
         methods: {
             setPages() 
             {
-                this.currentPage = this.meta.current_page; 
-                this.perPage = this.meta.per_page;
-                this.lastPage = this.meta.last_page;
+                console.log('test');
+                // console.log(typeof this.meta);
+                // if(typeof this.meta != 'undefined') {
+                    this.currentPage = this.meta.current_page; 
+                    this.perPage = this.meta.per_page;
+                    this.lastPage = this.meta.last_page;
+                // }
             },
             previousPage() 
             {
@@ -100,7 +104,9 @@
         {
             messages() 
             {
-                this.setPages();
+                if(this.messages) {
+                    this.setPages();
+                }
             }
         }
     }

@@ -23,7 +23,6 @@
                 <div v-if="submitted && errors.hasOwnProperty('email')" class="invalid-feedback">{{ errors.email.join(' ') }}</div>
             </div>
 
-
             <div class="form-group">
                 <button type="button" class="btn btn-primary" :disabled="status.registering" id="passwordReset" @click="displayPasswordFields = !displayPasswordFields">Reset your password</button>
 

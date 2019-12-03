@@ -1,14 +1,33 @@
-<template>
-    <div class="container-fluid">
-        <sidebar-menu :menu="menu" />
+<style>
+    #container-layout {
+        padding-left: 350px;
+    }
+    
+    #container-layout.collapsed {
+        padding-left: 50px;
+    }
+</style>
 
+<template>
+    <div id="container-layout" :class="[{'collapsed' : collapsed}]">
         <navigation-component></navigation-component>
 
-        <router-view></router-view>
+        <div class="px-2">
+            <router-view />
+        </div>
+
+        <sidebar-menu
+            :menu="menu"
+            :collapsed="collapsed"
+            :show-one-child="true"
+            @toggle-collapse="onToggleCollapse"
+        />
 
         <footer-component></footer-component>
     </div>
+    
 </template>
+
 
 <script>
     import NavigationComponent from '../components/NavigationComponent';
@@ -19,11 +38,17 @@
     {
         data() {
             return {
+                collapsed: false,
                 menu: [
                     {
                         header: true,
-                        title: 'Main Navigation',
+                        title: 'Dashboard Navigation',
                         hiddenOnCollapse: true
+                    },
+                    {
+                        href: '/',
+                        title: 'View Weblog',
+                        icon: 'fa fa-user'
                     },
                     {
                         href: '/dashboard',
@@ -32,7 +57,7 @@
                     },
                     {
                         href: '/dashboard/blogposts',
-                        title: 'BlogPosts',
+                        title: 'My BlogPosts',
                         icon: 'fa fa-chart-area',
                         child: [
                             {
@@ -49,6 +74,11 @@
             NavigationComponent,
             FooterComponent,
             SidebarMenu,
+        },
+        methods: {
+            onToggleCollapse(collapsed) {
+                this.collapsed = collapsed
+            },
         },
     }
 </script>

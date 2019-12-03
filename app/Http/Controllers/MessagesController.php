@@ -17,8 +17,6 @@ class MessagesController extends Controller
      */
     public function index(Request $request)
     {
-        $myCategories = app()->make('myCategories');
-        dd($myCategories);
         $messages = Message::whereNull('parent_id')->with('user')->with('categories')->orderBy('created_at', 'desc');
         
         if($request->has('categories')) {
