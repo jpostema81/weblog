@@ -8,9 +8,6 @@ export const CategoryStore = {
         setCategories(state, categories) {
             state.categories = categories;
         },
-        updateSelectedCategories(state, selectedCategories) {
-            state.selectedCategories = selectedCategories;
-        }
     },
     actions: {
         fetchCategories({state, commit, rootState}) {

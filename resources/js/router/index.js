@@ -35,6 +35,8 @@ router.beforeEach((to, from, next) =>
     {
         return next('/login');
     }
+
+    store.commit('MessageStore/resetFilters');
   
     next();
 });

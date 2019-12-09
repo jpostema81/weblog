@@ -32,7 +32,7 @@
         methods: {        
             updateKeyword: function(keyword) {
                 this.$store.commit('MessageStore/setKeyword', keyword);
-                this.$store.dispatch('MessageStore/fetchAllMessages');
+                this.$store.dispatch('MessageStore/fetchMessages');
             },
         },
         computed: {

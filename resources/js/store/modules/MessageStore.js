@@ -8,9 +8,13 @@ export const MessageStore = {
         meta: [],
         filter: 
         {
-            // selectedCategories: [],
-            keyWord: ''
+            selectedCategories: [],
+            keyWord: '',
+            userId: 0,
         }
+    },
+    setSelectedCategories(state, selectedCategories) {
+        state.filter.selectedCategories = selectedCategories;
     },
     mutations: 
     {
@@ -26,9 +30,20 @@ export const MessageStore = {
         {
             state.filter.keyWord = keyword;
         },
+        setUserId(state, userId)
+        {
+            state.filter.userId = userId;
+        },
+        resetFilters(state)
+        {
+            state.filter.selectedCategories = [];
+            state.filter.keyWord = '';
+            state.filter.userId = 0;
+        },
     },
     actions: 
     {
+        // ook via filter implementeren?
         fetchMessageById({state, commit, rootState, rootGetters}, messageId) 
         {
             return new Promise((resolve, reject) => {
@@ -45,32 +60,13 @@ export const MessageStore = {
                 });
             });   
         },
-        fetchMessagesByKeyword({commit, rootState}, keyword) 
-        {
-            return new Promise((resolve, reject) => {
-                let url = '/api/messages/';
-
-                axios({
-                    method: 'get',
-                    url: url,
-                    params: { keyword: keyword },
-                }).then(messages => {
-                    commit('setMessages', messages.data.data);
-                    commit('setMeta', messages.data.meta);
-                    resolve();
-                }).catch(function (error) {
-                    reject(error);
-                });
-            });   
-        },
-        fetchAllMessages({commit, state, rootState, rootGetters}, pageNumber = 1) 
+        fetchMessages({commit, state, rootState, rootGetters}, pageNumber = 1) 
         {
             return new Promise((resolve, reject) => {
                 let url = '/api/messages';
                 let data = { page: pageNumber };
 
                 // include filters
-                // uitzoeken: is het netjes dat de filters verspreid zijn over meerdere VueX modules? (selectedCategories, keyWord)
                 if(rootState.CategoryStore.selectedCategories.length) 
                 {
                     data.categories = rootGetters['CategoryStore/getSelectedCategoryIds'];
@@ -79,6 +75,11 @@ export const MessageStore = {
                 if(state.filter.keyWord.length)
                 {
                     data.keyword = state.filter.keyWord;
+                }
+
+                if(state.filter.userId)
+                {
+                    data.userId = state.filter.userId;
                 }
 
                 axios({

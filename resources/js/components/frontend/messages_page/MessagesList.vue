@@ -36,7 +36,7 @@
     export default {
         mounted() {
             // pre-fetch categories from store
-            this.$store.dispatch('MessageStore/fetchAllMessages');
+            this.$store.dispatch('MessageStore/fetchMessages');
         },
         methods: {
             filterMessages(event) {

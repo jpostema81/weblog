@@ -70,20 +70,16 @@
         methods: {
             setPages() 
             {
-                console.log('test');
-                // console.log(typeof this.meta);
-                // if(typeof this.meta != 'undefined') {
-                    this.currentPage = this.meta.current_page; 
-                    this.perPage = this.meta.per_page;
-                    this.lastPage = this.meta.last_page;
-                // }
+                this.currentPage = this.meta.current_page; 
+                this.perPage = this.meta.per_page;
+                this.lastPage = this.meta.last_page;
             },
             previousPage() 
             {
                 if(this.currentPage > 1)
                 {
                     this.currentPage--;
-                    this.$store.dispatch('MessageStore/fetchAllMessages', this.currentPage);
+                    this.$store.dispatch('MessageStore/fetchMessages', this.currentPage);
                 }
             },
             nextPage() 
@@ -91,13 +87,13 @@
                 if(this.currentPage < this.lastPage)
                 {
                     this.currentPage++;
-                    this.$store.dispatch('MessageStore/fetchAllMessages', this.currentPage);
+                    this.$store.dispatch('MessageStore/fetchMessages', this.currentPage);
                 }
             },
             updatePageNumber(pageNumber) 
             {
                 this.currentPage = pageNumber;
-                this.$store.dispatch('MessageStore/fetchAllMessages', this.currentPage);
+                this.$store.dispatch('MessageStore/fetchMessages', this.currentPage);
             }
         },
         watch: 

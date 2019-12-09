@@ -24,14 +24,16 @@
             });
         },
         methods: {
-            updateSelectedCategories: function(selectedCategories) {
-                this.$store.commit('CategoryStore/updateSelectedCategories', selectedCategories);
-                this.$store.dispatch('MessageStore/fetchAllMessages');
+            setSelectedCategories: function(selectedCategories) {
+                this.$store.commit('MessageStore/setSelectedCategories', selectedCategories);
+                this.$store.dispatch('MessageStore/fetchMessages');
             }
         },
         computed: {
-            ...mapState('CategoryStore', {
+            ...mapState('MessageStore', {
                 selectedCategories: state => state.selectedCategories,
+            }),
+            ...mapState('CategoryStore', {
                 categories: state => state.categories,
             })
         },

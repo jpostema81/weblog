@@ -4,40 +4,87 @@
 
 <template>
     <div>
-        <category-filter></category-filter>
-
         <b-form-input :value="keyword" size="sm" class="mr-sm-2 mt-sm-2" placeholder="Search" @input="updateKeyword"></b-form-input>
 
         <pager class="mt-2"></pager>
 
-        <messages-list></messages-list>
+        <b-table striped hover :items="messages" :fields="fields">
+            <template v-slot:cell(actions)="row">
+                <b-button size="sm" @click="editMessage(row.item, row.index, $event.target)" class="mr-1">
+                    Edit
+                </b-button>
+            </template>
+        </b-table>
     </div>
 </template>
 
 <script>
-    import CategoryFilter from '../../components/frontend/home_page/CategoryFilter';
-    import MessagesList from '../../components/frontend/home_page/MessagesList';
     import Pager from '../../components/frontend/home_page/Pager';
-    import { mapState } from 'vuex';
+    import { mapState, mapGetters } from 'vuex';
 
 
     export default 
     {
         components: 
         {
-            CategoryFilter,
-            MessagesList,
             Pager,
+        },
+        data() {
+            return {
+                fields: [
+                    { 
+                        key: 'title',
+                        sortable: true,
+                        label: 'Title',
+                    }, 
+                    { 
+                        key: 'author.full_name',
+                        sortable: true,
+                        label: 'Author',
+                    },
+                    {   
+                        key: 'created_at',
+                        sortable: true,
+                        label: 'Creation date',
+                        formatter: (value) => {
+                            return moment(value).format('YYYY-MM-DD')
+                        }
+                    },
+                    { 
+                        key: 'actions', 
+                        label: 'Actions', 
+                    }
+                ],
+            }
+        },
+        mounted() {
+            // pre-fetch categories from store
+            this.$store.commit('MessageStore/setUserId', this.user.id);
+            this.$store.dispatch('MessageStore/fetchMessages');
         },
         methods: {        
             updateKeyword: function(keyword) {
                 this.$store.commit('MessageStore/setKeyword', keyword);
-                this.$store.dispatch('MessageStore/fetchAllMessages');
+                this.$store.dispatch('MessageStore/fetchMessages');
             },
+            filterMessages(event) {
+                console.log(event.target.value);
+            },
+            editMessage(item, index, target) {
+                console.log(item);
+                console.log(index);
+                console.log(target);
+
+                this.$router.push(`/dashboard/blogposts/${item.id}/edit`);
+            }
         },
         computed: {
             ...mapState('MessageStore', {
                 keyword: state => state.filter.keyWord,
+            }),
+            ...mapGetters({
+                messages: 'MessageStore/messages',
+                user: 'AuthenticationStore/user',
             }),
         }
     }

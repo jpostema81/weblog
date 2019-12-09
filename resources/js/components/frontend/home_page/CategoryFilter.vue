@@ -26,7 +26,7 @@
         methods: {
             updateSelectedCategories: function(selectedCategories) {
                 this.$store.commit('CategoryStore/updateSelectedCategories', selectedCategories);
-                this.$store.dispatch('MessageStore/fetchAllMessages');
+                this.$store.dispatch('MessageStore/fetchMessages');
             }
         },
         computed: {

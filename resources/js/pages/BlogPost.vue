@@ -35,48 +35,6 @@
                 <b-button variant="primary" @click="$router.go(-1)">Back</b-button>
             </div>  
         </div>
-
-        <!-- {!! Form::open(['method' => 'DELETE', 'route' => ['messages.destroy', $message->id] ]) !!}
-            @can('Edit Post')
-                <a href="{{ route('messages.edit', $message->id) }}" class="btn btn-info" role="button">Edit</a>
-            @endcan
-            @can('Delete Post') 
-                {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-            @endcan
-        {!! Form::close() !!} -->
-
-
-        
-
-        
-
-
-        <!-- @auth
-        {{ Form::model($message, ['route' => ['comments.store', $message->id], 'method' => 'POST']) }}
-        <article class="media">
-            <figure class="media-left">
-                <p class="image is-64x64">
-                <img src="https://bulma.io/images/placeholders/128x128.png">
-                </p>
-            </figure>
-            <div class="media-content">
-                <div class="field">
-                <p class="control">
-                    {{ Form::textarea('comment', null, array('class' => 'textarea', 'rows' => '4', 'placeholder' => 'Add a comment...')) }}
-                </p>
-                </div>
-                <div class="field">
-                <p class="control">
-                    {{ Form::submit("Post comment", array('class' => 'button')) }}
-                </p>
-                </div>
-            </div>
-        </article>
-        {{ Form::close() }}
-        @endauth -->
-
-        
-
     </div>
 </template>
 

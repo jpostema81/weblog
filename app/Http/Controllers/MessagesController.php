@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Message;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\Http\Resources\MessageResource;
@@ -18,8 +19,15 @@ class MessagesController extends Controller
     public function index(Request $request)
     {
         $messages = Message::whereNull('parent_id')->with('user')->with('categories')->orderBy('created_at', 'desc');
-        
-        if($request->has('categories')) {
+
+        if($request->has('userId')) 
+        {
+            $userId = $request->get('userId');            
+            $messages->where('author_id', $userId)->with('user')->with('categories')->orderBy('created_at', 'desc');
+        }
+
+        if($request->has('categories')) 
+        {
             $category_ids = explode(",", $request->get('categories'));
             
             $messages->whereHas('categories', function($query) use ($category_ids) {

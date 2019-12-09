@@ -13,9 +13,20 @@ const routes = [
     },
     {
         path: '/dashboard/blogposts',
-        name: 'dashboard',
+        name: 'blogpostsOverview',
         component: Vue.component('BlogpostsOverview', require( '../../pages/dashboard/BlogpostsOverview.vue').default)
     },
+    {
+        path: '/dashboard/blogposts/:blogPostID/edit',
+        name: 'blogpostShowEdit',
+        component: Vue.component('BlogpostShowEdit', require( '../../pages/dashboard/BlogpostShowEdit.vue').default)
+    },
+    {
+        path: '/dashboard/blogposts/create',
+        name: 'blogpostShowEdit',
+        component: Vue.component('BlogpostShowEdit', require( '../../pages/dashboard/BlogpostShowEdit.vue').default)
+    },
+
     // {
     // 	path: 'cafes/:slug/edit',
     // 	name: 'editcafe',
