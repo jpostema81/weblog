@@ -1,4 +1,4 @@
-import { strictEqual } from "assert";
+//import { strictEqual } from "assert";
 
 export const MessageStore = {
     namespaced: true,
@@ -11,10 +11,9 @@ export const MessageStore = {
             selectedCategories: [],
             keyWord: '',
             userId: 0,
-        }
-    },
-    setSelectedCategories(state, selectedCategories) {
-        state.filter.selectedCategories = selectedCategories;
+        },
+        status: '',
+        errors: {},
     },
     mutations: 
     {
@@ -33,6 +32,9 @@ export const MessageStore = {
         setUserId(state, userId)
         {
             state.filter.userId = userId;
+        },
+        setSelectedCategories(state, selectedCategories) {
+            state.filter.selectedCategories = selectedCategories;
         },
         resetFilters(state)
         {
@@ -67,9 +69,9 @@ export const MessageStore = {
                 let data = { page: pageNumber };
 
                 // include filters
-                if(rootState.CategoryStore.selectedCategories.length) 
+                if(state.filter.selectedCategories.length) 
                 {
-                    data.categories = rootGetters['CategoryStore/getSelectedCategoryIds'];
+                    data.categories = state.filter.selectedCategories.map(a => a.id).join();
                 }
 
                 if(state.filter.keyWord.length)

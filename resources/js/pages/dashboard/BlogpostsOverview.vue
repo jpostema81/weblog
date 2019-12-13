@@ -42,13 +42,21 @@
                         sortable: true,
                         label: 'Author',
                     },
+                    { 
+                        key: 'categories',
+                        sortable: true,
+                        label: 'Categories',
+                        formatter: (value) => {
+                            return value.map(a => a.name).join(', ');
+                        },
+                    },
                     {   
                         key: 'created_at',
                         sortable: true,
                         label: 'Creation date',
                         formatter: (value) => {
                             return moment(value).format('YYYY-MM-DD')
-                        }
+                        },
                     },
                     { 
                         key: 'actions', 
@@ -71,10 +79,6 @@
                 console.log(event.target.value);
             },
             editMessage(item, index, target) {
-                console.log(item);
-                console.log(index);
-                console.log(target);
-
                 this.$router.push(`/dashboard/blogposts/${item.id}/edit`);
             }
         },

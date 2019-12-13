@@ -64,7 +64,6 @@
             }
         },
         created() {
-            console.log('initializing user');
             this.user = {...this.$store.state.AuthenticationStore.user};
         },
         computed: {

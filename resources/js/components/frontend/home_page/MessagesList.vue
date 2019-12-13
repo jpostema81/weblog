@@ -5,7 +5,7 @@
                 <div class="media">
                     <div class="media-body text-center">
                         <h5 class="card-title">
-                            <router-link :to="{ name: 'blogpost', params: { blogPostID: message.id }}">{{ message.title }}</router-link>
+                            <router-link :to="{ name: 'blogpostsOverview', params: { blogPostId: message.id }}">{{ message.title }}</router-link>
                         </h5>
                         <div class="tags has-addons level-item">
                             <span class="tag is-rounded is-info">@ {{ message.author.full_name }}</span> |

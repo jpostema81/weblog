@@ -17,7 +17,7 @@ const routes = [
         component: Vue.component('BlogpostsOverview', require( '../../pages/dashboard/BlogpostsOverview.vue').default)
     },
     {
-        path: '/dashboard/blogposts/:blogPostID/edit',
+        path: '/dashboard/blogposts/:blogPostId/edit',
         name: 'blogpostShowEdit',
         component: Vue.component('BlogpostShowEdit', require( '../../pages/dashboard/BlogpostShowEdit.vue').default)
     },

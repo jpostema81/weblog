@@ -46,14 +46,14 @@
     {
         data() {
             return {
-                blogPostID: this.$route.params.blogPostID,
+                blogPostId: this.$route.params.blogPostId,
             }
         },
         components: {
             CommentComponent,
         },
         mounted() {
-            this.$store.dispatch('MessageStore/fetchMessageById', this.blogPostID);
+            this.$store.dispatch('MessageStore/fetchMessageById', this.blogPostId);
         }, 
         computed: {
             ...mapGetters({

@@ -7,7 +7,7 @@ const routes = [
         component: Vue.component('Home', require( '../../pages/Home.vue').default)
     },
     {
-        path: '/blogposts/:blogPostID',
+        path: '/blogposts/:blogPostId',
         name: 'blogpostsOverview',
         component: Vue.component('BlogPost', require( '../../pages/BlogPost.vue').default)
     },
