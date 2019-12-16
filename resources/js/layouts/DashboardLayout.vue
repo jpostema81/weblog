@@ -33,11 +33,13 @@
     import NavigationComponent from '../components/NavigationComponent';
     import FooterComponent from '../layouts/Footer';
     import { SidebarMenu } from 'vue-sidebar-menu';
+    import { isMobile } from 'mobile-device-detect';
 
     export default 
     {
         data() {
             return {
+                collapsed: false,
                 collapsed: false,
                 menu: [
                     {
@@ -59,15 +61,18 @@
                         href: '/dashboard/blogposts',
                         title: 'My BlogPosts',
                         icon: 'fa fa-chart-area',
-                        child: [
-                            {
-                                href: '/charts/sublink',
-                                title: 'Sub Link'
-                            }
-                        ]
+                        // child: [
+                        //     {
+                        //         href: '/charts/sublink',
+                        //         title: 'Sub Link'
+                        //     }
+                        // ]
                     }
                 ]
             }
+        },
+        created() {
+            this.collapsed = isMobile; 
         },
         components: 
         {

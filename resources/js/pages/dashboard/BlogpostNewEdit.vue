@@ -14,13 +14,18 @@
                 <div v-if="submitted && errors.hasOwnProperty('title')" class="invalid-feedback">{{ errors.title.join(' ') }}</div>
             </div>
 
-            <b-form-textarea
-                id="textarea"
-                v-model="message.content"
-                placeholder="Write your message here..."
-                rows="3"
-                max-rows="6"
-            ></b-form-textarea>
+            <div class="form-group my-2">
+                <b-form-textarea
+                    id="textarea"
+                    v-model="message.content"
+                    placeholder="Write your message here..."
+                    required
+                    rows="3"
+                    max-rows="6"
+                    :class="{ 'is-invalid': submitted && errors.hasOwnProperty('content') }"
+                ></b-form-textarea>
+                <div v-if="submitted && errors.hasOwnProperty('content')" class="invalid-feedback">{{ errors.content.join(' ') }}</div>
+            </div>
 
             <div class="form-group mt-3">
                 <b-button type="submit" variant="primary" :disabled="status.updating">{{ submitButtonText }}</b-button>
@@ -31,7 +36,7 @@
 </template>
 
 <script>
-    import { mapState, mapGetters } from 'vuex';
+    import { mapState, mapGetters, mapActions } from 'vuex';
     import CategoryFilter from '../../components/CategoryFilter';
 
     export default 
@@ -50,41 +55,45 @@
         created() {
             if(!!this.blogPostId)
             {
-                this.$store.dispatch('MessageStore/fetchMessageById', this.blogPostId).then(() => {
-                    this.message = {...this.$store.getters['MessageStore/message']};
+                this.$store.dispatch('DashboardMessageStore/fetchMessageById', this.blogPostId).then(() => {
+                    this.message = {...this.$store.getters['DashboardMessageStore/message']};
                 });
+            } 
+            else
+            {
+                this.message = {
+                    title: '',
+                    content: '',
+                    categories: [],
+                };
             }
         },
-        methods: {        
-            // updateKeyword: function(keyword) {
-            //     this.$store.commit('MessageStore/setKeyword', keyword);
-            //     this.$store.dispatch('MessageStore/fetchMessages');
-            // },
+        methods: {
+            ...mapActions('DashboardMessageStore', {
+                addMessage: 'addMessage'
+            }),      
             handleSubmit(e) 
             {
                 this.submitted = true;
-                //this.register(this.user);
+                this.addMessage(this.message).then(messages => {
+                    //this.$store.commit('setMessages', [messages.data]);
+                    //this.$router.push(`/dashboard/blogposts/${item.id}/edit`);
+                }).catch(function (error) {
+                    console.log(error);
+                });
             },
-            updateSelectedCategories: function(selectedCategory) {
-                //this.$store.commit('MessageStore/setSelectedCategories', selectedCategory);
-                //this.$store.dispatch('MessageStore/fetchMessages');
-            }
         },
         computed: {
             title() {
                 return !!this.blogPostId ? 'Edit message' : 'Write a new message';
             },
-            ...mapState('MessageStore', {
+            ...mapState('DashboardMessageStore', {
                 status: state => state.status,
                 errors: state => state.errors,
             }),
             submitButtonText() {
                 return (!!this.blogPostId) ? 'Update' : 'Save';
             },
-            // ...mapGetters({
-            //     messages: 'MessageStore/messages',
-            //     user: 'AuthenticationStore/user',
-            // }),
         }
     }
 </script>

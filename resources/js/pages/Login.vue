@@ -46,7 +46,7 @@
         methods: 
         {
             ...mapMutations('AuthenticationStore', {
-                logout: 'LOGOUT' 
+                logout: 'logout' 
             }),
             handleSubmit() 
             {

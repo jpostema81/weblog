@@ -1,6 +1,4 @@
-//import { strictEqual } from "assert";
-
-export const MessageStore = {
+export const DashboardMessageStore = {
     namespaced: true,
     state: 
     {
@@ -38,6 +36,23 @@ export const MessageStore = {
             state.filter.selectedCategories = [];
             state.filter.keyWord = '';
         },
+
+        // addMessage mutations
+        addMessageRequest: (state)  =>
+        {
+            state.status = 'updating';
+            state.errors = {};
+        },
+        addMessageSuccess: (state) =>
+        {
+            state.status = 'success';
+            state.errors = {};
+        },
+        addMessageError: (state, errors) => 
+        {
+            state.status = 'error';
+            state.errors = errors;
+        },
     },
     actions: 
     {
@@ -61,7 +76,7 @@ export const MessageStore = {
         fetchMessages({commit, state, rootState, rootGetters}, pageNumber = 1) 
         {
             return new Promise((resolve, reject) => {
-                let url = '/api/messages';
+                let url = '/api/admin/messages';
                 let data = { page: pageNumber };
 
                 // include filters
@@ -73,11 +88,6 @@ export const MessageStore = {
                 if(state.filter.keyWord.length)
                 {
                     data.keyword = state.filter.keyWord;
-                }
-
-                if(state.filter.userId)
-                {
-                    data.userId = state.filter.userId;
                 }
 
                 axios({
@@ -93,21 +103,44 @@ export const MessageStore = {
                 });
             });   
         },
-        addComment({commit, state, rootState, rootGetters}, payload) 
+        addMessage({commit, state, rootState, rootGetters}, { title, content, categories }) 
         {
+            commit('addMessageRequest');
+
             return new Promise((resolve, reject) => {
-                let url = '/api/admin/comments';
-                let data = payload;
+                let url = '/api/admin/messages';
+                let data = { title, content, categories: categories.map(a => a.id).join() };
 
                 axios({
                     method: 'post',
                     url: url,
                     params: data,
                 }).then(messages => {
-                    // set parent of newly inserted comment as active message at BlogPost.vue page
-                    commit('setMessages', [messages.data]);
+                    commit('addMessageSuccess');
                     resolve();
                 }).catch(function (error) {
+                    commit('addMessageError', error.response.data.errors);
+                    reject(error);
+                });
+            });   
+        },
+        deleteMessage({commit, state, rootState, rootGetters}, message) 
+        {
+            return new Promise((resolve, reject) => {
+                let url = `/api/admin/messages/${message.id}`;
+
+                //MessageBus.$emit('message', {message: 'Something went wrong', variant: 'danger'});
+
+                axios({
+                    method: 'delete',
+                    url: url,
+                }).then(messages => {
+                    commit('setMessages', messages.data.data);
+                    commit('setMeta', messages.data.meta);
+                    //commit('addMessageSuccess');
+                    resolve();
+                }).catch(function (error) {
+                    //commit('addMessageError', error.response.data.errors);
                     reject(error);
                 });
             });   

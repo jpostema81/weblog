@@ -61,6 +61,7 @@
                 showPasswordReset: false,
                 submitted: false,
                 displayPasswordFields: false,
+                user: null,
             }
         },
         created() {

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="card article" v-for="(message, messageKey) in messages" v-bind:key="message.id">
+        <div class="card article mb-1" v-for="(message, messageKey) in messages" v-bind:key="message.id">
             <div class="card-body">
                 <div class="media">
                     <div class="media-body text-center">
@@ -31,25 +31,12 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex';
-
     export default {
-        mounted() {
-            // pre-fetch categories from store
-            this.$store.dispatch('MessageStore/fetchMessages');
-        },
+        props: ['messages'],
         methods: {
-            filterMessages(event) {
-                console.log(event.target.value);
-            },
             moment: function (date) {
                 return moment(date, 'YYYY-MM-DD HH:mm:ss').fromNow();
             }
         },
-        computed: {
-            ...mapGetters({
-                messages: 'MessageStore/messages'
-            })
-        }
     }
 </script>

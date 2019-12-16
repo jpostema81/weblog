@@ -8,6 +8,8 @@ use App\Message;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\MessageResource;
+use App\Http\Requests\StoreMessage;
 
 
 class MessagesController extends Controller
@@ -27,22 +29,10 @@ class MessagesController extends Controller
      */
     public function index()
     {
-        return "Test";
         $userId = Auth::user()->id;
-        $messages = Message::orderBy('created_ad', 'desc')->where('author_id', $userId)->get();
+        $messages = Message::orderBy('created_ad', 'desc')->where('author_id', $userId);
 
-        return view('admin.messages.index', ['messages' => $messages]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $message = new Message();
-        return view('admin.messages.create', compact('message'));
+        return MessageResource::collection($messages->paginate(10));
     }
 
     /**
@@ -51,29 +41,27 @@ class MessagesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreMessage $request)
     {   
-        // validate user input
-        $validatedData = $request->validate($this->rules());
-
-        // create new message and store it
+        // Validate input and retrieve fields    
+        $validatedInput = $request->validated();
         $userId = Auth::user()->id;
 
+        // create new message and store it
         $message = new Message();
-        $message->title = Input::get('title');
-        $message->content = Input::get('content');
+        $message->fill($validatedInput);
         $message->author_id = $userId;
 
         if($request->hasFile('image')) {
             $filename = $request->file('image')->store('public'); // store function generates unique ID to serve as filename
             $message->image = basename($filename);
         }
-
+        
         $message->save();
+        $catgory_ids = array_map('intval', explode(',', $request->categories));
+        $message->categories()->attach($catgory_ids);
 
-        $message->categories()->attach($request->get('categories'));
-
-        return redirect()->route('admin.messages.index');
+        return response()->json($message);
     }
 
     /**
@@ -82,9 +70,9 @@ class MessagesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Message $message)
     {
-        
+        return new MessageResource($message);
     }
 
     /**
@@ -93,10 +81,10 @@ class MessagesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Message $message)
-    {
-        return view('admin.messages.create', compact('message'));
-    }
+    // public function edit(Message $message)
+    // {
+    //     return view('admin.messages.create', compact('message'));
+    // }
 
     /**
      * Update the specified resource in storage.
@@ -141,31 +129,16 @@ class MessagesController extends Controller
     {
         $result = $message->delete();
 
-        if($result) {
-            $data=[
-                'status' => '1',
-                'msg' => 'success'
-              ];
-        } else {
-            $data=[
-                'status' => '0',
-                'msg' => 'fail'
-              ];
+        if($result) 
+        {
+            dd('deletion ok');
+            $this->index();
+        } 
+        else 
+        {
+            return response()->json([
+                'message' => 'deletion of message failed'
+            ]);
         }
-        
-        return response()->json($data);
-    }
-
-    /**
-     * Validate form user input
-     */
-    public function rules() {
-        return [
-            'title' => 'required|max:255',
-            'content' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ];
-
-        //'title' => 'required|unique:messages|max:255',
     }
 }

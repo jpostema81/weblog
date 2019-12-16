@@ -20,11 +20,11 @@ class MessagesController extends Controller
     {
         $messages = Message::whereNull('parent_id')->with('user')->with('categories')->orderBy('created_at', 'desc');
 
-        if($request->has('userId')) 
-        {
-            $userId = $request->get('userId');            
-            $messages->where('author_id', $userId)->with('user')->with('categories')->orderBy('created_at', 'desc');
-        }
+        // if($request->has('userId')) 
+        // {
+        //     $userId = $request->get('userId');            
+        //     $messages->where('author_id', $userId)->with('user')->with('categories')->orderBy('created_at', 'desc');
+        // }
 
         if($request->has('categories')) 
         {
