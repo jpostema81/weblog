@@ -50,24 +50,29 @@
                     {
                         href: '/',
                         title: 'View Weblog',
-                        icon: 'fa fa-user'
+                        icon: 'fa fa-home'
                     },
                     {
                         href: '/dashboard',
                         title: 'Dashboard',
-                        icon: 'fa fa-user'
+                        icon: 'fa fa-sliders-h'
                     },
                     {
                         href: '/dashboard/blogposts',
                         title: 'My BlogPosts',
-                        icon: 'fa fa-chart-area',
+                        icon: 'fa fa-file-alt',
                         // child: [
                         //     {
                         //         href: '/charts/sublink',
                         //         title: 'Sub Link'
                         //     }
                         // ]
-                    }
+                    },
+                    {
+                        href: '/dashboard/profile',
+                        title: 'Profile',
+                        icon: 'fa fa-user'
+                    },
                 ]
             }
         },

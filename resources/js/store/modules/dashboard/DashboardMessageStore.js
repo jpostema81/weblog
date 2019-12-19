@@ -1,3 +1,5 @@
+import MessageBus from './../../../messageBus';
+
 export const DashboardMessageStore = {
     namespaced: true,
     state: 
@@ -53,6 +55,40 @@ export const DashboardMessageStore = {
             state.status = 'error';
             state.errors = errors;
         },
+
+        // removeMessage mutations
+        removeMessageRequest: (state)  =>
+        {
+            state.status = 'updating';
+            state.errors = {};
+        },
+        removeMessageSuccess: (state) =>
+        {
+            state.status = 'success';
+            state.errors = {};
+        },
+        removeMessageError: (state, errors) => 
+        {
+            state.status = 'error';
+            state.errors = errors;
+        },
+
+        // removeMessage mutations
+        updateMessageRequest: (state)  =>
+        {
+            state.status = 'updating';
+            state.errors = {};
+        },
+        updateMessageSuccess: (state) =>
+        {
+            state.status = 'success';
+            state.errors = {};
+        },
+        updateMessageError: (state, errors) => 
+        {
+            state.status = 'error';
+            state.errors = errors;
+        },
     },
     actions: 
     {
@@ -103,48 +139,84 @@ export const DashboardMessageStore = {
                 });
             });   
         },
-        addMessage({commit, state, rootState, rootGetters}, { title, content, categories }) 
+        addMessage({commit, state, rootState, rootGetters}, { id, title, content, categories }) 
         {
             commit('addMessageRequest');
 
             return new Promise((resolve, reject) => {
                 let url = '/api/admin/messages';
-                let data = { title, content, categories: categories.map(a => a.id).join() };
+                let data = { id, title, content };
+                
+                if(categories.length > 0)
+                {
+                    data.categories = categories.map(a => a.id).join();
+                }
 
                 axios({
                     method: 'post',
                     url: url,
-                    params: data,
+                    data,
                 }).then(messages => {
                     commit('addMessageSuccess');
-                    resolve();
+                    MessageBus.$emit('message', {message: 'Message created', variant: 'success'});
+                    resolve(messages.data);
                 }).catch(function (error) {
                     commit('addMessageError', error.response.data.errors);
+                    MessageBus.$emit('message', {message: 'Something went wrong', variant: 'danger'});
                     reject(error);
                 });
             });   
         },
-        deleteMessage({commit, state, rootState, rootGetters}, message) 
+        updateMessage({commit, state, rootState, rootGetters}, { id, title, content, categories }) 
         {
-            return new Promise((resolve, reject) => {
-                let url = `/api/admin/messages/${message.id}`;
+            commit('updateMessageRequest');
 
-                //MessageBus.$emit('message', {message: 'Something went wrong', variant: 'danger'});
+            return new Promise((resolve, reject) => {
+                let url = `/api/admin/messages/${id}`;
+                let data = { id, title, content, categories: categories.map(a => a.id).join() };
+
+                axios({
+                    method: 'put',
+                    url: url,
+                    data
+                }).then(messages => {
+                    commit('updateMessageSuccess');
+                    MessageBus.$emit('message', {message: 'Message updated', variant: 'success'});
+                    resolve(messages.data);
+                }).catch(function (error) {
+                    commit('updateMessageError', error.response.data.errors);
+                    MessageBus.$emit('message', {message: 'Something went wrong', variant: 'danger'});
+                    reject(error);
+                });
+            });   
+        },
+        deleteMessage({commit, state, rootState, rootGetters}, messageId) 
+        {
+            commit('removeMessageRequest');
+
+            return new Promise((resolve, reject) => {
+                let url = `/api/admin/messages/${messageId}`;
 
                 axios({
                     method: 'delete',
                     url: url,
                 }).then(messages => {
-                    commit('setMessages', messages.data.data);
-                    commit('setMeta', messages.data.meta);
-                    //commit('addMessageSuccess');
+                    commit('removeMessageSuccess');
+                    MessageBus.$emit('message', {message: 'Message deleted', variant: 'success'});
                     resolve();
                 }).catch(function (error) {
-                    //commit('addMessageError', error.response.data.errors);
+                    commit('removeMessageError', error);
+                    MessageBus.$emit('message', {message: 'Something went wrong', variant: 'danger'});
                     reject(error);
                 });
             });   
         },
+        deleteMessages({dispatch, commit, state, rootState, rootGetters}, messages) 
+        {
+            messages.forEach(messageId => {
+                dispatch('deleteMessage' , messageId);
+            });
+        }
     },
     getters: 
     {

@@ -38,6 +38,8 @@ export const AuthenticationStore =
             
             state.status = '';
             state.user = '';
+
+            router.push('/');
         },
         setUser: (state, user) => 
         {

@@ -1,27 +1,48 @@
 <template>
     <div>
-        <b-form-input :value="keyword" size="sm" class="mr-sm-2 mt-sm-2" placeholder="Search" @input="updateKeyword"></b-form-input>
+        <div class="flex mt-3">
+            <h2 class="mx-1">BlogPosts</h2>
+            <b-button class="mx-1" variant="outline-primary" to="/dashboard/blogposts/create">Write new message</b-button>
+        </div>
 
-        <b-container class="mt-2">
-            <b-row>
-                <b-col class="pl-0">
-                    <b-pagination
-                        v-model="currentPage"
-                        :total-rows="meta.total"
-                        :per-page="meta.per_page"
-                        aria-controls="my-table"
-                        first-text="First"
-                        prev-text="Prev"
-                        next-text="Next"
-                        last-text="Last"
-                        @change="loadPage"
-                    ></b-pagination>
-                </b-col>
-                <b-col class="text-right"><b-button variant="primary" to="/dashboard/blogposts/create">Write new message</b-button></b-col>
-            </b-row>
-        </b-container>
+        <b-form inline>
+            <b-form-input :value="keyword" size="sm" placeholder="Search" @input="updateKeyword"></b-form-input>
+
+            <b-pagination
+                v-model="currentPage"
+                :total-rows="meta.total"
+                :per-page="meta.per_page"
+                aria-controls="my-table"
+                first-text="First"
+                prev-text="Prev"
+                next-text="Next"
+                last-text="Last"
+                @change="loadPage"
+                class="mt-3 mx-1"
+            ></b-pagination>
+            <b-form-select class="mx-1" v-model="bulkAction.selected" :options="bulkAction.options"></b-form-select>
+            <b-button class="mx-1" variant="outline-primary" type="button" @click="applyBulkAction">Apply</b-button>
+        </b-form>
 
         <b-table striped hover :items="messages" :fields="fields">
+            <template v-slot:head(select)="data">
+                <b-form-checkbox
+                    id="checkboxSelectAll"
+                    v-model="selectAll"
+                    name="checkboxSelectAll"
+                    @change="toggleSelectAll"
+                ></b-form-checkbox>
+            </template>
+
+            <template v-slot:cell(select)="row">
+                <b-form-checkbox
+                    :id="'checkbox-'+row.item.id"
+                    v-model="selectedItems[row.item.id]"
+                    :name="'checkbox-'+row.item.id"
+                    @change="selectAll=false"
+                ></b-form-checkbox>
+            </template>
+
             <template v-slot:cell(actions)="row">
                 <b-button size="sm" @click="editMessage(row.item, row.index, $event.target)" class="mr-1">
                     Edit
@@ -44,7 +65,13 @@
             return {
                 currentPage: 1,
                 perPage: 10,
+                selectedItems: {},
+                selectAll: false,
                 fields: [
+                    { 
+                        key: 'select', 
+                        label: '', 
+                    },
                     { 
                         key: 'title',
                         sortable: true,
@@ -76,6 +103,14 @@
                         label: 'Actions', 
                     }
                 ],
+                bulkAction: {
+                    selected: null,
+                    options: [
+                        { value: null, text: 'Bulk Actions' },
+                        { value: 'delete', text: 'Move to Trash Bin' },
+                        { value: 'edit', text: 'Edit', disabled: true },
+                    ]
+                }
             }
         },
         mounted() {
@@ -94,14 +129,54 @@
                 this.$router.push(`/dashboard/blogposts/${item.id}/edit`);
             },
             deleteMessage(item, index, target) {
-                this.$store.dispatch('DashboardMessageStore/deleteMessage', item).then(() => {
-                    // this.$store.dispatch('DashboardMessageStore/fetchMessages');
-                    // this.currentPage = 1;
+                this.$store.dispatch('DashboardMessageStore/deleteMessage', item.id).then(() => {
+                    this.$store.dispatch('DashboardMessageStore/fetchMessages');
+                    this.currentPage = 1;
                 });
             },
             loadPage(pageNumber)
             {
                 this.$store.dispatch('DashboardMessageStore/fetchMessages', pageNumber);
+                this.selectAll = false;
+
+                this.messages.forEach(element => {
+                    this.selectedItems = {};
+                });
+            },
+            toggleSelectAll()
+            {
+                this.selectAll = !this.selectAll;
+
+                this.messages.forEach(element => {
+                    this.selectedItems[element.id] = this.selectAll;
+                });
+            },
+            toggleBusy() 
+            {
+                this.isBusy = !this.isBusy;
+            },
+            applyBulkAction() 
+            {
+                switch(this.bulkAction.selected)
+                {
+                    case 'delete':
+                    {
+                        Object.filter = (obj, predicate) => Object.fromEntries(Object.entries(obj).filter(predicate));
+                        let filteredMessages = Object.keys(Object.filter(this.selectedItems, ([id, selected]) => selected === true)); 
+
+                        this.$store.dispatch('DashboardMessageStore/deleteMessages', filteredMessages).then(() => {
+                            this.$store.dispatch('DashboardMessageStore/fetchMessages');
+                            this.currentPage = 1;
+                            this.selectedItems = {};
+                        });
+                        
+                    }
+                    case 'edit':
+                    {
+
+                        
+                    }
+                }
             },
         },
         computed: {

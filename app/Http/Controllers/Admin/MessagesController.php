@@ -27,10 +27,15 @@ class MessagesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $userId = Auth::user()->id;
         $messages = Message::orderBy('created_ad', 'desc')->where('author_id', $userId);
+
+        // apply keyword filter
+        if($request->has('keyword')) {
+            $messages->where('title', 'like', '%' . $request->get('keyword') . '%');
+        }
 
         return MessageResource::collection($messages->paginate(10));
     }
@@ -58,8 +63,12 @@ class MessagesController extends Controller
         }
         
         $message->save();
-        $catgory_ids = array_map('intval', explode(',', $request->categories));
-        $message->categories()->attach($catgory_ids);
+
+        if($request->has('categories')) 
+        {
+            $catgory_ids = array_map('intval', explode(',', $request->categories));
+            $message->categories()->sync($catgory_ids);
+        }
 
         return response()->json($message);
     }
@@ -76,27 +85,17 @@ class MessagesController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    // public function edit(Message $message)
-    // {
-    //     return view('admin.messages.create', compact('message'));
-    // }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Message $message)
+    public function update(StoreMessage $request, Message $message)
     {
-        // validate user input
-        $validatedData = $request->validate($this->rules());
+        // Validate input and retrieve fields    
+        $validatedInput = $request->validated();
+        $userId = Auth::user()->id;
 
         // remove previous image if available
         $result = Storage::delete('public/'.$message->image);
@@ -104,10 +103,10 @@ class MessagesController extends Controller
         // update message with new data
         $userId = Auth::user()->id;
 
-        $message->title = Input::get('title');
-        $message->content = Input::get('content');
+        $message->fill($validatedInput);
         $message->author_id = $userId;
-        $message->categories()->sync($request->get('categories'));
+        $catgory_ids = array_map('intval', explode(',', $request->categories));
+        $message->categories()->sync($catgory_ids);
 
         if($request->hasFile('image')) {
             $filename = $request->file('image')->store('public'); // store function generates unique ID to serve as filename
@@ -116,7 +115,7 @@ class MessagesController extends Controller
 
         $result = $message->save();
 
-        return redirect()->route('admin.messages.index');
+        return response()->json($message);
     }
 
     /**
@@ -131,8 +130,9 @@ class MessagesController extends Controller
 
         if($result) 
         {
-            dd('deletion ok');
-            $this->index();
+            return response()->json([
+                'message' => 'deletion of message succeeded'
+            ]);
         } 
         else 
         {

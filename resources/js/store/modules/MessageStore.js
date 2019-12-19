@@ -1,5 +1,3 @@
-//import { strictEqual } from "assert";
-
 export const MessageStore = {
     namespaced: true,
     state: 
