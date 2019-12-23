@@ -6,9 +6,15 @@
                     <div class="media-body text-center">
                         <h5 class="card-title">
                             <router-link :to="{ name: 'blogpostsOverview', params: { blogPostId: message.id }}">{{ message.title }}</router-link>
+                            <span v-if="message.comments.length > 0" class="h6 lightgray mx-1">
+                                <i class="fas fa-comment mx-1"></i>
+                                <anchor-router-link :to="{ name: 'blogpostsOverview', params: { blogPostId: message.id }, hash: '#comments'}">
+                                    {{ message.comments.length === 1 ? message.comments.length + ' reaction' : message.comments.length + '  reactions' }}
+                                </anchor-router-link>
+                            </span>
                         </h5>
                         <div class="tags has-addons level-item">
-                            <span class="tag is-rounded is-info">@ {{ message.author.full_name }}</span> |
+                            <span class="tag is-rounded is-info">By {{ message.author.full_name }}</span> |
 
                             <span v-for="(category, categoryKey) in message.categories" v-bind:key="category.id" class="tag is-black">
                                 {{ category.name }}<span v-if="categoryKey != message.categories.length - 1">,</span>
@@ -31,12 +37,27 @@
 </template>
 
 <script>
+    import AnchorRouterLink from 'vue-anchor-router-link';
+
     export default {
         props: ['messages'],
+        components: {
+            AnchorRouterLink
+        },
         methods: {
-            moment: function (date) {
+            moment(date) {
                 return moment(date, 'YYYY-MM-DD HH:mm:ss').fromNow();
-            }
+            },
+            createCommentText(message) {
+                if(message.comments === 1)
+                {
+                    return message.comments
+                } 
+                else if(message.comments > 1)
+                {
+
+                }
+            },
         },
     }
 </script>

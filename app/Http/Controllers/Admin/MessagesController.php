@@ -64,7 +64,7 @@ class MessagesController extends Controller
         
         $message->save();
 
-        if($request->has('categories')) 
+        if($request->has('categories') && $request->categories !== null) 
         {
             $catgory_ids = array_map('intval', explode(',', $request->categories));
             $message->categories()->sync($catgory_ids);
@@ -105,8 +105,12 @@ class MessagesController extends Controller
 
         $message->fill($validatedInput);
         $message->author_id = $userId;
-        $catgory_ids = array_map('intval', explode(',', $request->categories));
-        $message->categories()->sync($catgory_ids);
+
+        if($request->has('categories') && $request->categories !== null) 
+        {
+            $catgory_ids = array_map('intval', explode(',', $request->categories));
+            $message->categories()->sync($catgory_ids);
+        }
 
         if($request->hasFile('image')) {
             $filename = $request->file('image')->store('public'); // store function generates unique ID to serve as filename

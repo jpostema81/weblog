@@ -173,7 +173,12 @@ export const DashboardMessageStore = {
 
             return new Promise((resolve, reject) => {
                 let url = `/api/admin/messages/${id}`;
-                let data = { id, title, content, categories: categories.map(a => a.id).join() };
+                let data = { id, title, content };
+                
+                if(categories.length > 0)
+                {
+                    data.categories = categories.map(a => a.id).join();
+                }
 
                 axios({
                     method: 'put',
@@ -184,7 +189,7 @@ export const DashboardMessageStore = {
                     MessageBus.$emit('message', {message: 'Message updated', variant: 'success'});
                     resolve(messages.data);
                 }).catch(function (error) {
-                    commit('updateMessageError', error.response.data.errors);
+                    commit('updateMessageError', error.response.data.message);
                     MessageBus.$emit('message', {message: 'Something went wrong', variant: 'danger'});
                     reject(error);
                 });

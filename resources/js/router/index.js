@@ -21,7 +21,26 @@ const router = new VueRouter({
             component: Vue.component('Dashboard', require( '../layouts/DashboardLayout.vue').default),
             children: privateRoutes,
         },
-    ]
+    ],
+    scrollBehavior: function(to, from, savedPosition) 
+    {    
+        if(to.hash) 
+        {
+            // Use for direct jump.
+            window.location.href = to.hash;
+            // Use VueScrollTo for animation.
+            //VueScrollTo.scrollTo(to.hash, 700);
+            return { selector: to.hash }
+        } 
+        else if(savedPosition) 
+        {
+            return savedPosition;
+        } 
+        else 
+        {
+            return { x: 0, y: 0 }
+        }
+    },
 });
 
 router.beforeEach((to, from, next) => 

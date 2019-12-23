@@ -1,7 +1,3 @@
-<style>
-
-</style>
-
 <template>
     <div>
         <div class="card article" v-if="message">
@@ -29,6 +25,8 @@
                         <img v-bind:src="'/storage/' + message.image">
                     </div>
                 </div>
+
+                <p id="comments" class="mt-4">Comments</p>
 
                 <comment-component :depth="0" :comment="message" :enableReply="isAuthenticated"></comment-component>
 
