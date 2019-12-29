@@ -2,7 +2,7 @@
     <div>
         <div class="flex mt-3">
             <h2 class="mx-1">BlogPosts</h2>
-            <b-button class="mx-1" variant="outline-primary" to="/dashboard/blogposts/create">Write new message</b-button>
+            <b-button class="mx-1 h-75" variant="outline-primary" to="/dashboard/blogposts/create">Write new message</b-button>
         </div>
 
         <b-form inline>

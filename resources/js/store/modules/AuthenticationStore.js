@@ -13,18 +13,18 @@ export const AuthenticationStore =
     mutations: 
     {
         // authentication state
-        loginRequest: (state) => 
+        authRequest: (state) => 
         {
             state.status = 'loading';
             state.errors = {};
         },
-        loginSuccess: (state, user) => 
+        authSuccess: (state, user) => 
         {
             state.status = 'success';
             state.errors = {};
             state.user = user;
         },
-        loginError: (state, errors) => 
+        authError: (state, errors) => 
         {
             state.status = 'error';
             state.errors = errors;
@@ -86,17 +86,21 @@ export const AuthenticationStore =
         // authenticate by JWT token (token from login or local storage)
         authenticateByToken: ({commit, state, dispatch}) => 
         {
+            console.log('AuthenticationStore/authenticateByToken');
+            
+            commit('authRequest');
+
             return new Promise((resolve, reject) => 
             {
                 axios({ url: '/api/get_user_by_token', method: 'POST' }).then(resp => 
                 {
                     const user = resp.data;
-                    commit('loginSuccess', user);
+                    commit('authSuccess', user);
                     resolve(resp);
                 })
                 .catch(err => 
                 {
-                    commit('loginError', err);
+                    commit('authError', err);
                     dispatch('logout');
                     reject(err);
                 });
@@ -107,7 +111,7 @@ export const AuthenticationStore =
         {
             return new Promise((resolve, reject) => 
             { 
-                commit('loginRequest');
+                commit('authRequest');
 
                 axios({ url: '/api/login', data: user, method: 'POST' }).then(resp => 
                 {
@@ -117,14 +121,14 @@ export const AuthenticationStore =
                     // store the token in localstorage
                     localStorage.setItem('user-token', token);
                     // token received, set user
-                    commit('loginSuccess', user);
+                    commit('authSuccess', user);
                     MessageBus.$emit('message', {message: 'Welcome back ' + user.full_name + ', you are logged in now' , variant: 'success'});
                     resolve(resp);
                 })
                 .catch(error => 
                 {
                     MessageBus.$emit('message', {message: error.response.data.error, variant: 'danger'});
-                    commit('loginError', error.response.data);
+                    commit('authError', error.response.data);
                     
                     // if the request fails, remove any possible user token if possible
                     localStorage.removeItem('user-token');
@@ -239,17 +243,13 @@ export const AuthenticationStore =
         {
             return !!state.user;
         },
-        authStatus: (state) => 
-        {
-            return state.authStatus;
-        },
-        registerStatus: (state) => 
-        {
-            return state.registerStatus;
-        },
         user: (state) =>
         {
             return state.user;
+        },
+        status: (state) =>
+        {
+            return state.status;
         }
     }
 }

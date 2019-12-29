@@ -21,7 +21,7 @@ class ClearanceMiddleware {
             return $next($request);
         }
 
-        //If user is creating a post
+        // If user is creating a post
         if ($request->is('posts/create'))
         {
             if (!Auth::user()->hasPermissionTo('Create Post'))

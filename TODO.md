@@ -39,6 +39,8 @@ en: https://docs.spatie.be/laravel-permission/v3/introduction/
 8. interceptors: https://gist.github.com/hfalucas/60cb40c62e2e13e6c797f4887e43c8f6
 9. https://gist.github.com/hfalucas/60cb40c62e2e13e6c797f4887e43c8f6
 
+10. https://blog.usejournal.com/vue-page-authorization-4ae71fe8d613
+
 
 app/CategoriesServiceProvider.php gebruiken vanuit een Controller:
 $myCategories = app()->make('myCategories');

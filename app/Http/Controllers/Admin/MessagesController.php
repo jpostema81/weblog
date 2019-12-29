@@ -19,7 +19,8 @@ class MessagesController extends Controller
      * Register Clearance middleware which is responsible for the ACL (permissions and roles system)
      */
     public function __construct() {
-        $this->middleware(['auth', 'clearance']);
+        $this->middleware(['clearance']);
+        $this->authorizeResource(Message::class, 'message');
     }
 
     /**
@@ -93,33 +94,38 @@ class MessagesController extends Controller
      */
     public function update(StoreMessage $request, Message $message)
     {
-        // Validate input and retrieve fields    
-        $validatedInput = $request->validated();
-        $userId = Auth::user()->id;
+        // if(Auth::user()->can('update', $message)) 
+        // {
+            // Validate input and retrieve fields    
+            $validatedInput = $request->validated();
+            $userId = Auth::user()->id;
 
-        // remove previous image if available
-        $result = Storage::delete('public/'.$message->image);
+            // remove previous image if available
+            $result = Storage::delete('public/'.$message->image);
 
-        // update message with new data
-        $userId = Auth::user()->id;
+            // update message with new data
+            $userId = Auth::user()->id;
 
-        $message->fill($validatedInput);
-        $message->author_id = $userId;
+            $message->fill($validatedInput);
+            $message->author_id = $userId;
 
-        if($request->has('categories') && $request->categories !== null) 
-        {
-            $catgory_ids = array_map('intval', explode(',', $request->categories));
-            $message->categories()->sync($catgory_ids);
-        }
+            if($request->has('categories') && $request->categories !== null) 
+            {
+                $catgory_ids = array_map('intval', explode(',', $request->categories));
+                $message->categories()->sync($catgory_ids);
+            }
 
-        if($request->hasFile('image')) {
-            $filename = $request->file('image')->store('public'); // store function generates unique ID to serve as filename
-            $message->image = basename($filename);
-        }
+            if($request->hasFile('image')) {
+                $filename = $request->file('image')->store('public'); // store function generates unique ID to serve as filename
+                $message->image = basename($filename);
+            }
 
-        $result = $message->save();
+            $result = $message->save();
 
-        return response()->json($message);
+            return response()->json($message);
+        // } else {
+        //     return response()->json(['message' => 'Unauthorized'], 401);
+        // }
     }
 
     /**

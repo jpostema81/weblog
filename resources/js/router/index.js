@@ -49,6 +49,7 @@ router.beforeEach((to, from, next) =>
     // https://router.vuejs.org/guide/advanced/meta.html
     const authRequired = !to.matched.some(record => record.meta.public);
     const loggedIn = store.getters['AuthenticationStore/isAuthenticated'];
+    //let authState = store.getters['AuthenticationStore/status'];
   
     if(authRequired && !loggedIn) 
     {
