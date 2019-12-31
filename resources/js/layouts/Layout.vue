@@ -1,6 +1,6 @@
 <template>
     <div id="app-layout" class="container">
-        <navigation-component></navigation-component>
+        <navigation-component class="mb-4"></navigation-component>
 
         <router-view></router-view>
 

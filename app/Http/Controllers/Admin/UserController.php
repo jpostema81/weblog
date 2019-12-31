@@ -11,7 +11,7 @@ use Spatie\Permission\Models\Permission;
 
 use App\User;
 use Auth;
-use App\Http\Requests\UpdateUser;
+use App\Http\Requests\Admin\UpdateUser;
 
 //Enables us to output flash messaging
 use Session;

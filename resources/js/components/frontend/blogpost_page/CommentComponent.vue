@@ -82,6 +82,7 @@
                 this.$store.dispatch('MessageStore/addComment', { messageId: this.comment.id, reply: this.reply }).then(() => 
                 {
                     this.displayReplyInput = false;
+                    this.reply = '';
                     MessageBus.$emit('message', {message: 'Your reply has been placed successfully', variant: 'success'});
                 });
             },

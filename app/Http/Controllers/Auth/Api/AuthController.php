@@ -7,8 +7,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Mail;
+use App\Mail\RegistrationConfirmation;
 use App\Http\Resources\UserResource;
 use App\User;
+use App\Http\Requests\Admin\Auth\RegisterUser;
+use App\Http\Requests\Admin\Auth\Login;
 
 // https://jwt-auth.readthedocs.io/en/docs/quick-start/
 
@@ -30,49 +34,30 @@ class AuthController extends Controller
         return response()->json(new UserResource($this->guard()->user()), 200);
     }
 
-    public function register(Request $request)
+    public function register(RegisterUser $request)
     {
-        $credentials = $request->only('first_name', 'last_name', 'email', 'password', 'password_confirmation');
-
-        $validator = Validator::make($credentials, [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
-
-        if($validator->fails())
-        {
-            return response()->json($validator->errors(), 422);
-        }
-        
-        $user = User::create([
-            'first_name' => $request->get('first_name'),
-            'last_name' => $request->get('last_name'),
-            'email' => $request->get('email'),
-            'password' => $request->get('password'),
-        ]);
-
+        $validatedInput = $request->validated();
+        $user = User::create($validatedInput);
         $token = auth()->tokenById($user->id);
+
+        try 
+        {
+            $emailAddress = $validatedInput['email'];
+            Mail::to($emailAddress)->send(new RegistrationConfirmation());
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['message' => 'Error while sending mail'], 500);
+        }
 
         return $this->respondWithToken($token, $user);
     }
 
-    public function login(Request $request)
+    public function login(Login $request)
     {
-        $credentials = $request->only('email', 'password');
+        $validatedInput = $request->validated();
 
-        $validator = Validator::make($credentials, [
-            'email' => 'required|string|email',
-            'password' => 'required|string|min:6',
-        ]);
-
-        if($validator->fails())
-        {
-            return response()->json($validator->errors(), 422);
-        }
-
-        if($token = $this->guard()->attempt($credentials)) 
+        if($token = $this->guard()->attempt($validatedInput)) 
         {
             $user = $this->guard()->user();
             return $this->respondWithToken($token, new UserResource($user));
@@ -84,7 +69,6 @@ class AuthController extends Controller
     public function logout()
     {
         $this->guard()->logout();
-
         return response()->json(['message' => 'Successfully logged out']);
     }
 

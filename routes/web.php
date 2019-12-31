@@ -11,12 +11,17 @@
 |
 */
 
-Route::get('/{any}', function () {
+Route::get('/send-mail', function() {
+    return new App\Mail\RegistrationConfirmation();
+
+    Mail::to('newuser@example.com')->send(new App\Mail\RegistrationConfirmation()); 
+    return 'A message has been sent to Mailtrap';
+});
+
+Route::get('/{any}', function() {
     return view('home');
 })->where('any', '.*');
 
 Route::resource('websockets', 'WebsocketsController');
-
-
 
 

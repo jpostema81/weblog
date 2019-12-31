@@ -94,38 +94,31 @@ class MessagesController extends Controller
      */
     public function update(StoreMessage $request, Message $message)
     {
-        // if(Auth::user()->can('update', $message)) 
-        // {
-            // Validate input and retrieve fields    
-            $validatedInput = $request->validated();
-            $userId = Auth::user()->id;
+        // Validate input and retrieve fields    
+        $validatedInput = $request->validated();
+        $userId = Auth::user()->id;
 
-            // remove previous image if available
-            $result = Storage::delete('public/'.$message->image);
+        // remove previous image if available
+        $result = Storage::delete('public/'.$message->image);
 
-            // update message with new data
-            $userId = Auth::user()->id;
+        // update message with new data
+        $message->fill($validatedInput);
+        $message->author_id = $userId;
 
-            $message->fill($validatedInput);
-            $message->author_id = $userId;
+        if($request->has('categories') && $request->categories !== null) 
+        {
+            $catgory_ids = array_map('intval', explode(',', $request->categories));
+            $message->categories()->sync($catgory_ids);
+        }
 
-            if($request->has('categories') && $request->categories !== null) 
-            {
-                $catgory_ids = array_map('intval', explode(',', $request->categories));
-                $message->categories()->sync($catgory_ids);
-            }
+        if($request->hasFile('image')) {
+            $filename = $request->file('image')->store('public'); // store function generates unique ID to serve as filename
+            $message->image = basename($filename);
+        }
 
-            if($request->hasFile('image')) {
-                $filename = $request->file('image')->store('public'); // store function generates unique ID to serve as filename
-                $message->image = basename($filename);
-            }
+        $result = $message->save();
 
-            $result = $message->save();
-
-            return response()->json($message);
-        // } else {
-        //     return response()->json(['message' => 'Unauthorized'], 401);
-        // }
+        return response()->json($message);
     }
 
     /**
