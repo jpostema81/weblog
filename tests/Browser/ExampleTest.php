@@ -8,6 +8,12 @@ use Tests\DuskTestCase;
 
 class ExampleTest extends DuskTestCase
 {
+    public function setUp() :void
+    {
+        parent::setUp();
+        $this->artisan('db:seed');
+    }
+
     /**
      * A basic browser test example.
      *
@@ -20,13 +26,24 @@ class ExampleTest extends DuskTestCase
         // 3. See "Register"
         // 4. Fill in all fields
         // 5. Click "Register" Button
-        // 6. ...
-        
-        $this->browse(function (Browser $browser) {
-            $browser->visit('/')
-                    ->assertSee('Jeroens Weblog');
+        // 6. Wait for "Registration successful" toast-message
 
-                    $browser->pause(5000);
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/')->assertSee('Jeroens Weblog')
+                ->pause(1000)
+                ->clickLink('Register');
+            
+            $browser->pause(1000)
+                ->type('first_name', 'Jaap')
+                ->type('last_name', 'Hendriks')
+                ->type('email', 'jaaphendriks@script.nl')
+                ->type('password', 'jaaphendriks')
+                ->type('password_confirmation', 'jaaphendriks')
+                ->press('Register');
+
+            // Wait a maximum of five seconds for the text...
+            $browser->waitForText('Registration successful')
+                ->pause(3000);
         });
     }
 }
